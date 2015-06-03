@@ -1,0 +1,68 @@
+<template name="digitalMenu">
+
+<div class="tv-body" >
+
+<div class="tv-OverallContainer">	
+
+<div class="tv-MainHeader">
+    <div class="tv-MainHeaderLeft" align="left">{{getSettings 'dm_left_message'}}</div>
+    <div class="tv-MainHeaderCenter" align="center">
+
+    	Welcome to <br/>Chowpaaty Chaat
+
+    </div>
+    <div class="tv-MainHeaderRight" align="right">Order Online!<br/> Pick it up here!<br/>
+    www.chowpaatychaat.com</div>
+    <div class="TV-notification">{{newOrderCount}}</div>
+  </div>
+  <hr>
+
+
+  <!--MENU--> 
+
+   {{#each getSettingsMulti "category_menu"}}
+
+   		{{#if isMenuAvailable Value}}	
+
+
+  <!--CATEGORY-->
+		<div class="tv-CategoryBlock">
+            <div class="tv-CategoryHeader" align="center">
+            	<div class="tv-category-title">{{Value}}</div>
+            </div>
+
+			    		{{#each menuMulti Value }}
+
+ 
+			    					<div class="tv-itemBlock ">
+
+			    						        <div class="tv-item-Title" >{{Name}}</div>
+			    						      {{#if isSpecial fontWeight}}
+        										<div class="tv-special">Special</div>
+								             {{/if}}
+        										<div align="center" class="tv-item-Price"> {{currency Charge}}</div>
+      								</div>
+
+
+
+
+
+			      		{{/each}}
+			     </div>
+			 
+			  <!--//CATEGORY--> 
+
+
+  		{{/if}}
+
+  {{/each}}
+  
+
+  <!--//MENU--> 
+  
+</div>
+<div align="center" class="tv-item-Title" style="font-color:white">Powered by Websheets&#8482;</div>
+</div>
+
+
+</template>
