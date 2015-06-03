@@ -52,6 +52,7 @@ momentjs:moment@2.10.3
 mongo@1.1.0
 mrgalaxy:stripe@2.1.0
 nimble:restivus@0.6.6
+npm-container@1.0.0
 observe-sequence@1.0.6
 okgrow:iron-router-autoscroll@0.0.8
 ordered-dict@1.0.3
