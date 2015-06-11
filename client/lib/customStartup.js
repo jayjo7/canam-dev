@@ -5,10 +5,7 @@ Meteor.startup(function() {
 
 
 	 	$('html').attr('lang', 'en');
-
-	 	$('body').attr('class', 'index body');
-		$('body').attr('id', 'page-top');
-        $('body').attr('ontouchstart', " ");
+        $('body').attr('ontouchmove', "");
 
 
         var appUUID = Session.get('appUUID');
