@@ -1,6 +1,6 @@
 Meteor.methods({
 
-	addToCart:function(qty, product, session,Name, Category, Charge, orgname)
+	addToCart:function(qty, product, session,Name, Category, Price, orgname)
 	{
 		qty = Number (qty);
 		if(qty>0)
@@ -9,12 +9,12 @@ Meteor.methods({
 
 			console.log(session + ' addToCart:now = ' + now);
 
-			var totalCharge = Charge * qty;
+			var totalPrice = Price * qty;
 
-			console.log(session + ' addToCart:totalCharge = ' +totalCharge);
+			console.log(session + ' addToCart:totalPrice = ' +totalPrice);
 
 		
-			CartItems.update({product:product, session:session},{qty:qty, product:product, session:session,Name:Name, Category:Category, Charge:Charge,totalCharge:totalCharge, dateAdded:now, orgname:orgname},{upsert:true});
+			CartItems.update({product:product, session:session},{qty:qty, product:product, session:session,Name:Name, Category:Category, Price:Price,totalPrice:totalPrice, dateAdded:now, orgname:orgname},{upsert:true});
 
 			console.log('Added the product = ' + product  + ' for session id = ' + session + 'for orgname = ' + orgname);
 			
@@ -163,7 +163,7 @@ Meteor.methods({
 				}
 
 
-				subTotal +=  (Number(cartitems.Charge) * cartitems.qty);
+				subTotal +=  (Number(cartitems.Price) * cartitems.qty);
 				itemString = itemString + cartitems.qty + " - " + cartitems.Name +'\n';
    				items.push(
    				{ 

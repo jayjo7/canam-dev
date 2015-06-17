@@ -10,6 +10,7 @@ Template.registerHelper('menu',function(categoryMenu)
 
 Template.registerHelper('prune', function(string, length, useWordBoundary)
 {
+	string = string.trim();
 	return string.trunc(length, useWordBoundary);
 
 });

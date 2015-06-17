@@ -4,6 +4,37 @@ var notificationkey = Session.get(ORG_NAME_SESSION_KEY) + '_' + NOTIFICATION_MES
 
 Template.homePage.helpers({
 
+    priceString:function(menu)
+    {
+        if(menu.Price)
+        {
+            return '$' + Number(menu.Price).toFixed(2);
+        }
+        else
+        {
+            var price='';
+            if(menu.PriceSmall)
+            {
+                price +='S-$' + Number(menu.PriceSmall).toFixed(2) + ' ';
+            }
+            if(menu.PriceMedium)
+            {
+                price += 'M-$' + Number(menu.PriceMedium).toFixed(2) + ' ';
+            }
+            if(menu.PriceLarge)
+            {
+                price += 'L-$' + Number(menu.PriceLarge).toFixed(2) + ' ';
+            }
+            if(menu.PriceXL)
+            {
+                price += 'XL-$' + Number(menu.PriceXL).toFixed(2);
+            }
+            return price;
+        }
+
+
+
+    },
 
     notification_message_session:function()
     {
@@ -231,9 +262,9 @@ Template.homePage.events({
         var currentTarget   = evt.currentTarget
         var product         = this.UniqueId ;
         var sessid           = Session.get('appUUID');
-        Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge, orgname);
-        evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
-        evt.currentTarget.title='Remove from Cart'
+        Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Price, orgname);
+        //evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
+       // evt.currentTarget.title='Remove from Cart'
 
 
     },
@@ -245,8 +276,8 @@ Template.homePage.events({
         var product         = this.UniqueId ;
         var sessid          = Session.get('appUUID');
         Meteor.call('removeCartItem', product, sessid, orgname);
-        evt.currentTarget.className = "pull-right fa btn btn-success addcart"; 
-        evt.currentTarget.title='Add to Cart'
+       // evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
+        //evt.currentTarget.title='Add to Cart'
     }
 
 
