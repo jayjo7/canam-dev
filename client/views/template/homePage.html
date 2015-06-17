@@ -2,254 +2,102 @@
 
 
 
-<!-- FullOrderModal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h5 class="modal-title" id="myModalLabel">Your Order So far</h5>
-      </div>
-      <div class="modal-body"> ... </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Place Order</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- //FullOrderModal -->
-<!--Message2Kitchen-->
-<div class="modal fade" id="popMessage2KitchenModal" tabindex="-1" role="dialog" aria-labelledby="popMessage2KitchenModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="popMessage2KitchenModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-        <form >
-          <div class="form-group">
-            <label for="recipient-name" class="control-label">Now Pick a Size</label>
-            <div class="btn-group" data-toggle="buttons" >
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option2"   autocomplete="off">
-                <span style="font-size:.8em; font-weight:300">Medium </span><span class="badge"   style="font-size:.7em; font-weight:300" >$9</span> </label>
-              <label class="btn btn-primary active">
-                <input type="radio" name="options" id="option1" style="font-size:.6em"  autocomplete="off" checked>
-                <span style="font-size:.8em; font-weight:300">Large</span> <span class="badge"   style="font-size:.8em; font-weight:300" >$12</span> </label>
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option3" style="font-size:.7em"  autocomplete="off">
-                <span style="font-size:1em; font-weight:300"> X-Large</span> <span class="badge"   style="font-size:.7em; font-weight:300" >$16</span> </label>
-            </div>
-          </div>
-          <div class="form-group">
-            <textarea class="form-control" id="message-text" placeholder="Any Special Instructions?"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal">Add to Order</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--//Message2Kitchen-->
+{{# if haveNotification notification isNotTakingOnlineOrder isStoreClosed }}
 
-<!-- NAVIGATIONS -->
-<nav class="navbar transparent navbar-fixed-top" role="navigation">
-  <nav class="navbar-inner">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle pull-left"  data-toggle="collapse" data-target="#example-nav-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-        <a class="navbar-brand" href="index.html"></a></div>
-      
-      <!--ShoppingCartRound--> 
-      <button class="glyphicon glyphicon-shopping-cart pull-right pizzaCart" data-toggle="modal" data-target="#myModal"></button>
-      <!--//ShoppingCartRound-->
-      
-    </div>
-    
-    
-    <div class="collapse navbar-collapse" id="example-nav-collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">About</a></li>
-      </ul>
-    </div>
-  </nav>
-</nav>
-<!-- //NAVIGATIONS --> 
-<!--MainJumbo-->
-<main>
-  <div class="jumboimage" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://upload.wikimedia.org/wikipedia/commons/1/10/Hot_pizza.jpg); background-position:center; background-size:cover; height:300px" >
-    <div class=""  align="center">
-      <div class="row">
-        <div class="col-md-7" style="color:white">
-          <h1 id="page0" style="font-family: 'Courgette', sans-serif;text-shadow: 3px 2px 4px black; font-size:3em;">Pizza Cut</h1>
-          <p class="lead"  style="font-family: 'Courgette', sans-serif;text-shadow: 1px 2px 2px black;font-size:1.5em">Hello Cheese, Meet Pizza</p>
-        </div>
-      </div>
-    </div>
-    <!--/container--> 
-  </div>
-  <div align="center" style="position:fixed; top:380px;background-position:center; background-size:cover; height:300px">
-    <div style="border:3px dashed; padding:10px; background-color:gold; text-align:center"> Yay! You found our Hidden Deal!<br>
-      <b>$5 Off any Pizza</b> <br>
-      COUPON CODE: 5OFF</div>
-  </div>
-</main>
-<!--/MainJumbo--> 
-<!--PizzaBody-->
-<div class="pizzaContainer"> 
-  <!-- Swiper -->
-  <div class="swiper-container pizza-bigthumbs">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://media.merchantcircle.com/6946390/Pepperoni%20Pizza%20JPEG%20-%20Cuffaro_full.jpeg)">
-        <div class="pizzaHeader">Chicken Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://www.randomactsofpizza.com/images/pizza-b.png)">
-        <div class="pizzaHeader">Combo Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://www.picturescolourlibrary.co.uk/loreswithlogo/2104435.jpg)">
-        <div class="pizzaHeader">Italiano Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://static9.depositphotos.com/1004086/1130/i/950/depositphotos_11302854-Circle-pizza-isolated-on-white-background.jpg)">
-        <div class="pizzaHeader">Pineapple Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://media.merchantcircle.com/6946390/Pepperoni%20Pizza%20JPEG%20-%20Cuffaro_full.jpeg)">
-        <div class="pizzaHeader">MeatLovers Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://i.dailymail.co.uk/i/pix/2013/08/09/article-2387586-1B363382000005DC-306_634x546.jpg)">
-        <div class="pizzaHeader">5 Cheese Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://www.steinbergbehaviorsolutions.com/wp-content/uploads/2013/03/ResizedImage450450-pizza.jpg)">
-        <div class="pizzaHeader">Pepperoni Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://media.merchantcircle.com/6946390/Pepperoni%20Pizza%20JPEG%20-%20Cuffaro_full.jpeg)">
-        <div class="pizzaHeader">Ham Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://www.picturescolourlibrary.co.uk/loreswithlogo/2104435.jpg)">
-        <div class="pizzaHeader">Choclate Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/http://media.merchantcircle.com/6946390/Pepperoni%20Pizza%20JPEG%20-%20Cuffaro_full.jpeg)">
-        <div class="pizzaHeader">Kids Pizza</div>
-      </div>
-      <div class="swiper-slide" style="background-image:url(https://efmxurehx9yw.firesize.com/600x600/g_center/https://sibcyclinenews.files.wordpress.com/2013/12/pizza2.jpg)">
-        <div class="pizzaHeader">Veggie Pizza</div>
-      </div>
-    </div>
-    <!-- Add Pagination --> 
-    <!--  <br><br><div class="swiper-pagination"></div>--> 
-  </div>
-  <!--====================================--> 
-  <!-- PizzaDetails -->
-  <div class="swiper-container pizza-slidedetails">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Chicken Pizza</u></b>
-          <div>
-            <p>Chicken, Cheese, Pineapples, Cheese, Spinach, Tomato.</p>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popMessage2KitchenModal" data-whatever="Chicken Pizza">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Combo Pizza</u></b>
-          <div>
-            <p>Meat, Chicken,  Pineapples, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Italiano Pizza</u></b>
-          <div>
-            <p>Swiss Cheese, Pineapples, Cheese, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Pineapple Pizza</u></b>
-          <div>
-            <p> Pineapples, Cheese, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>MeatLovers Pizza</u></b>
-          <div>
-            <p>Beef, Pork, Bacon, Chicken, Cheese, Cheese, Spinach</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>5 Cheese Pizza</u></b>
-          <div>
-            <p>Swiss Cheese, Cheese, Pineapples, Cheese, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Pepperoni Pizza</u></b>
-          <div>
-            <p>Pepperoni, Cheese, Pineapples, Cheese, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Ham Pizza</u></b>
-          <div>
-            <p>Ham, Pepperoni, Pineapples, Cheese, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Chocklate Pizza</u></b>
-          <div>
-            <p>Candy, Cheese, Pineapples, Cheese, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Kids Pizza</u></b>
-          <div>
-            <p>Cheese, Pineapples, Cheese, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-slide">
-        <div class="pizzaDetails"> <b><u>Veggie Pizza</u></b>
-          <div>
-            <p>Chicken, Cheese, Pineapples, Cheese, Spinach, Tomato.</p>
-            <div class="btn btn-sm btn-success"  style="margin:5px;">Add to Order</div>
-            <br>
-          </div>
-        </div>
-      </div>
-      <!-- Add Pagination --> 
-      <!--      <br>
-      <div class="swiper-pagination"></div>--> 
-    </div>
-  </div>
+          <!-- Notification Alerts -->
+<!--<div class="alert alert-info alert-dismissible text-center" style="box-shadow: 2px 2px 2px rgba(1, 1, 0, 0.2);" role="alert"> -->
+<div class="alert alert-info  alert-dismissible text-center" style="box-shadow: 2px 2px 2px rgba(1, 1, 0, 0.2); background-color:#FEFF82; border: dashed thin  #FFB855;" role="alert">
+
+
+  <button type="button" class=" fa fa-close close" data-dismiss="alert" aria-label="Close"></button>
+
+  {{#each notification_message_session}}
+
+  <h4>  <i class="fa  fa-flag"> &nbsp;</i>  {{this}}</h4>
+
+  {{/each}}
 </div>
+
+
+          <!-- End Notification Alerts -->
+{{/if}}
+<!-- menucard Grid Section -->
+<section id="menucard">
+  <div class="container flex-container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2>MENU</h2>
+        <hr class="star-primary">
+        
+        <!--MenuCard--> 
+
+    {{#each getSettingsMulti "category_menu"}}
+
+        {{#if isMenuAvailable Value}}
+            <h3 align="center">{{ Value }}</h3>
+                <div class="cardd-container">
+            {{ #each menu Value}}
+
+                <div class="cardd-singlecontainer {{soldOutCss fontLine fontStyle}}">
+                  <div class="cardd-img"> 
+
+                    {{#if isSpecial fontWeight}}
+                    <span class="cardd-banner"></span> 
+                    {{/if}}
+
+                    <img src="{{imageFormatter}}{{ImageLink}}" alt=""> </div>
+                  <div class="proddbox">
+                    <div class="proddheader"><span title="{{Name}}" >{{{prune Name 24 false}}}</span></div>
+                    <div class="proddescription">{{Description}}</div>
+                    <div class="proddbutton">
+                     {{#if isToSell fontStyle}}  
+
+                       {{#if isItemAvailable fontLine}}  
+
+                            {{#if isItemInCart UniqueId }}
+
+                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span  id="removeCartSpan" class="glyphicon glyphicon-ok"></span> &nbsp; {{currency Charge}} </button>
+                                    {{else}}
+                                    
+                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
+                                 {{/if}}  
+                            {{else}}     
+
+                                {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+
+                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Charge}}</button>
+                                  {{else}}   
+                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
+                                 {{/if}}       
+                               {{/if}}   
+
+
+                       {{else}}
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >Sold Out &nbsp;{{currency Charge}} </span>
+
+                       {{/if}}
+                     {{else}}  
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{currency Charge}} </span>
+
+                     {{/if}}
+
+                    </div>
+                  </div>
+                </div>
+
+
+            {{/each}}
+                </div>  
+        {{/if}}
+    {{/each}}
+   
+        <!--//MenuCard--> 
+        
+      </div>
+    </div>
+  </div>
+</section>
 
 
 </template>
-

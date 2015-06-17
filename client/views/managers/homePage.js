@@ -128,13 +128,13 @@ Template.homePage.helpers({
             var momentDate=moment().utcOffset(Number(gmtOffset(orgname)));
             var currentday =momentDate.day();
             var currentTime =momentDate.hour();
-
+            console.log('currentTime = ' + currentTime);
 
 
             if (currentday === 0  || (currentday === 6)) //Sunday
             {
                 var store_open_saturday     = Settings.findOne({$and : [{Key: "store_open_saturday"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
-                var store_open_sunday       = Settings.findOne({$and : [{Key: "store_open_sunday"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+                var store_open_sunday       = Settings.findOne({$and : [{Key: "store_open_sunday"},   {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
                 if( 'NO'=== store_open_sunday.Value.trim().toUpperCase() || 'NO'=== store_open_saturday.Value.trim().toUpperCase() )
                 {
@@ -144,7 +144,7 @@ Template.homePage.helpers({
                 {
                     var store_open_time_weekend = Settings.findOne({$and : [{Key: "store_open_time_weekend"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
                     var store_close_time_weekend= Settings.findOne({$and : [{Key: "store_close_time_weekend"},{orgname:orgname},  {Value : {"$exists" : true, "$ne" : ""}}]});
-
+                    console.log('store_close_time_weekend = ' + store_close_time_weekend.Value);
                     if(currentTime >= store_open_time_weekend.Value  &&  currentTime < store_close_time_weekend.Value)
                     {
 
