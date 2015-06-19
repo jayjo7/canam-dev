@@ -1,0 +1,11 @@
+body {
+	background-color: gold;
+	font-family: "Roberto", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif
+}
+.product-name {
+	font-family: "Dancing Script", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1.6em;
+}
+.pl-ziro {
+	padding-left: 0px;
+}

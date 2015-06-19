@@ -47,28 +47,33 @@
 
                     <img src="{{imageFormatter}}{{ImageLink}}" alt=""> </div>
                   <div class="proddbox">
-                    <div class="proddheader"><span title="{{Name}}" >{{{prune Name 24 true}}}</span></div>
+                    <div class="proddheader"><span title="{{Name}}" >{{{prune Name 22 true}}}</span></div>
                     <div class="proddescription">{{Description}}</div>
                     <div class="proddbutton">
                      {{#if isToSell fontStyle}}  
 
                        {{#if isItemAvailable fontLine}}  
 
-
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+                                    {{#if isMultiPriceItem this}}
 
-                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{priceString this}}</button>
+                                    <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#popMessage2KitchenModal" data-whatever="Chicken Pizza">Add to Cart</button>
+
+                                    {{else}}
+                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Price}}</button>
+
+                                     {{/if}}
                                   {{else}}   
                                       <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Price}}</button>
-                                 {{/if}}       
+                                 {{/if}}        
 
 
                        {{else}}
-                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >Sold Out &nbsp;{{priceString this}} </span>
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >Sold Out</span>
 
                        {{/if}}
                      {{else}}  
-                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{priceString this}} </span>
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{currency Price}} </span>
 
                      {{/if}}
 

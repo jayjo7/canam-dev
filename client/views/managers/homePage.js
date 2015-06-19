@@ -4,6 +4,30 @@ var notificationkey = Session.get(ORG_NAME_SESSION_KEY) + '_' + NOTIFICATION_MES
 
 Template.homePage.helpers({
 
+    getPriceString:function(menu)
+    {
+        if(menu.Price)
+        {
+            return '$' + Number(menu.Price).toFixed(2);
+        }
+        else
+        {
+            return 'Add to Cart';
+        }
+    },
+
+    isMultiPriceItem:function(menu)
+    {
+        if(menu.Price)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    },
+
     priceString:function(menu)
     {
         if(menu.Price)
