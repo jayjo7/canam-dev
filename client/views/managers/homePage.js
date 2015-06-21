@@ -278,6 +278,7 @@ Template.homePage.helpers({
 
 });
 
+
 Template.homePage.events({
     'click .addcart': function(evt,tmpl)
     {
@@ -302,6 +303,13 @@ Template.homePage.events({
         Meteor.call('removeCartItem', product, sessid, orgname);
        // evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
         //evt.currentTarget.title='Add to Cart'
+    },
+
+    'click #addDatatoModal': function(evt,tmpl)
+    {
+        //evt.preventDefault();
+        Session.setPersistent(MENU_OBJECT_SESSION_KEY, this);
+
     }
 
 

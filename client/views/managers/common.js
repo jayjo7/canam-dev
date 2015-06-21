@@ -1,3 +1,23 @@
+Template.registerHelper('hasValue', function(key)
+{
+	var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+	console.log('hasValue: menu      = '  + menu);
+	console.log('hasValue: given key =' + key);
+	var value = menu[key];
+	console.log('hasValue: value = ' + value);
+	//value = value.trim();
+	console.log('hasValue: value = ' + value);
+
+	if(value)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+});
 
 Template.registerHelper('menu',function(categoryMenu)
 {
@@ -6,7 +26,7 @@ Template.registerHelper('menu',function(categoryMenu)
 
 	return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
 
-}),
+});
 
 Template.registerHelper('prune', function(string, length, useWordBoundary)
 {

@@ -1,0 +1,8 @@
+.btn-primary {
+	background-color: maroon;
+	border: 0px;
+}
+.btn-primary.active {
+	background-color: red;
+	border: 0px;
+}

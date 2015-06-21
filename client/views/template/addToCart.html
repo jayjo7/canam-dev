@@ -1,5 +1,6 @@
 <template name="addToCart">
 <!--Message2Kitchen-->
+<!--Message2Kitchen-->
 <div class="modal fade" id="popMessage2KitchenModal" tabindex="-1" role="dialog" aria-labelledby="popMessage2KitchenModalLabel" aria-hidden="true" style=" background-color: rgba(0,0,0,0.10);">
   <div class="modal-dialog" >
     <div class="modal-content" style="background-color:rgba(244,204,0,1.00);">
@@ -10,33 +11,46 @@
       <div class="modal-body" >
         <form >
           <div class="form-group">
-            <label for="recipient-name" class="control-label">Now Pick a Size</label><br/>
+            <label for="recipient-name" class="control-label">Now Pick a Size :&nbsp;&nbsp;</label>
             <div class="btn-group" data-toggle="buttons" >
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option2"   autocomplete="off">
-                <span style="font-size:.8em; font-weight:300">Medium </span><span class="badge"   style="font-size:.7em; font-weight:300" >$9</span> </label>
-              <label class="btn btn-primary active">
-                <input type="radio" name="options" id="option1" style="font-size:.6em"  autocomplete="off" checked>
-                <span style="font-size:.8em; font-weight:300">Large</span> <span class="badge"   style="font-size:.8em; font-weight:300" >$12</span> </label>
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option3" style="font-size:.7em"  autocomplete="off">
-                <span style="font-size:1em; font-weight:300"> X-Large</span> <span class="badge"   style="font-size:.7em; font-weight:300" >$16</span> </label>
+              {{#if hasValue 'PriceMedium'}}
+                <label class="btn btn-primary">
+                  <input type="radio" name="itemSize"  value="medium" id="itemSizeMedium"   autocomplete="off">
+                  <span style="font-size:.8em; font-weight:300">Medium </span><span class="badge"   style="font-size:.7em; font-weight:300" >{{ getFormattedPrice 'PriceMedium' }}</span> 
+                </label>
+               {{/if}}  
+              {{#if hasValue 'PriceLarge'}}
+                <label class="btn btn-primary active">
+                  <input type="radio" name="itemSize" value="large" id="itemSizeLarge" style="font-size:.6em"  autocomplete="off" checked>
+                  <span style="font-size:.8em; font-weight:300">Large</span> <span class="badge"   style="font-size:.8em; font-weight:300" >{{getFormattedPrice 'PriceLarge'  }}</span> 
+                </label>
+               {{/if}}  
+              {{#if hasValue 'PriceXL'}}
+                <label class="btn btn-primary">
+                  <input type="radio" name="itemSize" value="xl" id="itemSizeXL" style="font-size:.7em"  autocomplete="off">
+                  <span style="font-size:1em; font-weight:300"> X-Large</span> <span class="badge"   style="font-size:.7em; font-weight:300" >{{ getFormattedPrice 'PriceXL'}}</span> 
+                </label>
+               {{/if}}  
             </div>
           </div>
-          <div class="form-group">
-            <label for="recipient-name" class="control-label">How Spicy?</label><br/>
-            <div class="btn-group" data-toggle="buttons" >
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option2"   autocomplete="off">
-                <span style="font-size:.8em; font-weight:300">Mild </span></label>
-              <label class="btn btn-primary active">
-                <input type="radio" name="options" id="option1" style="font-size:.6em"  autocomplete="off" checked>
-                <span style="font-size:.8em; font-weight:300">Normal</span> </label>
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option3" style="font-size:.7em"  autocomplete="off">
-                <span style="font-size:1em; font-weight:300">Spicy</span> </label>
-            </div>
-          </div>
+          {{#if askSpiceLevel 'SpiceLevel' }}
+
+              <div class="form-group">
+                <label for="recipient-name" class="control-label">How Spicy?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                <div class="btn-group" data-toggle="buttons" >
+                  <label class="btn btn-primary">
+                    <input type="radio" name="spiceLevel"  value ="mild" id="spiceLevelMild"   autocomplete="off">
+                    <span style="font-size:.8em; font-weight:300">Mild</span></label>
+                  <label class="btn btn-primary active">
+                    <input type="radio" name="spiceLevel" value ="medium" id="spiceLevelMedium" style="font-size:.6em"  autocomplete="off" checked>
+                    <span style="font-size:.8em; font-weight:300">Medium</span> </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" name="spiceLevel" value ="hot" id="spiceLevelHot" style="font-size:.7em"  autocomplete="off">
+                    <span style="font-size:1em; font-weight:300">Hot</span> </label>
+                </div>
+              </div>
+
+          {{/if}}
           <input  type="text" autofocus id="message-text" class="form-control" placeholder=""  >
         </form>
       </div>
@@ -45,7 +59,7 @@
       </div>
     </div>
   </div>
-</div> 
+</div>
 <!--//Message2Kitchen--> 
 
 <!--<div id="popMessage2KitchenModal" class="modal fade">
