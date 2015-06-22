@@ -287,9 +287,20 @@ Template.homePage.events({
         var currentTarget   = evt.currentTarget
         var product         = this.UniqueId ;
         var sessid           = Session.get('appUUID');
-        Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Price, orgname);
-        //evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
-       // evt.currentTarget.title='Remove from Cart'
+        switch (addToCartToggle(orgname))
+        {
+            case  "increment" :
+
+                Meteor.call('addToCart', 1 , product, sessid, this.Name, this.Category, this.Price, orgname, 'increment', true);
+
+                break;
+            default:
+                Meteor.call('addToCart', 1 , product, sessid, this.Name, this.Category, this.Price, orgname);
+                evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
+                evt.currentTarget.title='Remove from Cart'          
+
+        }
+
 
 
     },
@@ -301,8 +312,16 @@ Template.homePage.events({
         var product         = this.UniqueId ;
         var sessid          = Session.get('appUUID');
         Meteor.call('removeCartItem', product, sessid, orgname);
-       // evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
-        //evt.currentTarget.title='Add to Cart'
+        switch (addToCartToggle(orgname))
+        {
+            case "increment" :
+                break;
+            default:
+                evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
+                evt.currentTarget.title='Add to Cart'         
+
+        }
+
     },
 
     'click #addDatatoModal': function(evt,tmpl)

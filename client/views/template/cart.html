@@ -36,10 +36,13 @@
             <input  type="text" class="input-sm" style="font-size:.9em; border:solid 1px #e1e1e1; background-color:lightyellow;color:grey" value="Enter a message for this item" >
           </div>
           <div class="col-xs-4">
+            <div class="col-xs-4"> 
+               <input name="product_{{product}}" value="{{qty}}" type="tel" onClick="this.setSelectionRange(0, this.value.length)" class="qtyy-modal" id="product_in_cart"  size="2" maxlength="2" border="0">
+            </div>
             <div class="col-xs-6 text-right">
               <h6><strong style="font-weight:400; color:black;">{{currency totalPrice}}</strong></h6>
             </div>
-            <div class="col-xs-4"> </div>
+            
             <div class="col-xs-2">
               <button type="button" class="btn btn-link btn-s removecart"> <span class="glyphicon glyphicon-trash"> </span> </button>
             </div>

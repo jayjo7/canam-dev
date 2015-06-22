@@ -25,6 +25,14 @@ Template.addToCart.helpers({
 
    	return '$' + Number(price).toFixed(2);
 
-   }
+   },
+
+   getModatTitleMessage:function()
+   {
+   		var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+
+   		return menu.Name + "? Good Choice !"
+   },
+
 
 });

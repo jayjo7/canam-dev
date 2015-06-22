@@ -9,3 +9,8 @@ body {
 .pl-ziro {
 	padding-left: 0px;
 }
+
+.add-to-cart-product-name {
+	font-family: "Dancing Script", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1.4em;
+}

@@ -1,6 +1,6 @@
 Meteor.methods({
 
-	addToCart:function(qty, product, session,Name, Category, Price, orgname)
+	addToCart:function(qty, product, session,Name, Category, Price, orgname, addToCartToggle, singlePricedItem)
 	{
 		qty = Number (qty);
 		if(qty>0)
