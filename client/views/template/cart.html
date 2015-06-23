@@ -115,15 +115,16 @@
           <div class="col-xs-6" style="color:black">
            
             <details class="pull-right">
-           <summary>Total <strong>$32.12</strong></summary>
+           <summary>Total <strong>{{currency shopCart.total}}</strong></summary>
             <ul>
-            <li>Tax: 2.32</li>
+            <li>Tax: {{currency shopCart.tax}}</li>
             <li>Delivery: $3.00</li>
-            <li>Discount: ($3.00)</li>
+            <li>Discount: ({{currency shopCart.discount}})</li>
             </ul>
             </details>
           </div>
         </div>
+        <div><br></div>
         <div class="row">
           <div align="right" class="col-xs-12 ">
             <button type="button" class="btn btn-success" id="placeOrder"> Place Order </button>

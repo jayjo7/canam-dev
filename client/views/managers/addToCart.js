@@ -79,7 +79,7 @@ Template.addToCart.events({
         		price = menu.PriceXL
         }
 
-        Meteor.call('addToCart', 1 , menu.UniqueId, sessid, menu.Name, menu.Category, price, orgname, INCREMENT, false, itemSize, spiceLevel,messageToKitchenByItem);
+        Meteor.call('addToCart', 1 , menu.UniqueId, sessid, menu.Name, menu.Category, price, orgname, null, INCREMENT, false, itemSize, spiceLevel, messageToKitchenByItem, true);
        console.log('addToCart: Done Calling the insert');
         $('#itemSizeLarge').val("checked","checked");
         $('#spiceLevelMedium').val("checked","checked");

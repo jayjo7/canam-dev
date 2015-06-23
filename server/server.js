@@ -1,7 +1,7 @@
 Meteor.methods({
 	//addToCartToggle	: Meteor.settings.public[orgname]. addToCartToggle
 	//singlePricedItem	: boolean (true | false)
-	addToCart:function(qty, product, session,Name, Category, Price, orgname, addToCartToggle, singlePricedItem, itemSize, spiceLevel, messageToKitchenByItem, cartId)
+	addToCart:function(qty, product, session,Name, Category, Price, orgname, cartId, addToCartToggle, singlePricedItem, itemSize, spiceLevel, messageToKitchenByItem, isMultiPriceItem)
 	{
 		qty = Number (qty);
 		if(qty > 0)
@@ -84,10 +84,17 @@ Meteor.methods({
 		}
 	},
 	
-	removeCartItem:function(product,sessionId, orgname)
+	removeCartItem:function(product,sessionId, orgname, cartId)
 	{
-		console.log('Removing from Cart: Sessionid = ' + sessionId + ' :: product' +product);
-		CartItems.remove({session:sessionId, product:product, orgname:orgname});
+		console.log('Removing from Cart: Sessionid = ' + sessionId + ' :: product = ' +product + ': CartId = ' + cartId);
+		if(cartId)
+		{
+			CartItems.remove({_id:cartId, session:sessionId, product:product, orgname:orgname});
+		}
+		else
+		{
+			CartItems.remove({session:sessionId, product:product, orgname:orgname});
+		}
 	},
 
 	removeAllCartItem:function(sessionId)
