@@ -1,7 +1,7 @@
 <template name="addToCart">
 <!--Message2Kitchen-->
 <!--Message2Kitchen-->
-<div class="modal fade" id="popMessage2KitchenModal" tabindex="-1" role="dialog" aria-labelledby="popMessage2KitchenModalLabel" aria-hidden="true" style=" background-color: rgba(0,0,0,0.10);">
+<div class="modal fade" id="popMessage2KitchenModal" tabindex="-1" role="dialog" aria-labelledby="popMessage2KitchenModalLabel" aria-hidden="true" style=" background-color: rgba(0,0,0,0.10);z-index:3000">
   <div class="modal-dialog" >
     <div class="modal-content" style="background-color:rgba(244,204,0,1.00);">
       <div class="modal-header">
@@ -11,7 +11,7 @@
       <div class="modal-body" >
         <form >
           <div class="form-group">
-            <label for="recipient-name" class="control-label">Now Pick a Size :&nbsp;&nbsp;</label>
+            <label for="recipient-name" class="control-label">Now Pick a Size :&nbsp;&nbsp;</label> <br>
             <div class="btn-group" data-toggle="buttons" >
               {{#if hasValue 'PriceMedium'}}
                 <label class="btn btn-primary">
@@ -36,7 +36,7 @@
           {{#if askSpiceLevel 'SpiceLevel' }}
 
               <div class="form-group">
-                <label for="recipient-name" class="control-label">How Spicy?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                <label for="recipient-name" class="control-label">How Spicy?</label><br>
                 <div class="btn-group" data-toggle="buttons" >
                   <label class="btn btn-primary">
                     <input type="radio" name="spiceLevel"  value ="mild" id="spiceLevelMild"   autocomplete="off">
@@ -51,11 +51,11 @@
               </div>
 
           {{/if}}
-          <input  type="text" autofocus id="message-text" class="form-control" placeholder=""  >
+           <input  type="text" class="form-control" id="inputMessageToKitchen"  autofocus name="messageToKitchen" maxlength="44"  placeholder="Special Instruction" style="text-align:left" wrap="hard">
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Add to Order</button>
+        <button type="button" class="btn btn-success addcart" data-dismiss="modal">Add to Order</button>
       </div>
     </div>
   </div>

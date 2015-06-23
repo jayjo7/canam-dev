@@ -289,9 +289,8 @@ Template.homePage.events({
         var sessid           = Session.get('appUUID');
         switch (addToCartToggle(orgname))
         {
-            case  "increment" :
-
-                Meteor.call('addToCart', 1 , product, sessid, this.Name, this.Category, this.Price, orgname, 'increment', true);
+            case  INCREMENT :
+                Meteor.call('addToCart', 1 , product, sessid, this.Name, this.Category, this.Price, orgname, INCREMENT, true);
 
                 break;
             default:
@@ -314,7 +313,7 @@ Template.homePage.events({
         Meteor.call('removeCartItem', product, sessid, orgname);
         switch (addToCartToggle(orgname))
         {
-            case "increment" :
+            case INCREMENT :
                 break;
             default:
                 evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
