@@ -1,62 +1,83 @@
 Meteor.methods({
 	//addToCartToggle	: Meteor.settings.public[orgname]. addToCartToggle
 	//singlePricedItem	: boolean (true | false)
-	addToCart:function(qty, product, session,Name, Category, Price, orgname, cartId, addToCartToggle, singlePricedItem, itemSize, spiceLevel, messageToKitchenByItem, isMultiPriceItem)
+
+	//cartItem.qty
+	//cartItem.product
+	//cartItem.session
+	//cartItem.Name
+    //cartItem.Category
+    //cartItem.Price
+    //cartItem.orgname
+    //cartItem.cartId
+    //cartItem.addToCartToggle
+    //cartItem.singlePricedItem
+    //cartItem.itemSize
+    //cartItem.spiceLevel
+    //cartItem.messageToKitchenByItem
+    //cartItem.isMultiPriceItem
+    
+
+
+	addToCart:function(cartItem)
 	{
-		qty = Number (qty);
+		qty = Number (cartItem.qty);
 		if(qty > 0)
 		{
-			var now = Meteor.call('getLocalTime', orgname);
-			console.log(session + ' addToCart:now = ' + now);
+			var now = Meteor.call('getLocalTime', cartItem.orgname);
+			console.log(cartItem.session + ' addToCart:now = ' + now);
+			cartItem.dateAdded = now;
 
-			switch (addToCartToggle)
+			switch (cartItem.addToCartToggle)
         	{
             	case  INCREMENT :
 
-            		if(singlePricedItem)
+            		if(cartItem.singlePricedItem)
             		{
-            			var itemFromCart = CartItems.findOne({product:product, session:session});
+            			var itemFromCart = CartItems.findOne({product:cartItem.product, session:cartItem.session});
             			if(itemFromCart)
             			{
-            				qty += itemFromCart.qty;
+            				cartItem.qty += itemFromCart.qty;
 
             			}
 
-            			var totalPrice = Price * qty;
+            			cartItem.totalPrice = cartItem.Price * cartItem.qty;	
+            			
 
-						console.log(session + ' addToCart:totalPrice = ' +totalPrice);
+						console.log(cartItem.session + ': addToCart: totalPrice (Increment - Single pricied Item) = ' +cartItem.totalPrice);
 
 
-						CartItems.update({product:product, session:session},{qty:qty, product:product, session:session,Name:Name, Category:Category, Price:Price,totalPrice:totalPrice, dateAdded:now, orgname:orgname},{upsert:true});
+						CartItems.update({product:cartItem.product, session:cartItem.session}, cartItem, {upsert:true});
 
-						console.log('Added (Increment - Single pricied Item) the product = ' + product  + ' for session id = ' + session + 'for orgname = ' + orgname + ' qty = ' + qty); 
+						console.log(cartItem.session + ': addToCart: Added (Increment - Single pricied Item) the product = ' +cartItem.product  + ' for session id = ' + cartItem.session + 'for orgname = ' + cartItem.orgname + ' qty = ' + cartItem.qty); 
 
             		}
             		else
             		{
 
-            			var totalPrice = Price * qty;
+            			cartItem.totalPrice = cartItem.Price * cartItem.qty;
 
-						console.log(session + ' addToCart:totalPrice = ' +totalPrice);
+						console.log(cartItem.session + ': addToCart: totalPrice (Increment - Multi pricied Item) = ' +cartItem.totalPrice);
 
 		
-						CartItems.insert({qty:qty, product:product, session:session,Name:Name, Category:Category, Price:Price,totalPrice:totalPrice, dateAdded:now, orgname:orgname,itemSize:itemSize, spiceLevel:spiceLevel, messageToKitchenByItem:messageToKitchenByItem});
+						CartItems.insert(cartItem);
 
-						console.log('Added (Increment - Multi pricied Item) the product = ' + product  + ' for session id = ' + session + 'for orgname = ' + orgname +' qty = ' + qty); 
+						console.log(cartItem.session+ ': addToCart: Added (Increment - Multi pricied Item) the product = ' + cartItem.product  + ' for session id = ' + cartItem.session + 'for orgname = ' + cartItem.orgname +' qty = ' + cartItem.qty); 
 
             		}
                 	break;
 
             	default:
 
-					var totalPrice = Price * qty;
+					cartItem.totalPrice = cartItem.Price * cartItem.qty;
 
-					console.log(session + ': addToCart:totalPrice = ' +totalPrice);
+					console.log(cartItem.session+ ': addToCart:totalPrice = ' + cartItem.totalPrice);
 
-					console.log(session + ': cartId = '+ cartId);
-					CartItems.update({_id:cartId, product:product, session:session},{qty:qty, product:product, session:session,Name:Name, Category:Category, Price:Price,totalPrice:totalPrice, dateAdded:now, orgname:orgname},{upsert:true});
+					console.log(cartItem.session + ': cartId = '+ cartItem.cartId);
 
-					console.log('Added the product = ' + product  + ' for session id = ' + session + 'for orgname = ' + orgname + ' and cartId = '+ cartId);        
+					CartItems.update({_id:cartItem.cartId, product:cartItem.product, session:cartItem.session}, cartItem ,{upsert:true});
+
+					console.log(cartItem.session + ': addToCart: Added the product = ' + cartItem.product  + ' for session id = ' + cartItem.session + 'for orgname = ' + cartItem.orgname + ' and cartId = '+ cartItem.cartId +' qty = ' + cartItem.qty);        
 
         	}
 
@@ -65,13 +86,13 @@ Meteor.methods({
 		}
 		else if (qty=== 0) 
 		{
-				console.log('Quantity is Zero');
+				console.log(cartItem.session + ': addToCart: Quantity is Zero');
 
-				CartItems.remove ({_id: cartId,product:product, session:session, orgname:orgname}, function(error, result){
+				CartItems.remove ({_id:cartItem.cartId,product:cartItem.product, session:cartItem.session, orgname:cartItem.orgname}, function(error, result){
 
 					if (error)
 					{
-						console.log('Trouble removing the product = ' + product  + ' for session id = ' + session);
+						console.log(cartItem.session+ ': addToCart: Trouble removing the product = ' + cartItem.product  + ' for session id = ' + cartItem.session);
 					}
 
 				});
@@ -215,11 +236,29 @@ Meteor.methods({
 
 
 				subTotal +=  (Number(cartitems.Price) * cartitems.qty);
-				itemString = itemString + cartitems.qty + " - " + cartitems.Name +'\n';
+				itemString = itemString + cartitems.qty + " - " + cartitems.Name;
+				if(cartitems.itemSize)
+				{
+					itemString += ' [Size - ' + cartitems.itemSize + ']';
+				}
+				if(cartitems.spiceLevel)
+				{
+					itemString += '[SpiceLevel - ' + cartitems.spiceLevel + ']';
+				}
+				if(cartitems.messageToKitchenByItem)
+				{
+					itemString += ' [Message - ' + cartitems.messageToKitchenByItem + ']';
+				}
+
+				itemString += '\n';
+
    				items.push(
    				{ 
-        				"name" : cartitems.Name,
-        				"qty"  : cartitems.qty
+        				"name" 		: cartitems.Name,
+        				"qty"  		: cartitems.qty,
+        				"itemSize"	: cartitems.itemSize,
+        				"spiceLevel": cartitems.spiceLevel,
+        				"messageToKitchenByItem" : cartitems.messageToKitchenByItem
 				});
 
 				cartitems.UniqueId = order.UniqueId;

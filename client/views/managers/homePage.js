@@ -286,19 +286,30 @@ Template.homePage.events({
         var orgname         = Session.get(ORG_NAME_SESSION_KEY);
         var currentTarget   = evt.currentTarget
         var product         = this.UniqueId ;
-        var sessid           = Session.get('appUUID');
+        var sessid          = Session.get('appUUID');
+        var cartItem={};
+        cartItem.orgname    = orgname;
+        cartItem.product    = product;
+        cartItem.session    = sessid;
+        cartItem.qty        = 1;
+        cartItem.Name       = this.Name; 
+        cartItem.Category   = this.Category;
+        cartItem.Price      = this.Price;
+
         switch (addToCartToggle(orgname))
         {
             case  INCREMENT :
-                Meteor.call('addToCart', 1 , product, sessid, this.Name, this.Category, this.Price, orgname, INCREMENT, true);
 
+                cartItem.addToCartToggle    =  INCREMENT;
+                cartItem.singlePricedItem   = true;
                 break;
+                
             default:
-                Meteor.call('addToCart', 1 , product, sessid, this.Name, this.Category, this.Price, orgname);
                 evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
-                evt.currentTarget.title='Remove from Cart'          
-
+                evt.currentTarget.title     ='Remove from Cart'          
         }
+
+         Meteor.call('addToCart',  cartItem);
 
 
 

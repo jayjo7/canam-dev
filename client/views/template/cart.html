@@ -27,11 +27,12 @@
             <div class="product-name"> 
               <strong style="font-family: 'Dancing Script', Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;color:black;font-size: 1.4em" >{{Name}}</strong> <br/>
                 <small> 
-                    {{{getSelectedItemSize this}}} {{{getSelectedSpiceLevel this}}}
+                    {{{getSelectedItemSize this}}} 
+                    {{{getSelectedSpiceLevel this}}}
                 </small>
             </div>
             <br>
-            <input  type="text"  size="44" name="messageToKitchen" maxlength="44" class="form-control" id="inputMessageToKitchen"  style="font-size:.9em; border:solid 1px #e1e1e1; background-color:lightyellow;color:grey" placeholder="Enter a message for this item" value="{{messageToKitchenByItem}}" >
+            <input  type="text"  size="44" name="messageByItem" maxlength="44" class="form-control" id="inputMessageByItem"  style="font-size:.9em; border:solid 1px #e1e1e1; background-color:lightyellow;color:grey" placeholder="Enter a message for this item" value="{{messageToKitchenByItem}}" >
           </div>
       <div class="col-xs-4 text-right"> 
             <input name="product_{{product}}" value="{{qty}}" type="tel" onClick="this.setSelectionRange(0, this.value.length)" class="qtyy-modal" id="product_in_cart"  size="2" maxlength="2" border="0">

@@ -227,9 +227,9 @@
                         <tr>
                           <td class="product">
                               <span style="color: #4d4d4d; font-weight:bold;text-transform: uppercase;">{{Name}}</span>  
-                              <span class="badge">Large</span>
-                              <span class="badge">Spicy</span>
-                              <div>Message to Kitchen</div>
+                                {{{getSelectedItemSize this}}} 
+                                {{{getSelectedSpiceLevel this}}}
+                              <div>{{messageToKitchenByItem}}</div>
                           </td>
                         </tr>
                       </table>

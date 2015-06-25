@@ -20,7 +20,7 @@ Template.registerHelper('getSelectedItemSize', function(cartItem)
                htmlString = '<span class="badge progress-bar-warning">' + SIZE_LARGE +'</span>';
                break;
 
-            default:
+            case SIZE_EXTRALARGE:
 
                 htmlString = '<span class="badge progress-bar-danger">'+ SIZE_EXTRALARGE + '</span>';
         }
@@ -45,7 +45,7 @@ Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
                   htmlString ='<span class="label label-warning">' +SPICY_NORMAL+ '</span>';
                 break;
 
-            default:
+            case SPICY_SPICY:
 
                 htmlString = '<span class="label label-danger">'+ SPICY_SPICY + '</span>';
         }

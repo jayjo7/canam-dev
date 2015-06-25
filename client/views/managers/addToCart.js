@@ -74,28 +74,28 @@ Template.addToCart.helpers({
 
 Template.addToCart.events({
 
-	    'click .addcart': function(evt,tmpl)
+	 'click .addcart': function(evt,tmpl)
     {
+       var cartItem={};
 
-        var orgname         	= Session.get(ORG_NAME_SESSION_KEY);
+        cartItem.orgname      = Session.get(ORG_NAME_SESSION_KEY);
         var currentTarget   	= evt.currentTarget
 
-        var sessid           	= Session.get('appUUID');
+        cartItem.session       = Session.get('appUUID');
 
         var itemSizeElement 	= tmpl.find('input[name=itemSize]:checked');
-        var itemSize 			= $(itemSizeElement).val();
+        cartItem.itemSize 		= $(itemSizeElement).val();
 
-        var spiceLevelElement 	= tmpl.find('input[name=spiceLevel]:checked');
-        var spiceLevel 			= $(spiceLevelElement).val();
+        var spiceLevelElement = tmpl.find('input[name=spiceLevel]:checked');
+        cartItem.spiceLevel 	= $(spiceLevelElement).val();
 
-        var messageToKitchenByItem  		= $('#inputMessageToKitchen').val();
-
+        cartItem.messageToKitchenByItem   = $('#inputMessageToKitchen').val();
 
         var menu = Session.get(MENU_OBJECT_SESSION_KEY);
 
         var price = menu.PriceSmall;
 
-        switch (itemSize)
+        switch (cartItem.itemSize)
         {
         	case SIZE_MEDIUM:
 
@@ -112,7 +112,15 @@ Template.addToCart.events({
         		price = menu.PriceXL
         }
 
-        Meteor.call('addToCart', 1 , menu.UniqueId, sessid, menu.Name, menu.Category, price, orgname, null, INCREMENT, false, itemSize, spiceLevel, messageToKitchenByItem, true);
+        cartItem.qty        = 1;
+        cartItem.product    = menu.UniqueId;
+        cartItem.Name       = menu.Name; 
+        cartItem.Category   = menu.Category;
+        cartItem.Price      = price;
+        cartItem.addToCartToggle    = INCREMENT;    
+        cartItem.isMultiPriceItem   = true;
+
+        Meteor.call('addToCart', cartItem);
        console.log('addToCart: Done Calling the insert');
         $('#itemSizeLarge').val("checked","checked");
         $('#spiceLevelMedium').val("checked","checked");
