@@ -11,24 +11,27 @@
       <div class="modal-body" >
         <form >
           <div class="form-group">
-            <label for="recipient-name" class="control-label">Now Pick a Size :&nbsp;&nbsp;</label> <br>
+            <label for="recipient-name" class="control-label">Now pick a size :</label> <br>
             <div class="btn-group" data-toggle="buttons" >
               {{#if hasValue 'PriceMedium'}}
                 <label class="btn btn-primary">
-                  <input type="radio" name="itemSize"  value="medium" id="itemSizeMedium"   autocomplete="off">
-                  <span style="font-size:.8em; font-weight:300">Medium </span><span class="badge"   style="font-size:.7em; font-weight:300" >{{ getFormattedPrice 'PriceMedium' }}</span> 
+                  <input type="radio" name="itemSize"  value="{{getItemSizeMedium}}" id="itemSize{{getItemSizeMedium}}" >
+                  <span style="font-size:1em; font-weight:300">{{getItemSizeMedium}} </span>
+                  <span class="badge"   style="font-size:1em; font-weight:300" >{{ getFormattedPrice 'PriceMedium' }}</span> 
                 </label>
                {{/if}}  
               {{#if hasValue 'PriceLarge'}}
                 <label class="btn btn-primary active">
-                  <input type="radio" name="itemSize" value="large" id="itemSizeLarge" style="font-size:.6em"  autocomplete="off" checked>
-                  <span style="font-size:.8em; font-weight:300">Large</span> <span class="badge"   style="font-size:.8em; font-weight:300" >{{getFormattedPrice 'PriceLarge'  }}</span> 
+                  <input type="radio" name="itemSize" value="{{getItemSizeLarge}}" id="itemSize{{getItemSizeLarge}}" checked >
+                  <span style="font-size:1em; font-weight:300">{{getItemSizeLarge}}</span> 
+                  <span class="badge"   style="font-size:1em; font-weight:300" >{{getFormattedPrice 'PriceLarge'  }}</span> 
                 </label>
                {{/if}}  
               {{#if hasValue 'PriceXL'}}
                 <label class="btn btn-primary">
-                  <input type="radio" name="itemSize" value="xl" id="itemSizeXL" style="font-size:.7em"  autocomplete="off">
-                  <span style="font-size:1em; font-weight:300"> X-Large</span> <span class="badge"   style="font-size:.7em; font-weight:300" >{{ getFormattedPrice 'PriceXL'}}</span> 
+                  <input type="radio" name="itemSize" value="{{getItemSizeExtraLarge}}" id="itemSize{{getItemSizeExtraLarge}}" >
+                  <span style="font-size:1em; font-weight:300"> {{getItemSizeExtraLarge}}</span> 
+                  <span class="badge"   style="font-size:1em; font-weight:300" >{{ getFormattedPrice 'PriceXL'}}</span> 
                 </label>
                {{/if}}  
             </div>
@@ -36,22 +39,25 @@
           {{#if askSpiceLevel 'SpiceLevel' }}
 
               <div class="form-group">
-                <label for="recipient-name" class="control-label">How Spicy?</label><br>
+                <label for="recipient-name" class="control-label">How spicy?</label><br>
                 <div class="btn-group" data-toggle="buttons" >
                   <label class="btn btn-primary">
-                    <input type="radio" name="spiceLevel"  value ="mild" id="spiceLevelMild"   autocomplete="off">
-                    <span style="font-size:.8em; font-weight:300">Mild</span></label>
+                    <input type="radio" name="spiceLevel"  value ="{{getSpiceLevelMild}}" id="spiceLevel{{getSpiceLevelMild}}" >
+                    <span style="font-size:1em; font-weight:300">{{getSpiceLevelMild}}</span>
+                  </label>
                   <label class="btn btn-primary active">
-                    <input type="radio" name="spiceLevel" value ="medium" id="spiceLevelMedium" style="font-size:.6em"  autocomplete="off" checked>
-                    <span style="font-size:.8em; font-weight:300">Medium</span> </label>
+                    <input type="radio" name="spiceLevel" value ="{{getSpiceLevelNormal}}" id="spiceLevel{{getSpiceLevelNormal}}"  checked>
+                    <span style="font-size:1em; font-weight:300">{{getSpiceLevelNormal}}</span> 
+                  </label>
                   <label class="btn btn-primary">
-                    <input type="radio" name="spiceLevel" value ="hot" id="spiceLevelHot" style="font-size:.7em"  autocomplete="off">
-                    <span style="font-size:1em; font-weight:300">Hot</span> </label>
+                    <input type="radio" name="spiceLevel" value ="{{getSpiceLevelSpicy}}" id="spiceLevel{{getSpiceLevelSpicy}}" >
+                    <span style="font-size:1em; font-weight:300">{{getSpiceLevelSpicy}}</span> 
+                  </label>
                 </div>
               </div>
 
           {{/if}}
-           <input  type="text" class="form-control" id="inputMessageToKitchen"  autofocus name="messageToKitchen" maxlength="44"  placeholder="Special Instruction" style="text-align:left" wrap="hard">
+           <input  type="text" class="form-control" id="inputMessageToKitchen" name="messageToKitchen" maxlength="44"  placeholder="Special Instruction" style="text-align:left" >
         </form>
       </div>
       <div class="modal-footer">

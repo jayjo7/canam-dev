@@ -1,5 +1,40 @@
 Template.addToCart.helpers({
 
+  getSpiceLevelMild: function()
+  {
+    return SPICY_MILD;
+  },
+
+  getSpiceLevelNormal: function()
+  {
+    return SPICY_NORMAL;
+  },
+
+  getSpiceLevelSpicy: function()
+  {
+    return SPICY_SPICY;
+  },
+
+  getItemSizeSmall: function()
+  {
+    return SIZE_SMALL;
+  },
+
+  getItemSizeMedium: function()
+  {
+    return SIZE_MEDIUM;
+  },
+
+  getItemSizeLarge: function()
+  {
+    return SIZE_LARGE;
+  },
+
+  getItemSizeExtraLarge: function()
+  {
+    return SIZE_EXTRALARGE;
+  },
+
 	askSpiceLevel: function(key){
 
 	var menu = Session.get(MENU_OBJECT_SESSION_KEY);
@@ -62,17 +97,15 @@ Template.addToCart.events({
 
         switch (itemSize)
         {
-        	case MEDIUM:
+        	case SIZE_MEDIUM:
 
-        		price = menu.PriceMedium
+        		  price = menu.PriceMedium;
+        	    break;
 
-        	break;
+        	case  SIZE_LARGE:
 
-        	case  LARGE:
-
-        		price = menu.PriceLarge
-
-        	break;
+        	   price = menu.PriceLarge;
+        	   break;
 
         	default:
 

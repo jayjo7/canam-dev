@@ -125,7 +125,7 @@
           <div class="col-xs-6"  style="color:black" id="totaltaxid" >
               <details class="pull-right">
           
-           <summary>Total <strong>{{currency shopCart.total}}</strong></summary>
+           <summary>Total: <strong>{{currency shopCart.total}}</strong></summary><br>
             <ul>
             <li>Tax: {{currency shopCart.tax}}</li>
             <li>Delivery: $3.00</li>
@@ -135,9 +135,9 @@
             </details>
           </div>
         </div>
-    <hr>
+    <hr style="border:solid thin rgba(175,110,0,0.50)">
         <div class="row">
-          <div align="right" class="col-xs-12" id="placeorderid">
+          <div align="right" class="col-xs-12" id="placeorderid" style='padding-right:70px; padding-bottom:15px'>
             <button type="button" class="btn btn-success" id="placeOrder"> Place Order </button>
           </div>
         </div>
