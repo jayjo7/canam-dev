@@ -27,12 +27,7 @@
             <div class="product-name"> 
               <strong style="font-family: 'Dancing Script', Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;color:black;font-size: 1.4em" >{{Name}}</strong> <br/>
                 <small> 
-                  {{#if haveItemSize this}}
-                    <span class="badge" style="font-weight:400; background-color:black;  font-family:'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, sans-serif">X-Large</span> 
-                   {{/if}} 
-                   {{#if haveSpiceLevel}}
-                    <span class="label label-danger"  style="font-weight:400; font-family:'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, sans-serif">Spicy</span> 
-                   {{/if}}
+                    {{{getSelectedItemSize this}}} {{{getSelectedSpiceLevel this}}}
                 </small>
             </div>
             <br>
@@ -123,15 +118,14 @@
         <div class="row" id="totalid">
           <div class="col-xs-6"></div>
           <div class="col-xs-6"  style="color:black" id="totaltaxid" >
-              <details class="pull-right">
+            <details class="pull-right" style="test-align:left">
           
-           <summary>Total: <strong>{{currency shopCart.total}}</strong></summary><br>
-            <ul>
-            <li>Tax: {{currency shopCart.tax}}</li>
-            <li>Delivery: $3.00</li>
-            <li>Discount: ({{currency shopCart.discount}})</li>
-
-            </ul>
+             <summary>Total: <strong>{{currency shopCart.total}}</strong></summary><br>
+              <ul>
+                <li>Tax: {{currency shopCart.tax}}</li>
+                <li>Delivery: $3.00</li>
+                <li>Discount: ({{currency shopCart.discount}})</li>
+              </ul>
             </details>
           </div>
         </div>

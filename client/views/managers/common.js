@@ -1,3 +1,58 @@
+Template.registerHelper('getSelectedItemSize', function(cartItem)
+    {
+        var htmlString ='';
+
+        switch (cartItem.itemSize)
+        {
+            case SIZE_SMALL:
+
+                htmlString = '<span class="badge progress-bar-success">' +  SIZE_SMALL + '</span>';
+
+                break;
+
+            case SIZE_MEDIUM:
+
+                  htmlString ='<span class="badge progress-bar-info">' +SIZE_MEDIUM+ '</span>';
+                break;
+
+            case  SIZE_LARGE:
+
+               htmlString = '<span class="badge progress-bar-warning">' + SIZE_LARGE +'</span>';
+               break;
+
+            default:
+
+                htmlString = '<span class="badge progress-bar-danger">'+ SIZE_EXTRALARGE + '</span>';
+        }
+        return htmlString;
+
+    });
+
+Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
+    {
+        var htmlString ='';
+
+        switch (cartItem.spiceLevel)
+        {
+            case SPICY_MILD:
+
+                htmlString = '<span class="label label-success">' +  SPICY_MILD + '</span>';
+
+                break;
+
+            case SPICY_NORMAL:
+
+                  htmlString ='<span class="label label-warning">' +SPICY_NORMAL+ '</span>';
+                break;
+
+            default:
+
+                htmlString = '<span class="label label-danger">'+ SPICY_SPICY + '</span>';
+        }
+        return htmlString;
+
+    });
+
 Template.registerHelper('hasValue', function(key)
 {
 	var menu = Session.get(MENU_OBJECT_SESSION_KEY);
