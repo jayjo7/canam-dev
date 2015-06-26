@@ -89,7 +89,7 @@ Template.addToCart.events({
         var spiceLevelElement = tmpl.find('input[name=spiceLevel]:checked');
         cartItem.spiceLevel 	= $(spiceLevelElement).val();
 
-        cartItem.messageToKitchenByItem   = $('#inputMessageToKitchen').val();
+        cartItem.messageToKitchenByItem   = $('#inputMessageToKitchenByItem').val();
 
         var menu = Session.get(MENU_OBJECT_SESSION_KEY);
 
