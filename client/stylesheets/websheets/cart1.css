@@ -4,9 +4,9 @@
 	font-size: 1.4em;
 }
 
-#bodyid{
-    width:100%;
-    min-height:200px;
+#bodyscrollid{
+	width:100%;
+	min-height:200px;
     height:20%;
     max-height: 500px;
     max-width: 100%;
@@ -14,8 +14,20 @@
     overflow-y:auto;
     -ms-overflow-y:auto;
     -ms-overflow-x:hidden;
+}
+
+#totaltaxid{
+	padding-right:30px;
 
 }
+
+#itemsid{
+	padding-left:35px;
+}
+
+#showhide {
+        display:none;
+    }
 
 body {
 	background-color: gold;
@@ -34,10 +46,7 @@ body {
     	margin-right: auto;
 	}
 
-.totaltaxid {
-    	position: absolute;
-    	left: 0px;
-       }
+
 
  .hr { display: none; }
 

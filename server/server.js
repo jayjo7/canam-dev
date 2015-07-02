@@ -1,7 +1,4 @@
 Meteor.methods({
-	//addToCartToggle	: Meteor.settings.public[orgname]. addToCartToggle
-	//singlePricedItem	: boolean (true | false)
-
 	//cartItem.qty
 	//cartItem.product
 	//cartItem.session
@@ -10,8 +7,8 @@ Meteor.methods({
     //cartItem.Price
     //cartItem.orgname
     //cartItem.cartId
-    //cartItem.addToCartToggle
-    //cartItem.singlePricedItem
+    //cartItem.addToCartToggle 	: Value from Settings.json Meteor.settings.public[orgname]. addToCartToggle
+    //cartItem.singlePricedItem : boolean (true | false)
     //cartItem.itemSize
     //cartItem.spiceLevel
     //cartItem.messageToKitchenByItem
@@ -254,11 +251,11 @@ Meteor.methods({
 
    				items.push(
    				{ 
-        				"name" 		: cartitems.Name,
-        				"qty"  		: cartitems.qty,
-        				"itemSize"	: cartitems.itemSize,
-        				"spiceLevel": cartitems.spiceLevel,
-        				"messageToKitchenByItem" : cartitems.messageToKitchenByItem
+        				"name" 						: cartitems.Name,
+        				"qty"  						: cartitems.qty,
+						"itemSize"					: cartitems.itemSize,  			
+        				"spiceLevel" 				: cartitems.spiceLevel,
+						"messageToKitchenByItem" 	: cartitems.messageToKitchenByItem
 				});
 
 				cartitems.UniqueId = order.UniqueId;
