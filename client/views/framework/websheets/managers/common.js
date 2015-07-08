@@ -6,23 +6,23 @@ Template.registerHelper('getSelectedItemSize', function(cartItem)
         {
             case websheets.public.size.SMALL:
 
-                htmlString = '<span class="badge progress-bar-success">' +  SIZE_SMALL + '</span>';
+                htmlString = '<span class="badge progress-bar-success">' +  websheets.public.size.SMALL + '</span>';
 
                 break;
 
             case websheets.public.size.MEDIUM:
 
-                  htmlString ='<span class="badge progress-bar-info">' +SIZE_MEDIUM+ '</span>';
+                  htmlString ='<span class="badge progress-bar-info">' + websheets.public.size.MEDIUM + '</span>';
                 break;
 
             case  websheets.public.size.LARGE:
 
-               htmlString = '<span class="badge progress-bar-warning">' + SIZE_LARGE +'</span>';
+               htmlString = '<span class="badge progress-bar-warning">' + websheets.public.size.LARGE +'</span>';
                break;
 
             case websheets.public.size.EXTRALARGE:
 
-                htmlString = '<span class="badge progress-bar-danger">'+ SIZE_EXTRALARGE + '</span>';
+                htmlString = '<span class="badge progress-bar-danger">'+ websheets.public.size.EXTRALARGE + '</span>';
         }
         return htmlString;
 
@@ -36,18 +36,18 @@ Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
         {
             case websheets.public.spicy.MILD:
 
-                htmlString = '<span class="label label-success">' +  SPICY_MILD + '</span>';
+                htmlString = '<span class="label label-success">' +  websheets.public.spicy.MILD + '</span>';
 
                 break;
 
             case websheets.public.spicy.NORMAL:
 
-                  htmlString ='<span class="label label-warning">' +SPICY_NORMAL+ '</span>';
+                  htmlString ='<span class="label label-warning">' + websheets.public.spicy.NORMAL + '</span>';
                 break;
 
             case websheets.public.spicy.SPICY:
 
-                htmlString = '<span class="label label-danger">'+ SPICY_SPICY + '</span>';
+                htmlString = '<span class="label label-danger">'+ websheets.public.spicy.SPICY+ '</span>';
         }
         return htmlString;
 
