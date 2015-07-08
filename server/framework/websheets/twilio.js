@@ -16,9 +16,9 @@ Meteor.methods({
         switch (whoReceiving)
         {
 
-          case CLIENT:
+          case websheets.private.generic.CLIENT:
 
-          case WEBMASTER:
+          case websheets.private.generic.WEBMASTER:
                 body      = 'New Order[' + order.OrderNumber + '] \n';
                 body     += order.Items + '\n';
                 body     += rootUrl(order.orgname) +'/osm/'+ order.UniqueId;
@@ -59,7 +59,7 @@ Meteor.methods({
 
           console.log(order.sessionId +': smsOrderReceived : Trouble sending sms to the customer ' + e);
           var result ={};
-          result.status = STATUS_FATAL;
+          result.status = websheets.public.status.FATAL;
           result.error = e.toString();
           response.result = result;
 
@@ -101,7 +101,7 @@ Meteor.methods({
 
           console.log(sessionId +': smsOrderReady : Trouble sending sms to the customer ' + e);
           var result      = {};
-          result.status   = STATUS_FATAL;
+          result.status   = websheets.public.status.FATAL;
           result.error    = e.toString();
           response.result = result;
 
@@ -152,7 +152,7 @@ var sendSMS = function (sessionId, orderNumber, toPhoneNumber, bodyMessage, orgn
 
                               if(error)
                               {
-                                result.status     = STATUS_FAILED;
+                                result.status     = websheets.public.status.STATUS_FAILED;
                                 result.error      = error;
 
                                 for(var key in error)
@@ -171,7 +171,7 @@ var sendSMS = function (sessionId, orderNumber, toPhoneNumber, bodyMessage, orgn
                                     console.log(sessionId + ": message object from sms: " + key + " = " + message[key]);
                         
                                   }
-                                result.status   = STATUS_SUCCESS;  
+                                result.status   = websheets.public.status.SUCCESS;  
                                 result.message  = message;
                                 console.log(sessionId + " : Done Invoking sms - No Error");
 

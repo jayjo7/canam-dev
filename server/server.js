@@ -27,7 +27,7 @@ Meteor.methods({
 
 			switch (cartItem.addToCartToggle)
         	{
-            	case  INCREMENT :
+            	case  websheets.public.generic.INCREMENT :
 
             		if(cartItem.singlePricedItem)
             		{
@@ -200,8 +200,8 @@ Meteor.methods({
 			var order 				= {};
 			order.orgname     		= orgname;
 			order.sessionId 		= sessionId;
-			order.Status 			= STATE_ONE;
-			order.StatusCode		= STATE_CODE_ONE;
+			order.Status 			= websheets.public.orderState.STATE_ONE;
+			order.StatusCode		= websheets.public.orderStateCode.STATE_CODE_ONE;
 			order.OrderNumber 		= sequence.orderNumber;
 			order.UniqueId 			= sequence._id;
 			order.TimeOrderReceived = Meteor.call('getLocalTime', orgname );
@@ -407,19 +407,19 @@ Orders.after.update (function (userId, doc, fieldNames, modifier, options)
 
 	   	try{
 		  		var count = 0;
-		  		orderUpdateStatus.websheets.status 	= STATUS_SUCCESS;
+		  		orderUpdateStatus.websheets.status 	= websheets.public.status.SUCCESS;
 		  		var response;
 		  		do
 		  		{
 		  			count +=1;
 		  			response = Meteor.call('postWebsheets', doc);
 		  			console.log(doc.sessionId + ": update attempted count = " + count );
-		  		}while (count < WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
+		  		}while (count < websheets.private.generic.WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
 
 		  		if(response.statusCode !== 200)
 		  		{
 		  			console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-		  			orderUpdateStatus.websheets.status 	= STATUS_FAILED;
+		  			orderUpdateStatus.websheets.status 	= websheets.public.status.FAILED;
 		  		}
 		  		else
 		  		{
@@ -432,7 +432,7 @@ Orders.after.update (function (userId, doc, fieldNames, modifier, options)
 		 {
 		  		console.log(doc.sessionId + ": Caught error on updating the order ststus to websheets fatal error.", e);
 		  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-		  		orderUpdateStatus.websheets.status 	= STATUS_FATAL;
+		  		orderUpdateStatus.websheets.status 	= websheets.public.status.FATAL;
 		  		orderUpdateStatus.websheets.error 	= e.toString();
 
 		 }
@@ -471,12 +471,12 @@ OrdersMeta.after.insert(function (userId, doc) {
   	//Start CC Auth and Charge
  	if(doc.cardToken)
  	{	
- 		processStatus.payment.status = STATUS_ENABLED;
+ 		processStatus.payment.status = websheets.public.status.ENABLED;
 
  		if( isPaymentStripe(doc.orgname))
  		{   
  			payment.vendor  = 'Stripe';
-	 		payment.status 	= STATUS_SUCCESS;
+	 		payment.status 	= websheets.public.status.SUCCESS;
 	 		var result;
 	 		try{
 	 			console.log(doc.sessionId + ": Start charging the card");
@@ -497,7 +497,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 				Orders.update({UniqueId:doc.UniqueId}, {$set: {Payment: doc.Payment, orderStatusAlert:orderStatusAlertMessage}});
 				OrdersMeta.update({UniqueId:doc.UniqueId}, {$set: {Payment: doc.Payment, orderStatusAlert:orderStatusAlertMessage}});
 				console.log(doc.sessionId + ": Jay:Todo:Send appropriate notifciation to customer and owner");
-				payment.status 	= STATUS_FAILED;
+				payment.status 	= websheets.public.status.FAILED;
 				payment.error 	= result.error;
 				var response = Meteor.call('sendCCAuthFailedNotification', doc);
 				payment.declineNotification = new Object();;
@@ -511,7 +511,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		else
 		{
 			console.log(doc.sessionId + ": Client is configured for online payment, but no Payment processor enabled - Fatal");
-			processStatus.payment.status 	= STATUS_FATAL;
+			processStatus.payment.status 	= websheets.public.status.FATAL;
 			processStatus.payment.error 	= 'Client is configured for online payment, but no Payment processor enabled - Fatal';
 		}
 
@@ -521,7 +521,7 @@ OrdersMeta.after.insert(function (userId, doc) {
  	else
  	{
  		console.log(doc.sessionId + ': Either payment is not enabled or customer opt not to pay online')
- 		processStatus.payment.status 	=	STATUS_NOT_ENABLED;
+ 		processStatus.payment.status 	=	websheets.public.status.ENABLED;
  	}
  	console.log(doc.sessionId + ": Done payment process" );
  	//End CC Auth and Charge
@@ -530,19 +530,19 @@ OrdersMeta.after.insert(function (userId, doc) {
     //Start Sending the Websheets
 	try{
 	  		var count = 0;
-	  		processStatus.websheets.status 	= STATUS_SUCCESS;
+	  		processStatus.websheets.status 	= websheets.public.status.SUCCESS;
 	  		var response;
 	  		do
 	  		{
 	  			count +=1;
 	  			response = Meteor.call('postWebsheets', doc);
 	  			console.log(doc.sessionId + ": insert (new order) attempted count = " + count );
-	  		}while (count < WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
+	  		}while (count < websheets.private.generic.WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
 
 	  		if(response.statusCode !== 200)
 	  		{
 	  			console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-	  			processStatus.websheets.status 	= STATUS_FAILED;
+	  			processStatus.websheets.status 	= websheets.public.status.FAILED;
 	  		}
 	  		else
 	  		{
@@ -554,7 +554,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 	 {
 	  		console.log(doc.sessionId + ": Caught error on posting to websheets fatal error.", e);
 	  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-	  		processStatus.websheets.status 	= STATUS_FATAL;
+	  		processStatus.websheets.status 	= websheets.public.status.FATAL;
 	  		processStatus.websheets.error 	= e.toString();
 
 	 }
@@ -564,7 +564,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 	 //Start Sending Email
  	if(isEmailEnabled(doc.orgname))
  	{
- 		processStatus.email.status = STATUS_ENABLED;
+ 		processStatus.email.status = websheets.public.status.ENABLED;
 
  		if(isEmailMailgun(doc.orgname))
  		{
@@ -573,7 +573,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	{
 
 			 		try{
-					 	var response = Meteor.call('emailOrderReceived', doc, CUSTOMER);
+					 	var response = Meteor.call('emailOrderReceived', doc, websheets.private.generic.CUSTOMER);
 					    console.log(JSON.stringify(response, null, 4));
 
 					 	for(var key in response)
@@ -583,7 +583,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 					 	if(response.result.error)
             			{
-            				emailCustomer.status 	= STATUS_FAILED;
+            				emailCustomer.status 	= websheets.public.status.FAILED;
                             emailCustomer.error 	= response.result.error.statusCode;
             			}
 
@@ -592,7 +592,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending email: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						emailCustomer.status 	= STATUS_FATAL;
+						emailCustomer.status 	= websheets.public.status.FATAL;
 						emailCustomer.error 	= e.toString();
 						
 					}
@@ -601,7 +601,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	else
 			 	{
 			 		console.log(doc.sessionId + ': customer opt not receive email or customer emailing is not enabled.')
-			 		emailCustomer.status 	=	STATUS_NOT_ENABLED;
+			 		emailCustomer.status 	=	websheets.public.status.NOT_ENABLED;
 
 			 	}
 
@@ -612,14 +612,14 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	{
 
 			 		try{
-					 	var response = Meteor.call('emailOrderReceived', doc, CLIENT);
+					 	var response = Meteor.call('emailOrderReceived', doc, websheets.private.generic.CLIENT);
 					 	for(var key in response)
 					 	{
 					 		emailClient [key] = response[key];
 					 	}
 					 	if(response.result.error)
             			{
-            				emailClient.status 	= STATUS_FAILED;
+            				emailClient.status 	= websheets.public.status.FAILED;
                             emailClient.error 	= response.result.error.statusCode;
             			}
 
@@ -627,7 +627,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending email: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						emailClient.status 	= STATUS_FATAL;
+						emailClient.status 	= websheets.public.status.FATAL;
 						emailClient.error 	= e.toString();
 						
 					}
@@ -636,7 +636,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	else
 			 	{
 			 		console.log(doc.sessionId + ': Not configured to send email to the client')
-					emailClient.status 	=	STATUS_NOT_ENABLED;	 	
+					emailClient.status 	=	websheets.public.status.NOT_ENABLED;	 	
 				}
 
 			 	processStatus.email.emailClient = emailClient;
@@ -645,14 +645,14 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	if(isEmailWebmaster(doc.orgname))
 			 	{
 			 		try{
-					 	var response = Meteor.call('emailOrderReceived', doc, WEBMASTER);
+					 	var response = Meteor.call('emailOrderReceived', doc, websheets.private.generic.WEBMASTER);
 					 	for(var key in response)
 					 	{
 					 		emailWebmaster [key] = response[key];
 					 	}
 					 	if(response.result.error)
             			{
-            				emailWebmaster.status 	= STATUS_FAILED;
+            				emailWebmaster.status 	= websheets.public.status.FAILED;
                             emailWebmaster.error 	= response.result.error.statusCode;
             			}
 
@@ -660,7 +660,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending email: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						emailWebmaster.status 	= STATUS_FATAL;
+						emailWebmaster.status 	= websheets.public.status.FATAL;
 						emailWebmaster.error 	= e.toString();
 						
 					}
@@ -669,14 +669,14 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	else
 			 	{
 			 		console.log(doc.sessionId + ': Not configured to send email to the Webmaster')
-			 		emailWebmaster.status 	=	STATUS_NOT_ENABLED;	
+			 		emailWebmaster.status 	=	websheets.public.status.NOT_ENABLED;	
 			 	}	
 			 	processStatus.email.emailWebmaster = emailWebmaster;
 	 	}
 	 	else
 	 	{
 	 		console.log(doc.sessionId + ": Client is configured for sending email, but no vendor api enabled - Fatal");
-			processStatus.email.status 	= STATUS_FATAL;
+			processStatus.email.status 	= websheets.public.status.FATAL;
 			processStatus.email.error 	= 'Client is configured for sending email, but no vendor api enabled - Fatal'
 
 	 	}
@@ -684,7 +684,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 	else
 	{
 	 	console.log(doc.sessionId + ': Email is not enabled for this client')
- 		processStatus.email.status 	=	STATUS_NOT_ENABLED;
+ 		processStatus.email.status 	=	websheets.public.status.NOT_ENABLED;
 
 	}
 
@@ -710,7 +710,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending sms to customer: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						smsCustomer.status 	= STATUS_FATAL;
+						smsCustomer.status 	= websheets.public.status.FATAL;
 						smsCustomer.error 	= e.toString();
 						
 					}
@@ -719,7 +719,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 				else
 				{
 					console.log(doc.sessionId + ': customer opt not receive sms')
-			 		smsCustomer.status 	=	STATUS_NOT_ENABLED;	
+			 		smsCustomer.status 	=	websheets.public.status.NOT_ENABLED;	
 
 				}
 				processStatus.sms.smsCustomer = smsCustomer;
@@ -739,7 +739,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 							try{
 								clientPhoneNumberArray[i] = clientPhoneNumberArray[i].trim();
 								clientSMSResult.clientPhoneNumberText = clientPhoneNumberArray[i];
-							 	var response = Meteor.call('smsOrderReceived', doc, clientPhoneNumberArray[i], 'client');
+							 	var response = Meteor.call('smsOrderReceived', doc, clientPhoneNumberArray[i], websheets.private.generic.CLIENT);
 							 	for(var key in response.result)
 							 	{
 							 		console.log(key + ' = ' + response.result[key]);
@@ -750,7 +750,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 							{
 								console.log(doc.sessionId + " :trouble sending sms to Client: " + e);
 								console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-								clientSMSResult.status 	= STATUS_FATAL;
+								clientSMSResult.status 	= websheets.public.status.FATAL;
 								clientSMSResult.error 	= e.toString();
 								
 							}	
@@ -761,7 +761,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 				else
 				{
 					console.log(doc.sessionId + ': Not configured to send sms to the client')
-					smsClient.status 	=	STATUS_NOT_ENABLED;	 	
+					smsClient.status 	=	websheets.public.status.NOT_ENABLED;	 	
 					
 				}
 				console.log(doc.sessionId + ": Done Client sms");
@@ -772,7 +772,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					console.log(doc.sessionId + ": Start webmaster sms");
 
 					try{
-					 	var response = Meteor.call('smsOrderReceived', doc, webmasterPhoneNumberText(doc.orgname),WEBMASTER);
+					 	var response = Meteor.call('smsOrderReceived', doc, webmasterPhoneNumberText(doc.orgname), websheets.private.generic.WEBMASTER);
 					 	for(var key in response.result)
 					 	{
 					 		console.log(key + ' = ' + response.result[key]);
@@ -783,7 +783,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending sms to Webmaster: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						smsWebmaster.status 	= STATUS_FATAL;
+						smsWebmaster.status 	= websheets.public.status.FATAL;
 						smsWebmaster.error 	= e.toString();
 						
 					}					
@@ -792,7 +792,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 				else
 				{
 					console.log(doc.sessionId + ': Not configured to send email to the Webmaster')
-					smsWebmaster.status 	=	STATUS_NOT_ENABLED;	 	
+					smsWebmaster.status 	=	websheets.public.status.NOT_ENABLED;	 	
 					
 				}
 				console.log(doc.sessionId + ": Done Webmaster sms");
@@ -802,7 +802,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		{
 
 			console.log(doc.sessionId + ": Client is configured for sending sms, but no vendor api enabled - Fatal");
-			processStatus.sms.status 	= STATUS_FATAL;
+			processStatus.sms.status 	= websheets.public.status.FATAL;
 			processStatus.sms.error 	= 'Client is configured for sending sms, but no vendor api enabled - Fatal'
 
 		}
@@ -811,7 +811,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 	else
 	{
 		console.log(doc.sessionId + ': SMS is not enabled for this client')
- 		processStatus.sms.status 	=	STATUS_NOT_ENABLED;
+ 		processStatus.sms.status 	=	websheets.public.status.NOT_ENABLED;
 	}
 
  	console.log(doc.sessionId + ": Done sending inital order sms");	

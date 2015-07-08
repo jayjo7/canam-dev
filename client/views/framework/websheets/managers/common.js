@@ -4,23 +4,23 @@ Template.registerHelper('getSelectedItemSize', function(cartItem)
 
         switch (cartItem.itemSize)
         {
-            case SIZE_SMALL:
+            case websheets.public.size.SMALL:
 
                 htmlString = '<span class="badge progress-bar-success">' +  SIZE_SMALL + '</span>';
 
                 break;
 
-            case SIZE_MEDIUM:
+            case websheets.public.size.MEDIUM:
 
                   htmlString ='<span class="badge progress-bar-info">' +SIZE_MEDIUM+ '</span>';
                 break;
 
-            case  SIZE_LARGE:
+            case  websheets.public.size.LARGE:
 
                htmlString = '<span class="badge progress-bar-warning">' + SIZE_LARGE +'</span>';
                break;
 
-            case SIZE_EXTRALARGE:
+            case websheets.public.size.EXTRALARGE:
 
                 htmlString = '<span class="badge progress-bar-danger">'+ SIZE_EXTRALARGE + '</span>';
         }
@@ -34,18 +34,18 @@ Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
 
         switch (cartItem.spiceLevel)
         {
-            case SPICY_MILD:
+            case websheets.public.spicy.MILD:
 
                 htmlString = '<span class="label label-success">' +  SPICY_MILD + '</span>';
 
                 break;
 
-            case SPICY_NORMAL:
+            case websheets.public.spicy.NORMAL:
 
                   htmlString ='<span class="label label-warning">' +SPICY_NORMAL+ '</span>';
                 break;
 
-            case SPICY_SPICY:
+            case websheets.public.spicy.SPICY:
 
                 htmlString = '<span class="label label-danger">'+ SPICY_SPICY + '</span>';
         }
@@ -55,7 +55,7 @@ Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
 
 Template.registerHelper('hasValue', function(key)
 {
-	var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+	var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 	console.log('hasValue: menu      = '  + menu);
 	console.log('hasValue: given key =' + key);
 	var value = menu[key];
@@ -76,7 +76,7 @@ Template.registerHelper('hasValue', function(key)
 
 Template.registerHelper('menu',function(categoryMenu)
 {
-    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
     console.log('menu: ' + orgname);
 
 	return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
@@ -92,7 +92,7 @@ Template.registerHelper('prune', function(string, length, useWordBoundary)
 
 Template.registerHelper('newOrderCount', function()
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 	//var orders = Orders.find({orgname:orgname, StatusCode: 1});
 	//orders.observeChanges({
 
@@ -126,7 +126,7 @@ Template.registerHelper('newOrderCount', function()
 
 Template.registerHelper('getOrders', function(StatusCode)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	console.log('getOrders:StatusCode = ' +StatusCode);
 	return  Orders.find({orgname:orgname,StatusCode: StatusCode});
@@ -136,7 +136,7 @@ Template.registerHelper('getOrders', function(StatusCode)
 
 Template.registerHelper('getSettings', function(key)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getSettings:key = ' + key)
 	var result = Settings.findOne({$and : [{Key: key}, {orgname:orgname},{Value : {"$exists" : true, "$ne" : ""}}]});
@@ -148,7 +148,7 @@ Template.registerHelper('getSettings', function(key)
 Template.registerHelper('getSettingsArray', function(key)
 {
 	//console.log('getSettingsArray:key = ' + key)
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	var Settings = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
@@ -167,7 +167,7 @@ Template.registerHelper('getSettingsArray', function(key)
 
 Template.registerHelper('getSettingsMulti', function(key)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getSettingsMulti:key = ' + key)
 	var result = Settings.find({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
@@ -179,7 +179,7 @@ Template.registerHelper('getSettingsMulti', function(key)
 
 Template.registerHelper('getContent', function(key)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getContent:key = ' + key)
 	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
@@ -190,7 +190,7 @@ Template.registerHelper('getContent', function(key)
 
 Template.registerHelper('getContentArray', function(key)
 {
-		var orgname = Session.get(ORG_NAME_SESSION_KEY);
+		var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getContentArray:key = ' + key)
 
@@ -213,7 +213,7 @@ Template.registerHelper('showCart', function()
 {
 
 	    	var  sessid = Session.get('appUUID');
-            var orgname = Session.get(ORG_NAME_SESSION_KEY);
+            var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
             //console.log("shopCart:sessid =  " +sessid);
 
@@ -234,7 +234,7 @@ Template.registerHelper('showCart', function()
 
 Template.registerHelper('isMenuAvailable', function(categoryMenu)
 {
-	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
         //console.log('isMenuAvailable:categoryMenu = ' + categoryMenu)
 		var menuCount = Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
@@ -247,7 +247,7 @@ Template.registerHelper('isMenuAvailable', function(categoryMenu)
 
 Template.registerHelper('menuMulti', function(categoryMenu)
 {
-	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 
 		return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]});
@@ -301,7 +301,7 @@ Template.registerHelper('soldOut', function(fontLine)
 
 Template.registerHelper('isPaymentEnabled', function(){
 
-	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	    console.log('Meteor.settings.public[orgname].onlinePayment = ' + Meteor.settings.public[orgname].onlinePayment);
 
@@ -319,7 +319,7 @@ Template.registerHelper('isPaymentEnabled', function(){
 
 Template.registerHelper('imageFormatter', function(){
 
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	return Meteor.settings.public[orgname].imageFormatter;
 

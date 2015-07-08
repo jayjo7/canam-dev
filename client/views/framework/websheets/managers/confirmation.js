@@ -3,7 +3,7 @@ Template.confirmation.events({
     {
 
       event.preventDefault();
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
       console.log('confirmation:moveOrderStatus: In moveOrderStatus event');
       var sessionId = Session.get('appUUID');
       var toStatusCode = this.Order.StatusCode + 1;
@@ -46,7 +46,7 @@ Template.confirmation.helpers({
   haveETA: function(uniqueId)
   {
       console.log('isReady:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
       
 
   },
@@ -128,7 +128,7 @@ Template.confirmation.helpers({
 
   orderedCart: function(uniqueId)
   {
-    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
     return OrderedItems.find({UniqueId:uniqueId, orgname:orgname});
   },
@@ -136,7 +136,7 @@ Template.confirmation.helpers({
   haveTax:function(uniqueId)
   {
       console.log('haveTax:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return validData(orderMeta.tax);
@@ -145,14 +145,14 @@ Template.confirmation.helpers({
 
   getDiscount:function(uniqueId)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return '$'+Number(orderMeta.discount).toFixed(2);
   },
 
   getSubTotal:function(uniqueId)
 	{
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
 		  return '$'+Number(orderMeta.SubTotal).toFixed(2);
@@ -160,7 +160,7 @@ Template.confirmation.helpers({
     
   getTax:function(uniqueId)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return '$'+Number(orderMeta.tax).toFixed(2);
@@ -168,7 +168,7 @@ Template.confirmation.helpers({
 
   getTotal:function(uniqueId)
 	{
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return '$'+Number(orderMeta.Total).toFixed(2);
@@ -193,7 +193,7 @@ Template.confirmation.helpers({
   haveDiscount:function(uniqueId)
   {
       console.log('haveDiscount:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return validData(orderMeta.discount);
 
@@ -202,7 +202,7 @@ Template.confirmation.helpers({
   showSubTotal:function(uniqueId)
   {
       console.log('showSubTotal:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       if(orderMeta.tax || orderMeta.discount)
         return true;
@@ -213,7 +213,7 @@ Template.confirmation.helpers({
   getPaymentOption:function(uniqueId)
   {
       console.log('getPaymentOption:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return orderMeta.Payment;
 
@@ -221,7 +221,7 @@ Template.confirmation.helpers({
 
   isOrderStatusAlert:function(uniqueId)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);  
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);  
       console.log('isOrderStatusAlert:uniqueId = ' + uniqueId);
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       if(orderMeta.orderStatusAlert)
@@ -237,7 +237,7 @@ Template.confirmation.helpers({
   getOrderStatusAlert:function(uniqueId)
   {
       console.log('getOrderStatusAlert:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY); 
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY); 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return orderMeta.orderStatusAlert;
   }

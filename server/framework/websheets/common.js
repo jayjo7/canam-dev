@@ -1,3 +1,4 @@
+
 // Items that need to be move to config file
 rootUrl                 = function(orgname)
                           {
@@ -320,24 +321,24 @@ statusDescription = function (StatusCode)
 {
   switch (StatusCode)
   {
-      case STATE_CODE_ONE:
+      case websheets.public.statusCode.ONE:
 
-          return STATE_ONE;
+          return websheets.public.status.ONE;
           break;
 
-      case STATE_CODE_TWO:
+      case websheets.public.statusCode.TWO:
 
-          return STATE_TWO;
+          return websheets.public.status.TWO;
           break;
 
-      case STATE_CODE_THREE:
+      case websheets.public.statusCode.THREE:
 
-          return STATE_THREE;
+          return websheets.public.status.THREE;
           break;
 
-      case STATE_CODE_FOUR:
+      case websheets.public.statusCode.FOUR:
 
-          return STATE_FOUR;
+          return websheets.public.status.FOUR;
         break;
   }
 

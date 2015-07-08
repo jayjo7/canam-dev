@@ -1,7 +1,3 @@
-ORG_NAME_SESSION_KEY    = 'websheets_orgName';
-ORG_NAME                = Meteor.settings.public.orgCode.default;
-MENU_OBJECT_SESSION_KEY = 'selected_menu_item';
-
 Meteor.startup(function() {
 
 

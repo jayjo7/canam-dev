@@ -2,42 +2,42 @@ Template.addToCart.helpers({
 
   getSpiceLevelMild: function()
   {
-    return SPICY_MILD;
+    return websheets.public.spicy.MILD;
   },
 
   getSpiceLevelNormal: function()
   {
-    return SPICY_NORMAL;
+    return websheets.public.spicy.NORMAL;
   },
 
   getSpiceLevelSpicy: function()
   {
-    return SPICY_SPICY;
+    return websheets.public.spicy.SPICY;
   },
 
   getItemSizeSmall: function()
   {
-    return SIZE_SMALL;
+    return websheets.public.size.SMALL;
   },
 
   getItemSizeMedium: function()
   {
-    return SIZE_MEDIUM;
+    return websheets.public.size.MEDIUM;
   },
 
   getItemSizeLarge: function()
   {
-    return SIZE_LARGE;
+    return websheets.public.size.LARGE;
   },
 
   getItemSizeExtraLarge: function()
   {
-    return SIZE_EXTRALARGE;
+    return websheets.public.size.EXTRALARGE;
   },
 
 	askSpiceLevel: function(key){
 
-	var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+	var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 	var SpiceLevel = menu[key];
 
 	if( 'Y' === SpiceLevel.toUpperCase())
@@ -54,7 +54,7 @@ Template.addToCart.helpers({
 
    getFormattedPrice:function(key){
 
-	var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+	var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 
 	var price =  menu[key];
 
@@ -64,7 +64,7 @@ Template.addToCart.helpers({
 
    getModatTitleMessage:function()
    {
-   		var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+   		var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 
    		return menu.Name + "? Good Choice !"
    },
@@ -78,7 +78,7 @@ Template.addToCart.events({
     {
        var cartItem={};
 
-        cartItem.orgname      = Session.get(ORG_NAME_SESSION_KEY);
+        cartItem.orgname      = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
         var currentTarget   	= evt.currentTarget
 
         cartItem.session       = Session.get('appUUID');
@@ -91,18 +91,18 @@ Template.addToCart.events({
 
         cartItem.messageToKitchenByItem   = $('#inputMessageToKitchenByItem').val();
 
-        var menu = Session.get(MENU_OBJECT_SESSION_KEY);
+        var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 
         var price = menu.PriceSmall;
 
         switch (cartItem.itemSize)
         {
-        	case SIZE_MEDIUM:
+        	case websheets.public.size.MEDIUM:
 
         		  price = menu.PriceMedium;
         	    break;
 
-        	case  SIZE_LARGE:
+        	case  websheets.public.size.LARGE:
 
         	   price = menu.PriceLarge;
         	   break;
@@ -117,7 +117,7 @@ Template.addToCart.events({
         cartItem.Name       = menu.Name; 
         cartItem.Category   = menu.Category;
         cartItem.Price      = price;
-        cartItem.addToCartToggle    = INCREMENT;    
+        cartItem.addToCartToggle    = websheets.public.generic.INCREMENT;    
         cartItem.isMultiPriceItem   = true;
 
         Meteor.call('addToCart', cartItem);

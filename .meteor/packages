@@ -25,10 +25,10 @@ jparker:crypto-base64
 base64
 abhiaiyer:meteor-twilio
 underscorestring:underscore.string
-nimble:restivus
 okgrow:iron-router-autoscroll
 
 
 npm-container
 twbs:bootstrap
 less
+nimble:restivus@=0.6.1

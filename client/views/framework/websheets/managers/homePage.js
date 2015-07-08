@@ -1,5 +1,4 @@
-NOTIFICATION_MESSAGE_KEY = 'notification_message';
-var notificationkey = Session.get(ORG_NAME_SESSION_KEY) + '_' + NOTIFICATION_MESSAGE_KEY;
+var notificationkey = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY) + '_' + websheets.public.generic.NOTIFICATION_MESSAGE_KEY;
 
 
 Template.homePage.helpers({
@@ -71,7 +70,7 @@ Template.homePage.helpers({
     {
 
 
-        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 
         if(isNotTakingOnlineOrder)
@@ -133,7 +132,7 @@ Template.homePage.helpers({
 
     notification: function()
     {
-        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 
         var settings = Settings.findOne({$and : [{Key: "notification_general"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
@@ -157,7 +156,7 @@ Template.homePage.helpers({
 
     isNotTakingOnlineOrder: function()
     {
-        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
         var store_online_orders= Settings.findOne({$and : [{Key: "store_online_orders"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
@@ -175,7 +174,7 @@ Template.homePage.helpers({
     isStoreClosed: function()
     {
 
-        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
         var store_open_time= Settings.findOne({$and : [{Key: "store_open_time"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
         var store_close_time= Settings.findOne({$and : [{Key: "store_close_time"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
@@ -258,7 +257,7 @@ Template.homePage.helpers({
     {
 
         var sessid = Session.get('appUUID');
-        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
         var cartItems = CartItems.findOne({session: sessid, product:product, orgname:orgname});
 
@@ -283,7 +282,7 @@ Template.homePage.events({
     'click .addcart': function(evt,tmpl)
     {
 
-        var orgname         = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname         = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
         var currentTarget   = evt.currentTarget
         var product         = this.UniqueId ;
         var sessid          = Session.get('appUUID');
@@ -298,9 +297,9 @@ Template.homePage.events({
 
         switch (addToCartToggle(orgname))
         {
-            case  INCREMENT :
+            case  websheets.public.generic.INCREMENT :
 
-                cartItem.addToCartToggle    =  INCREMENT;
+                cartItem.addToCartToggle    =  websheets.public.generic.INCREMENT;
                 cartItem.singlePricedItem   = true;
                 break;
                 
@@ -317,14 +316,14 @@ Template.homePage.events({
 
     'click .removecart': function(evt,tmpl)
     {
-        var orgname         = Session.get(ORG_NAME_SESSION_KEY);
+        var orgname         = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
         var currentTarget   = evt.currentTarget
         var product         = this.UniqueId ;
         var sessid          = Session.get('appUUID');
         Meteor.call('removeCartItem', product, sessid, orgname);
         switch (addToCartToggle(orgname))
         {
-            case INCREMENT :
+            case websheets.public.generic.INCREMENT :
                 break;
             default:
                 evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
@@ -337,7 +336,7 @@ Template.homePage.events({
     'click #addDatatoModal': function(evt,tmpl)
     {
         //evt.preventDefault();
-        Session.setPersistent(MENU_OBJECT_SESSION_KEY, this);
+        Session.setPersistent(websheets.public.generic.MENU_OBJECT_SESSION_KEY, this);
 
     }
 
