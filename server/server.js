@@ -432,8 +432,10 @@ Orders.after.update (function (userId, doc, fieldNames, modifier, options)
 		 {
 		  		console.log(doc.sessionId + ": Caught error on updating the order ststus to websheets fatal error.", e);
 		  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-		  		orderUpdateStatus.websheets.status 	= websheets.public.status.FATAL;
-		  		orderUpdateStatus.websheets.error 	= e.toString();
+		  		orderUpdateStatus.websheets.status 		= websheets.public.status.FATAL;
+		  		orderUpdateStatus.websheets.error 		= e.toString();
+		  	    orderUpdateStatus.websheets.errorStack	= e.stack;
+
 
 		 }
 		 console.log(doc.sessionId + ': Order Update Status' +  JSON.stringify(orderUpdateStatus, null, 4))
@@ -487,7 +489,8 @@ OrdersMeta.after.insert(function (userId, doc) {
 				console.log(doc.sessionId + ": Card Authorization and charge process exprienced fatal error");
 				console.log(doc.sessionId + ": Error: " + e);
 				PaymentInfo.insert({_id:doc.UniqueId, error:e});
-				result.error = e;
+				result.error 		= e;
+				result.errorStack 	= e.stack;
 			}
 
 			if( result.error)
@@ -497,8 +500,9 @@ OrdersMeta.after.insert(function (userId, doc) {
 				Orders.update({UniqueId:doc.UniqueId}, {$set: {Payment: doc.Payment, orderStatusAlert:orderStatusAlertMessage}});
 				OrdersMeta.update({UniqueId:doc.UniqueId}, {$set: {Payment: doc.Payment, orderStatusAlert:orderStatusAlertMessage}});
 				console.log(doc.sessionId + ": Jay:Todo:Send appropriate notifciation to customer and owner");
-				payment.status 	= websheets.public.status.FAILED;
-				payment.error 	= result.error;
+				payment.status 		= websheets.public.status.FAILED;
+				payment.error 		= result.error;
+				payment.errorStack	= result.errorStack;
 				var response = Meteor.call('sendCCAuthFailedNotification', doc);
 				payment.declineNotification = new Object();;
 				for(var key in response)
@@ -554,8 +558,9 @@ OrdersMeta.after.insert(function (userId, doc) {
 	 {
 	  		console.log(doc.sessionId + ": Caught error on posting to websheets fatal error.", e);
 	  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-	  		processStatus.websheets.status 	= websheets.public.status.FATAL;
-	  		processStatus.websheets.error 	= e.toString();
+	  		processStatus.websheets.status 		= websheets.public.status.FATAL;
+	  		processStatus.websheets.error 		= e.toString();
+	  		processStatus.websheets.errorStack 	= e.stack;
 
 	 }
 	 console.log(doc.sessionId + ': Done posting to websheets');
@@ -592,8 +597,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending email: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						emailCustomer.status 	= websheets.public.status.FATAL;
-						emailCustomer.error 	= e.toString();
+						emailCustomer.status 		= websheets.public.status.FATAL;
+						emailCustomer.error 		= e.toString();
+						emailCustomer.errorStack 	= e.stack;
+
 						
 					}
 
@@ -627,8 +634,11 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending email: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						emailClient.status 	= websheets.public.status.FATAL;
-						emailClient.error 	= e.toString();
+						emailClient.status 		= websheets.public.status.FATAL;
+						emailClient.error 		= e.toString();						
+						emailClient.errorStack 	= e.stack;
+
+
 						
 					}
 
@@ -660,8 +670,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending email: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						emailWebmaster.status 	= websheets.public.status.FATAL;
-						emailWebmaster.error 	= e.toString();
+						emailWebmaster.status 		= websheets.public.status.FATAL;
+						emailWebmaster.error 		= e.toString();
+						emailWebmaster.errorStack 	= e.stack;
+
 						
 					}
 
@@ -710,8 +722,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending sms to customer: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						smsCustomer.status 	= websheets.public.status.FATAL;
-						smsCustomer.error 	= e.toString();
+						smsCustomer.status 		= websheets.public.status.FATAL;
+						smsCustomer.error 		= e.toString();
+						smsCustomer.errorStack 	= e.stack
+
 						
 					}
 
@@ -750,8 +764,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 							{
 								console.log(doc.sessionId + " :trouble sending sms to Client: " + e);
 								console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-								clientSMSResult.status 	= websheets.public.status.FATAL;
-								clientSMSResult.error 	= e.toString();
+								clientSMSResult.status 		= websheets.public.status.FATAL;
+								clientSMSResult.error 		= e.toString();
+								clientSMSResult.errorStack 	= e.stack;
+
 								
 							}	
 						smsResult.push(clientSMSResult)	;
@@ -783,8 +799,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						console.log(doc.sessionId + " :trouble sending sms to Webmaster: " + e);
 						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						smsWebmaster.status 	= websheets.public.status.FATAL;
-						smsWebmaster.error 	= e.toString();
+						smsWebmaster.status 		= websheets.public.status.FATAL;
+						smsWebmaster.error 			= e.toString();
+						smsWebmaster.errorStack 	= e.stack;
+
 						
 					}					
 
