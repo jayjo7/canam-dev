@@ -321,24 +321,24 @@ statusDescription = function (StatusCode)
 {
   switch (StatusCode)
   {
-      case websheets.public.statusCode.ONE:
+      case websheets.public.orderStateCode.ONE:
 
-          return websheets.public.status.ONE;
+          return websheets.public.orderState.ONE;
           break;
 
-      case websheets.public.statusCode.TWO:
+      case websheets.public.orderStateCode.TWO:
 
-          return websheets.public.status.TWO;
+          return websheets.public.orderState.TWO;
           break;
 
-      case websheets.public.statusCode.THREE:
+      case websheets.public.orderStateCode.THREE:
 
-          return websheets.public.status.THREE;
+          return websheets.public.orderState.THREE;
           break;
 
-      case websheets.public.statusCode.FOUR:
+      case websheets.public.orderStateCode.FOUR:
 
-          return websheets.public.status.FOUR;
+          return websheets.public.orderState.FOUR;
         break;
   }
 
