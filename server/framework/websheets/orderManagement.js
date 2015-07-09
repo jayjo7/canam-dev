@@ -42,7 +42,7 @@ Meteor.methods({
 								 	{
 
 								 		try{
-										 	var response = Meteor.call('emailOrderReady',sessionid, doc, CUSTOMER);
+										 	var response = Meteor.call('emailOrderReady',sessionid, doc, websheets.private.generic.CUSTOMER);
 										    console.log(JSON.stringify(response, null, 4));
 
 										 	for(var key in response)
@@ -81,7 +81,7 @@ Meteor.methods({
 								 	if(isEmailWebmaster(doc.orgname))
 								 	{
 								 		try{
-										 	var response = Meteor.call('emailOrderReady', sessionid, doc, WEBMASTER);
+										 	var response = Meteor.call('emailOrderReady', sessionid, doc, websheets.private.generic.WEBMASTER);
 										 	for(var key in response)
 										 	{
 										 		emailWebmaster [key] = response[key];
@@ -164,7 +164,7 @@ Meteor.methods({
 									{
 
 										try{
-										 	var response = Meteor.call('smsOrderReady', sessionid,  doc, webmasterPhoneNumberText(doc.orgname), WEBMASTER);
+										 	var response = Meteor.call('smsOrderReady', sessionid,  doc, webmasterPhoneNumberText(doc.orgname), websheets.private.generic.WEBMASTER);
 										 	for(var key in response.result)
 										 	{
 										 		console.log(key + ' = ' + response.result[key]);
