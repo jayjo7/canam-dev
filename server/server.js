@@ -200,8 +200,8 @@ Meteor.methods({
 			var order 				= {};
 			order.orgname     		= orgname;
 			order.sessionId 		= sessionId;
-			order.Status 			= websheets.public.orderState.STATE_ONE;
-			order.StatusCode		= websheets.public.orderStateCode.STATE_CODE_ONE;
+			order.Status 			= websheets.public.orderState.ONE;
+			order.StatusCode		= websheets.public.orderStateCode.ONE;
 			order.OrderNumber 		= sequence.orderNumber;
 			order.UniqueId 			= sequence._id;
 			order.TimeOrderReceived = Meteor.call('getLocalTime', orgname );
@@ -500,11 +500,13 @@ OrdersMeta.after.insert(function (userId, doc) {
 				Orders.update({UniqueId:doc.UniqueId}, {$set: {Payment: doc.Payment, orderStatusAlert:orderStatusAlertMessage}});
 				OrdersMeta.update({UniqueId:doc.UniqueId}, {$set: {Payment: doc.Payment, orderStatusAlert:orderStatusAlertMessage}});
 				console.log(doc.sessionId + ": Jay:Todo:Send appropriate notifciation to customer and owner");
-				payment.status 		= websheets.public.status.FAILED;
-				payment.error 		= result.error;
-				payment.errorStack	= result.errorStack;
-				var response = Meteor.call('sendCCAuthFailedNotification', doc);
+
+				payment.status 				= websheets.public.status.FAILED;
+				payment.error 				= result.error;
+				payment.errorStack			= result.errorStack;
+				var response 				= Meteor.call('sendCCAuthFailedNotification', doc);
 				payment.declineNotification = new Object();;
+				
 				for(var key in response)
 				{
 					 payment.declineNotification[key] = response[key];
@@ -525,7 +527,8 @@ OrdersMeta.after.insert(function (userId, doc) {
  	else
  	{
  		console.log(doc.sessionId + ': Either payment is not enabled or customer opt not to pay online')
- 		processStatus.payment.status 	=	websheets.public.status.ENABLED;
+ 		processStatus.payment.status 		=	websheets.public.status.ENABLED;
+ 		processStatus.payment.message   	=	'Either payment is not enabled or customer opt not to pay online';
  	}
  	console.log(doc.sessionId + ": Done payment process" );
  	//End CC Auth and Charge

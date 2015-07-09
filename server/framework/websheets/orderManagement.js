@@ -61,8 +61,9 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ":sendReadyNotification: trouble sending email: " + e);
 											console.log(sessionid+ ":sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner");
-											emailCustomer.status 	= websheets.public.status.FATAL;
-											emailCustomer.error 	= e.toString();
+											emailCustomer.status 		= websheets.public.status.FATAL;
+											emailCustomer.error 		= e.toString();
+											emailCustomer.errorStack	= e.stack;	
 											
 										}
 
@@ -95,9 +96,10 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ":sendReadyNotification: trouble sending email: " + e);
 											console.log(sessionid+ ":sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner");
-											emailWebmaster.status 	= websheets.public.status.FATAL;
-											emailWebmaster.error 	= e.toString();
-											
+											emailWebmaster.status 		= websheets.public.status.FATAL;
+											emailWebmaster.error 		= e.toString();
+										    emailWebmaster.errorStack	= e.stack;	
+
 										}
 
 								 	}
@@ -144,9 +146,9 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ':sendReadyNotification: trouble sending sms to customer: ' + e);
 											console.log(sessionid+ ':sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner');
-											smsCustomer.status 	= websheets.public.status.FATAL;
-											smsCustomer.error 	= e.toString();
-											
+											smsCustomer.status 		= websheets.public.status.FATAL;
+											smsCustomer.error 		= e.toString();
+											smsCustomer.errorStack 	= e.stack;
 										}
 
 									}
@@ -174,7 +176,8 @@ Meteor.methods({
 											console.log(sessionid+ ':sendReadyNotification: trouble sending sms to Webmaster: ' + e);
 											console.log(sessionid+ ':sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner');
 											smsWebmaster.status 	= websheets.public.status.FATAL;
-											smsWebmaster.error 	= e.toString();
+											smsWebmaster.error 		= e.toString();
+											smsWebmaster.errorStack	= e.stack;
 											
 										}					
 
