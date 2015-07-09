@@ -232,7 +232,7 @@ if(Meteor.isServer) {
           							    {
           									result.action 		= 'upsert';
 											result.receiveddata =  data[i];
-											if( ORDERS === key.toUpperCase())
+											if( websheets.private.generic.ORDERS === key.toUpperCase())
 											{
 												Meteor.call('sendReadyNotification', sessionid, doc);
 											}
