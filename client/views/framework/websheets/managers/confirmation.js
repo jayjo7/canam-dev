@@ -19,7 +19,7 @@ Template.confirmation.helpers({
     enableDeliveredButton: function(order, omEnabled )
   {
 
-    if( STATE_THREE === order.Status && omEnabled)
+    if( websheets.public.orderState.THREE === order.Status && omEnabled)
     {
       return true;
     }
@@ -32,7 +32,7 @@ Template.confirmation.helpers({
   enableReadyButton: function(order, omEnabled )
   {
 
-    if( STATE_TWO === order.Status && omEnabled)
+    if( websheets.public.orderState.TWO === order.Status && omEnabled)
     {
       return true;
     }
@@ -53,7 +53,7 @@ Template.confirmation.helpers({
 
 	isReady: function(order)
   {
-      if(STATE_THREE === order.Status)
+      if(websheets.public.orderState.THREE === order.Status)
         	return true;
       else
         	return false;
@@ -61,7 +61,7 @@ Template.confirmation.helpers({
 
   isDelivered: function(order)
   {
-      if(STATE_FOUR === order.Status)
+      if(websheets.public.orderState.FOUR === order.Status)
         	return true;
       else
         	return false;
@@ -69,7 +69,7 @@ Template.confirmation.helpers({
 
   isInProcess: function(order)
   {
-      if( STATE_TWO === order.Status)
+      if( websheets.public.orderState.TWO === order.Status)
         	return true;
       else
         	return false;
@@ -78,7 +78,9 @@ Template.confirmation.helpers({
 
   isInKitchen: function(order)
   {
-      if( STATE_TWO === order.Status || STATE_FOUR === order.Status || STATE_THREE === order.Status)
+      if(    websheets.public.orderState.TWO      === order.Status 
+          || websheets.public.orderState.FOUR     === order.Status 
+          || websheets.public.orderState.THREE    === order.Status)
         	return true;
       else
         	return false;
@@ -86,7 +88,8 @@ Template.confirmation.helpers({
   isSaleComplete: function(order)
   { 
 
-      if( STATE_FOUR === order.Status || STATE_THREE === order.Status)
+      if(     websheets.public.orderState.FOUR  === order.Status 
+          ||  websheets.public.orderState.THREE === order.Status)
         	return true;
       else
         	return false;
@@ -100,11 +103,11 @@ Template.confirmation.helpers({
 		  console.log('message:uniqueId = ' + uniqueId);
 
       var messageKey='message_confirmation';
-      if(STATE_THREE === order.Status)
+      if(websheets.public.orderState.THREE === order.Status)
 
           messageKey = 'message_ready';
       else
-		  if(STATE_FOUR === order.Status)
+		  if(websheets.public.orderState.FOUR === order.Status)
 
         messageKey = 'message_delivered';
 

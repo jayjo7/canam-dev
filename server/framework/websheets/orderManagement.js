@@ -5,7 +5,7 @@ Meteor.methods({
 		console.log(sessionid +':sendReadyNotification: doc.UniqueId= ' + doc.UniqueId);
 
 
-			if(doc.StatusCode == websheets.public.orderStatusCode.THREE)
+			if(doc.StatusCode == websheets.public.orderStateCode.THREE)
 			{
 				try
 				{
