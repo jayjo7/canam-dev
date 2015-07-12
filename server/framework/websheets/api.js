@@ -200,10 +200,10 @@
 								if( isSupportedTab(key))
 								{
 
-									var resultOnUpsert = removeSupportedTab(key, dataFromDb[keyFromDB], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
-									for(key in resultOnUpsert)
+									var resultOnRemove = removeSupportedTab(key, dataFromDb[keyFromDB], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
+									for(keyResultOnRemove in resultOnRemove)
 									{
-										result[key]= resultOnUpsert[key];
+										result[keyResultOnRemove]= resultOnRemove[keyResultOnRemove];
 									}
 
 								}
@@ -241,9 +241,9 @@
 								{
 
 									var resultOnUpsert = upsertSupportedTab(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
-									for(key in resultOnUpsert)
+									for(keyResultOnUpsert in resultOnUpsert)
 									{
-										result[key]= resultOnUpsert[key];
+										result[keyResultOnUpsert]= resultOnUpsert[keyResultOnUpsert];
 									}
 
 								}
@@ -406,30 +406,29 @@
 
 
     	var result 			={};
+    	var resultOnDelete='';
 
     	try{
 
 	    	switch (collectionName.toUpperCase())
 	    	{
 	    		case websheets.private.generic.MENU:
-	    			data.Name = s(data.Name).trim().titleize().value();
-	    			Menu.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			resultOnDelete = Menu.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.ORDERS:
 
-	    			Orders.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
-	    			Meteor.call('sendReadyNotification', sessionid, doc);
+	    			resultOnDelete =  Orders.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.CONTENT:
-	    			Content.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			resultOnDelete = Content.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 	    			break;
 
 	    	    case websheets.private.generic.SETTINGS:
-	    	    	Settings.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    	    	resultOnDelete = Settings.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 	    			break;	
 
 	    		default:
@@ -440,6 +439,7 @@
 			result.receiveddata = 	data;
 			result.tabName 		= 	collectionName;
 			result.UniqueId 	= 	UniqueId;
+			result.resultOnDelete = resultOnDelete;
 
     	}catch (err)
     	{
