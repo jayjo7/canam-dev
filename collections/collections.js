@@ -1,3 +1,5 @@
+SupportedTabs = new Mongo.Collection('supportedtabs');
+
 Menu = new Mongo.Collection('menu');
 
 Orders = new Mongo.Collection('orders');
@@ -20,3 +22,5 @@ AppSettings = new  Mongo.Collection('AppSettings');
 OrderedItems = new Mongo.Collection('ordereditems');
 
 PaymentInfo = new Mongo.Collection('paymentInfo');
+
+

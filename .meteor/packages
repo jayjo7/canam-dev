@@ -31,4 +31,4 @@ okgrow:iron-router-autoscroll
 npm-container
 twbs:bootstrap
 less
-nimble:restivus@=0.6.1
+nimble:restivus

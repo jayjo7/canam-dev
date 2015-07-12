@@ -1,13 +1,13 @@
-if(Meteor.isServer) {
-
-	Restivus.configure({
-
-    prettyJson: true
-
-  });
+	var Api = new Restivus(
+	{
+    	useDefaultAuth: false,
+   	 	prettyJson: true
+  	});
 
 
-	Restivus.addRoute('sheetSync', {authRequired: false }, {
+
+
+	Api.addRoute('sheetSync', {authRequired: false }, {
 
 		get: 
 		{
@@ -18,7 +18,7 @@ if(Meteor.isServer) {
 			}
 		},
 
-		put:
+		put: 
 		{
 
 
@@ -56,23 +56,33 @@ if(Meteor.isServer) {
 							}
 
 							try{
-						   		CollectionDriver.prototype.upsert(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err, doc){
+								if( isSupportedTab(key))
+								{
 
-						   			if (err) 
-          							{ 
-									   		result.status 		=  websheets.public.status.FAILED;
-											result.error		=  err;
-          							}  
-          							else
-          							{
-          									result.action 		= 'upsert';
-											result.receiveddata =  data[i];
-											if( ORDERS === key.toUpperCase())
-											{
-												Meteor.call('sendReadyNotification', sessionid, doc);
-											}
-          							}	
-						   		}));
+									result = processSupportedTab (key, data[i], websheets.private.generic.UNIQUE_ID_NAME, sessionid)
+
+								}
+								else
+								{
+							   		CollectionDriver.prototype.upsert(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err, doc){
+
+							   			if (err) 
+	          							{ 
+										   		result.status 		=  websheets.public.status.FAILED;
+												result.error		=  err;
+	          							}  
+	          							else
+	          							{
+	          									result.action 		= 'upsert';
+												result.receiveddata =  data[i];
+												if( ORDERS === key.toUpperCase())
+												{
+													Meteor.call('sendReadyNotification', sessionid, doc);
+												}
+	          							}	
+							   		}));
+							   	}
+
 						   	}catch(e)
 						   	{
 						   		result.status 		=  websheets.public.status.FAILED;
@@ -105,9 +115,9 @@ if(Meteor.isServer) {
 
 	});
 
-	Restivus.addRoute('sheetSyncFull', {authRequired: false }, {
+	Api.addRoute('sheetSyncFull', {authRequired: false }, {
 
-		get: 
+		get : 
 		{
 			action: function()
 			{
@@ -115,7 +125,7 @@ if(Meteor.isServer) {
 			}
 		},
 
-		put:
+		put: 
 		{
 
 
@@ -274,10 +284,86 @@ if(Meteor.isServer) {
 
 		}
 
-});
+    });
 
-}
+    function isSupportedTab(tabName)
+    {
+
+    	if (SupportedTabs.findOne({'tabName': tabName}))
+    	{
+    		return true;
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+
+
+    }
+
+    function processSupportedTab(collectionName, data , UniqueId, sessionid)
+    {
+
+		console.log(sessionid + ": processing supported tab = " + collectionName);
+		console.log(sessionid + ": UniqueId  = " + UniqueId);
+		console.log(sessionid + ": Data      = " + JSON.stringify(data, null, 4));
+
+
+    	var result 			={};
+
+    	try{
+
+	    	switch (collectionName.toUpperCase())
+	    	{
+	    		case websheets.private.generic.MENU:
+	    			console.log(sessionid + ": processing menu upsert ... ");
+	    			Menu.update({ UniqueId : data[UniqueId]}, data,{upsert:true});
+	    			console.log(sessionid + ": Done processing menu upsert");
+
+	    			break;
+
+	    		case websheets.private.generic.ORDERS:
+
+	    			Orders.update({ UniqueId : data[UniqueId]}, data,{upsert:true});
+	    			Meteor.call('sendReadyNotification', sessionid, doc);
+
+	    			break;
+
+	    		case websheets.private.generic.CONTENT:
+	    			Content.update({ UniqueId : data[UniqueId]}, data,{upsert:true});
+	    			break;
+
+	    	    case websheets.private.generic.SETTINGS:
+	    	    	Settings.update({ UniqueId : data[UniqueId]}, data,{upsert:true});
+	    			break;	
+
+	    		default:
+	    		 	throw new Meteor.Error("Trying to process unsupported tab" );
+
+	    	}
+	        result.action 		=   'upsert';
+			result.receiveddata = 	data;
+			result.tabName 		= 	collectionName;
+			result.UniqueId 	= 	UniqueId;
+
+    	}catch (err)
+    	{
+    			result.status 		=  websheets.public.status.FAILED;
+				result.error		=  err;
+				result.errorStack   =  err.stack
+		  		console.log(sessionid + ": Caught error on upserting data from sheet", e);
+		  		console.log(sessionid + ": collectionName ( Tab Name ) = " + collectionName);
+		  		console.log(sessionid + ": UniqueId  = " + UniqueId);
+		  		console.log(sessionid + ": Data      = " + JSON.stringify(data, null, 4));
+		  		console.log(sessionid + ": Jay Todo: Send Email Notification to Webmaster and Owner");
+		
+
+    	}
+		 console.log(sessionid + ": returing result from   processSupportedTab    = " + JSON.stringify(result, null, 4));
+
+    	return result;
 
 
 
+    }
 
