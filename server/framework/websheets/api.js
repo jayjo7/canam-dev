@@ -200,7 +200,7 @@
 								if( isSupportedTab(key))
 								{
 
-									var resultOnUpsert = removeSupportedTab(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
+									var resultOnUpsert = removeSupportedTab(key, dataFromDb[keyFromDB], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
 									for(key in resultOnUpsert)
 									{
 										result[key]= resultOnUpsert[key];
@@ -400,9 +400,9 @@
     function removeSupportedTab(collectionName, data , UniqueId, orgname, sessionid)
     {
 
-		console.log(sessionid + ": deleteSupportedTab: processing supported tab = " + collectionName);
-		console.log(sessionid + ": deleteSupportedTab: UniqueId  = " + UniqueId);
-		console.log(sessionid + ": deleteSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		console.log(sessionid + ": removeSupportedTab: processing supported tab = " + collectionName);
+		console.log(sessionid + ": removeSupportedTab: UniqueId  = " + UniqueId);
+		console.log(sessionid + ": removeSupportedTab: Data      = " + JSON.stringify(data, null, 4));
 
 
     	var result 			={};
@@ -413,30 +413,30 @@
 	    	{
 	    		case websheets.private.generic.MENU:
 	    			data.Name = s(data.Name).trim().titleize().value();
-	    			Menu.remove({ UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			Menu.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.ORDERS:
 
-	    			Orders.remove({ UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			Orders.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 	    			Meteor.call('sendReadyNotification', sessionid, doc);
 
 	    			break;
 
 	    		case websheets.private.generic.CONTENT:
-	    			Content.remove({ UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			Content.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 	    			break;
 
 	    	    case websheets.private.generic.SETTINGS:
-	    	    	Settings.remove({ UniqueId : data[UniqueId], orgname : data[orgname]});
+	    	    	Settings.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
 	    			break;	
 
 	    		default:
 	    		 	throw new Meteor.Error("Trying to process unsupported tab" );
 
 	    	}
-	        result.action 		=   'deleteSupportedTab';
+	        result.action 		=   'removeSupportedTab';
 			result.receiveddata = 	data;
 			result.tabName 		= 	collectionName;
 			result.UniqueId 	= 	UniqueId;
@@ -446,15 +446,15 @@
     			result.status 		=  websheets.public.status.FAILED;
 				result.error		=  err;
 				result.errorStack   =  err.stack
-		  		console.log(sessionid + ": deleteSupportedTab: Caught error on upserting data from sheet", e);
-		  		console.log(sessionid + ": deleteSupportedTab: collectionName ( Tab Name ) = " + collectionName);
-		  		console.log(sessionid + ": deleteSupportedTab: UniqueId  = " + UniqueId);
-		  		console.log(sessionid + ": deleteSupportedTab: Data      = " + JSON.stringify(data, null, 4));
-		  		console.log(sessionid + ": deleteSupportedTab: Jay Todo: Send Email Notification to Webmaster and Owner");
+		  		console.log(sessionid + ": removeSupportedTab: Caught error on upserting data from sheet", e);
+		  		console.log(sessionid + ": removeSupportedTab: collectionName ( Tab Name ) = " + collectionName);
+		  		console.log(sessionid + ": removeSupportedTab: UniqueId  = " + UniqueId);
+		  		console.log(sessionid + ": removeSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		  		console.log(sessionid + ": removeSupportedTab: Jay Todo: Send Email Notification to Webmaster and Owner");
 		
 
     	}
-		 console.log(sessionid + ": deleteSupportedTab: returing result from deleteSupportedTab = " + JSON.stringify(result, null, 4));
+		 console.log(sessionid + ": removeSupportedTab: returing result from removeSupportedTab = " + JSON.stringify(result, null, 4));
 
     	return result;
 
