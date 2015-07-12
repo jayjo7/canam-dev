@@ -351,7 +351,7 @@
 	    		case websheets.private.generic.ORDERS:
 
 	    			Orders.update({ UniqueId : data[UniqueId], orgname : data[orgname]}, data,{upsert:true});
-	    			Meteor.call('sendReadyNotification', sessionid, doc);
+	    			Meteor.call('sendReadyNotification', sessionid, data);
 
 	    			break;
 
