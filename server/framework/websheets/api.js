@@ -377,7 +377,7 @@
     			result.status 		=  websheets.public.status.FAILED;
 				result.error		=  err;
 				result.errorStack   =  err.stack
-		  		console.log(sessionid + ": upsertSupportedTab: Caught error on upserting data from sheet", e);
+		  		console.log(sessionid + ": upsertSupportedTab: Caught error on upserting data from sheet", err);
 		  		console.log(sessionid + ": upsertSupportedTab: collectionName ( Tab Name ) = " + collectionName);
 		  		console.log(sessionid + ": upsertSupportedTab: UniqueId  = " + UniqueId);
 		  		console.log(sessionid + ": upsertSupportedTab: Data      = " + JSON.stringify(data, null, 4));
@@ -446,7 +446,7 @@
     			result.status 		=  websheets.public.status.FAILED;
 				result.error		=  err;
 				result.errorStack   =  err.stack
-		  		console.log(sessionid + ": removeSupportedTab: Caught error on upserting data from sheet", e);
+		  		console.log(sessionid + ": removeSupportedTab: Caught error on upserting data from sheet", err);
 		  		console.log(sessionid + ": removeSupportedTab: collectionName ( Tab Name ) = " + collectionName);
 		  		console.log(sessionid + ": removeSupportedTab: UniqueId  = " + UniqueId);
 		  		console.log(sessionid + ": removeSupportedTab: Data      = " + JSON.stringify(data, null, 4));
