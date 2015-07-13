@@ -5,8 +5,6 @@
   	});
 
 
-
-
 	Api.addRoute('sheetSync', {authRequired: false }, {
 
 		get: 
@@ -18,7 +16,7 @@
 			}
 		},
 
-		put: 
+		put:
 		{
 
 
@@ -56,6 +54,7 @@
 							}
 
 							try{
+
 								if( isSupportedTab(key))
 								{
 
@@ -64,7 +63,7 @@
 								}
 								else
 								{
-							   		CollectionDriver.prototype.upsert(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err, doc){
+							   		CollectionDriver.prototype.upsert(key, data[i], UNIQUE_ID_NAME, ORG_KEY_NAME , Meteor.bindEnvironment(function(err, doc){
 
 							   			if (err) 
 	          							{ 
@@ -75,14 +74,13 @@
 	          							{
 	          									result.action 		= 'upsert';
 												result.receiveddata =  data[i];
-												if( websheets.private.generic.ORDERS === key.toUpperCase())
+												if( ORDERS === key.toUpperCase())
 												{
 													Meteor.call('sendReadyNotification', sessionid, doc);
 												}
 	          							}	
 							   		}));
 							   	}
-
 						   	}catch(e)
 						   	{
 						   		result.status 		=  websheets.public.status.FAILED;
@@ -117,7 +115,7 @@
 
 	Api.addRoute('sheetSyncFull', {authRequired: false }, {
 
-		get : 
+		get: 
 		{
 			action: function()
 			{
@@ -125,7 +123,7 @@
 			}
 		},
 
-		put: 
+		put:
 		{
 
 
@@ -148,140 +146,128 @@
 						result.worksheet 	= key;
 						result.status 		= websheets.public.status.SUCCESS;	
 						var data= bodyJason[key];
-						console.log(sessionid + ': data[0].orgname = ' + data[0].orgname);
+						console.log(sessionid + ': data[0].orgname = ' + data[0][websheets.private.generic.ORG_KEY_NAME]);
 
-						CollectionDriver.prototype.findAll (key, { orgname : data[0].orgname}, Meteor.bindEnvironment(function(err,docFromDb)
+
+						if(isSupportedTab(key))
 						{
-							console.log(sessionid + ': sheetSyncFull: Working with the worksheet = ' + key);
 
-							if(err)
+							resultProcessSupportedTab = processSupportedTab (key, data, websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid);
+							for (keyResultProcessSupportedTab in resultProcessSupportedTab)
 							{
-								console.log(sessionid + ': sheetSyncFull: Trouble reteriving the data from mongodb :key = '+ key + ' : orgname = ' + data[0].orgname); 
-								result.status 		= websheets.public.status.FAILED;	
-								result.message      = sessionid + ': sheetSyncFull: Trouble reteriving the data from mongodb :key = ' + key + ' : orgname = ' + data[0].orgname
-								result.error		= err;
+								result[keyResultProcessSupportedTab] = resultProcessSupportedTab[keyResultProcessSupportedTab];
 							}
-							else
+
+						}
+						else
+						{
+							CollectionDriver.prototype.findAll (key, { orgname : data[0][websheets.private.generic.ORG_KEY_NAME]}, Meteor.bindEnvironment(function(err,docFromDb)
 							{
-								dataFromDb = docFromDb;
-								console.log(sessionid + ': sheetSyncFull: Size of array received from db : '+ dataFromDb.length);
+								console.log(sessionid + ': sheetSyncFull: Working with the worksheet = ' + key);
 
-						    	console.log(sessionid + ': sheetSyncFull: Number of records received = ' + data.length);
-
-						    	for(var i=0; i<data.length; i++)
-						    	{
-						    		console.log ( sessionid + ': sheetSyncFull: data[' + i + '].UniqueId = ' + data[i].UniqueId);
-
-						    		for(var keyFromDB in dataFromDb)
-						    		{
-						    			//console.log("sheetSyncFull: Data From DB Key = " + keyFromDB);
-						    			//console.log("sheetSyncFull: UniqueId = " + dataFromDb[keyFromDB].UniqueId);
-						  		    	//console.log("sheetSyncFull: _id= " + dataFromDb[keyFromDB]._id);
-				  		
-
-						    			if(data[i].UniqueId === dataFromDb[keyFromDB].UniqueId)
-						    			{
-						    				dataFromDb.splice(keyFromDB, 1);
-						    				break;
-						    			}
-						    		}
-						    	}
-						    }
-
-						    console.log(sessionid + ': sheetSyncFull: Size of array received from db after check : '+ dataFromDb.length);
-
-						    //var fullSyncResult=[];
-
-							for(var keyFromDB in dataFromDb)
-						    {
-						    	console.log (sessionid + ': sheetSyncFull: Deleting _id = ' + 	 dataFromDb[keyFromDB]._id);
-						    	console.log (sessionid + ': sheetSyncFull: uniqueid     = ' + 	 dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
-
-								if( isSupportedTab(key))
+								if(err)
 								{
-
-									var resultOnRemove = removeSupportedTab(key, dataFromDb[keyFromDB], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
-									for(keyResultOnRemove in resultOnRemove)
-									{
-										result[keyResultOnRemove]= resultOnRemove[keyResultOnRemove];
-									}
-
+									console.log(sessionid + ': sheetSyncFull: Trouble reteriving the data from mongodb :key = '+ key + ' : orgname = ' + data[0][websheets.private.generic.ORG_KEY_NAME]); 
+									result.status 		= websheets.public.status.FAILED;	
+									result.message      = sessionid + ': sheetSyncFull: Trouble reteriving the data from mongodb :key = ' + key + ' : orgname = ' + data[0][websheets.private.generic.ORG_KEY_NAME]
+									result.error		= err;
 								}
 								else
 								{
+									dataFromDb = docFromDb;
+									console.log(sessionid + ': sheetSyncFull: Size of array received from db : '+ dataFromDb.length);
+
+							    	console.log(sessionid + ': sheetSyncFull: Number of records received = ' + data.length);
+
+							    	for(var i=0; i<data.length; i++)
+							    	{
+							    		console.log ( sessionid + ': sheetSyncFull: data[' + i + '].UniqueId = ' + data[i].UniqueId);
+
+							    		for(var keyFromDB in dataFromDb)
+							    		{
+							    			//console.log("sheetSyncFull: Data From DB Key = " + keyFromDB);
+							    			//console.log("sheetSyncFull: UniqueId = " + dataFromDb[keyFromDB].UniqueId);
+							  		    	//console.log("sheetSyncFull: _id= " + dataFromDb[keyFromDB]._id);
+					  		
+
+							    			if(data[i].UniqueId === dataFromDb[keyFromDB].UniqueId)
+							    			{
+							    				dataFromDb.splice(keyFromDB, 1);
+							    				break;
+							    			}
+							    		}
+							    	}
+							    }
+
+							    console.log(sessionid + ': sheetSyncFull: Size of array received from db after check : '+ dataFromDb.length);
+
+							    //var fullSyncResult=[];
+
+								for(var keyFromDB in dataFromDb)
+							    {
+							    	console.log (sessionid + ': sheetSyncFull: Deleting _id = ' + 	 dataFromDb[keyFromDB]._id);
+							    	console.log (sessionid + ': sheetSyncFull: uniqueid     = ' + 	 dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME]);
+
 							    	CollectionDriver.prototype.delete(key, dataFromDb[keyFromDB]._id, Meteor.bindEnvironment(function(err, doc)
 							    	{
 							    		console.log (sessionid + ': sheetSyncFull: doc on delete = ' + JSON.stringify(doc, null, 4))
 
 							    		if(err)
 							    		{
-							    			console.log (sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
+							    			console.log (sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME]);
 							    			console.log (sessionid + ': error = ' + err);
 											result.status 		= websheets.public.status.FAILED;	
-											result.message      = sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME];
+											result.message      = sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME];
 											result.data         = dataFromDb[keyFromDB];
 											result.error		= err;
 										}
 							    		else
 							    		{
 
-							    			console.log (sessionid + ': sheetSyncFull: Sucessfully deleted the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
+							    			console.log (sessionid + ': sheetSyncFull: Sucessfully deleted the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME]);
 							    			
 							    		}
 							    	}));
-								}
 
 
-						    }	
+							    }	
 
 
-							for (i=0; i<data.length; i++)
-							{
-								if( isSupportedTab(key))
+								for (i=0; i<data.length; i++)
 								{
 
-									var resultOnUpsert = upsertSupportedTab(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
-									for(keyResultOnUpsert in resultOnUpsert)
-									{
-										result[keyResultOnUpsert]= resultOnUpsert[keyResultOnUpsert];
-									}
+							   			CollectionDriver.prototype.upsert(key, data[i], websheets.public.generic.UNIQUE_ID_NAME, websheets.public.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err,doc) 
+							   			{
+							   				console.log (sessionid + ': sheetSyncFull: doc on upsert = ' + JSON.stringify(doc, null, 4))
 
+					          				if (err) 
+					          				{ 
+							    				console.log (sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.public.generic.UNIQUE_ID_NAME]);
+												result.status 		= websheets.public.status.FAILED;	
+												result.message      = sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.public.generic.UNIQUE_ID_NAME];
+												result.data         = data[i][websheets.public.generic.UNIQUE_ID_NAME]
+												result.error		= err;				          					
+
+					          				}  
+	          							    else
+	          							    {
+	          									result.action 		= 'upsert';
+												result.receiveddata =  data[i];
+												if( websheets.public.generic.ORDERS === key.toUpperCase())
+												{
+													Meteor.call('sendReadyNotification', sessionid, doc);
+												}
+	          							    }
+					     			}));
 								}
-								else
-								{
-
-						   			CollectionDriver.prototype.upsert(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err,doc) 
-						   			{
-						   				console.log (sessionid + ': sheetSyncFull: doc on upsert = ' + JSON.stringify(doc, null, 4))
-
-				          				if (err) 
-				          				{ 
-						    				console.log (sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.private.generic.UNIQUE_ID_NAME]);
-											result.status 		= websheets.public.status.FAILED;	
-											result.message      = sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.private.generic.UNIQUE_ID_NAME];
-											result.data         = data[i][UNIQUE_ID_NAME]
-											result.error		= err;				          					
-
-				          				}  
-          							    else
-          							    {
-          									result.action 		= 'upsert';
-											result.receiveddata =  data[i];
-											if( websheets.private.generic.ORDERS === key.toUpperCase())
-											{
-												Meteor.call('sendReadyNotification', sessionid, doc);
-											}
-          							    }
-				     				}));
-								}
-							}
 
 
-					
+						
 
 
 
-						}));
+							}));
+						}
 					collectiveResult.push(result);
 					}
 
@@ -310,7 +296,11 @@
 
 		}
 
-    });
+});
+
+
+
+
 
     function isSupportedTab(tabName)
     {
@@ -328,12 +318,12 @@
     }
 
 
-    function upsertSupportedTab(collectionName, data , UniqueId, orgname, sessionid)
+    function upsertSupportedTab(collectionName, data , UniqueId_key, orgname, sessionid)
     {
 
 		console.log(sessionid + ": upsertSupportedTab: processing supported tab = " + collectionName);
-		console.log(sessionid + ": upsertSupportedTab: UniqueId  = " + UniqueId);
-		console.log(sessionid + ": upsertSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		console.log(sessionid + ": upsertSupportedTab: UniqueId_key  			= " + UniqueId_key);
+		console.log(sessionid + ": upsertSupportedTab: Data      				= " + JSON.stringify(data, null, 4));
 
 
     	var result 			={};
@@ -343,24 +333,25 @@
 	    	switch (collectionName.toUpperCase())
 	    	{
 	    		case websheets.private.generic.MENU:
+	    		
 	    			data.Name = s(data.Name).trim().titleize().value();
-	    			Menu.update({ UniqueId : data[UniqueId], orgname : data[orgname]}, data,{upsert:true});
+	    			Menu.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 
 	    			break;
 
 	    		case websheets.private.generic.ORDERS:
 
-	    			Orders.update({ UniqueId : data[UniqueId], orgname : data[orgname]}, data,{upsert:true});
+	    			Orders.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 	    			Meteor.call('sendReadyNotification', sessionid, data);
 
 	    			break;
 
 	    		case websheets.private.generic.CONTENT:
-	    			Content.update({ UniqueId : data[UniqueId], orgname : data[orgname]}, data,{upsert:true});
+	    			Content.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 	    			break;
 
 	    	    case websheets.private.generic.SETTINGS:
-	    	    	Settings.update({ UniqueId : data[UniqueId], orgname : data[orgname]}, data,{upsert:true});
+	    	    	Settings.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 	    			break;	
 
 	    		default:
@@ -370,7 +361,7 @@
 	        result.action 		=   'upsertSupportedTab';
 			result.receiveddata = 	data;
 			result.tabName 		= 	collectionName;
-			result.UniqueId 	= 	UniqueId;
+			result.UniqueId_key = 	UniqueId_key;
 
     	}catch (err)
     	{
@@ -379,8 +370,8 @@
 				result.errorStack   =  err.stack
 		  		console.log(sessionid + ": upsertSupportedTab: Caught error on upserting data from sheet", err);
 		  		console.log(sessionid + ": upsertSupportedTab: collectionName ( Tab Name ) = " + collectionName);
-		  		console.log(sessionid + ": upsertSupportedTab: UniqueId  = " + UniqueId);
-		  		console.log(sessionid + ": upsertSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		  		console.log(sessionid + ": upsertSupportedTab: UniqueId_key  	= " + UniqueId_key);
+		  		console.log(sessionid + ": upsertSupportedTab: Data      		= " + JSON.stringify(data, null, 4));
 		  		console.log(sessionid + ": upsertSupportedTab: Jay Todo: Send Email Notification to Webmaster and Owner");
 		
 
@@ -397,12 +388,12 @@
 
 
 
-    function removeSupportedTab(collectionName, data , UniqueId, orgname, sessionid)
+    function removeSupportedTab(collectionName, data , UniqueId_key, orgname, sessionid)
     {
 
 		console.log(sessionid + ": removeSupportedTab: processing supported tab = " + collectionName);
-		console.log(sessionid + ": removeSupportedTab: UniqueId  = " + UniqueId);
-		console.log(sessionid + ": removeSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		console.log(sessionid + ": removeSupportedTab: UniqueId_key  			= " + UniqueId_key);
+		console.log(sessionid + ": removeSupportedTab: Data      				= " + JSON.stringify(data, null, 4));
 
 
     	var result 			={};
@@ -413,33 +404,33 @@
 	    	switch (collectionName.toUpperCase())
 	    	{
 	    		case websheets.private.generic.MENU:
-	    			resultOnDelete = Menu.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			resultOnDelete = Menu.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.ORDERS:
 
-	    			resultOnDelete =  Orders.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			resultOnDelete =  Orders.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.CONTENT:
-	    			resultOnDelete = Content.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    			resultOnDelete = Content.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
 	    			break;
 
 	    	    case websheets.private.generic.SETTINGS:
-	    	    	resultOnDelete = Settings.remove({ _id:data._id, UniqueId : data[UniqueId], orgname : data[orgname]});
+	    	    	resultOnDelete = Settings.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
 	    			break;	
 
 	    		default:
 	    		 	throw new Meteor.Error("Trying to process unsupported tab" );
 
 	    	}
-	        result.action 		=   'removeSupportedTab';
-			result.receiveddata = 	data;
-			result.tabName 		= 	collectionName;
-			result.UniqueId 	= 	UniqueId;
-			result.resultOnDelete = resultOnDelete;
+	        result.action 			=   'removeSupportedTab';
+			result.receiveddata 	= 	data;
+			result.tabName 			= 	collectionName;
+			result.UniqueId_key 	= 	UniqueId_key;
+			result.resultOnDelete 	= resultOnDelete;
 
     	}catch (err)
     	{
@@ -448,8 +439,8 @@
 				result.errorStack   =  err.stack
 		  		console.log(sessionid + ": removeSupportedTab: Caught error on upserting data from sheet", err);
 		  		console.log(sessionid + ": removeSupportedTab: collectionName ( Tab Name ) = " + collectionName);
-		  		console.log(sessionid + ": removeSupportedTab: UniqueId  = " + UniqueId);
-		  		console.log(sessionid + ": removeSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		  		console.log(sessionid + ": removeSupportedTab: UniqueId_key  	= " + UniqueId_key);
+		  		console.log(sessionid + ": removeSupportedTab: Data      		= " + JSON.stringify(data, null, 4));
 		  		console.log(sessionid + ": removeSupportedTab: Jay Todo: Send Email Notification to Webmaster and Owner");
 		
 
@@ -461,6 +452,86 @@
 
 
     }
+
+
+    function findSupportedTab(collectionName, data , UniqueId_key, orgname, sessionid)
+    {
+
+		console.log(sessionid + ": findSupportedTab: processing supported tab = " + collectionName);
+		console.log(sessionid + ": findSupportedTab: UniqueId_key  = " + UniqueId_key);
+		console.log(sessionid + ": findSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+
+
+    	var result 			={};
+    	var dataFromDb;		
+
+    	try{
+
+	    	switch (collectionName.toUpperCase())
+	    	{
+	    		case websheets.private.generic.MENU:
+	    			dataFromDb = Menu.find({orgname : data[orgname]});
+
+	    			break;
+
+	    		case websheets.private.generic.ORDERS:
+
+	    			dataFromDb =  Orders.find({orgname : data[orgname]});
+
+	    			break;
+
+	    		case websheets.private.generic.CONTENT:
+	    			dataFromDb = Content.find({orgname : data[orgname]});
+	    			break;
+
+	    	    case websheets.private.generic.SETTINGS:
+	    	    	dataFromDb = Settings.find({orgname : data[orgname]});
+	    			break;	
+
+	    		default:
+	    		 	throw new Meteor.Error("Trying to process unsupported tab" );
+
+	    	}
+	        result.action 		=   'findSupportedTab';
+			result.receiveddata = 	data;
+			result.tabName 		= 	collectionName;
+			result.UniqueId_key	= 	UniqueId_key;
+			result.dataFromDb   =   dataFromDb;
+
+    	}catch (err)
+    	{
+    			result.status 		=  websheets.public.status.FAILED;
+				result.error		=  err;
+				result.errorStack   =  err.stack
+		  		console.log(sessionid + ": findSupportedTab: Caught error on upserting data from sheet", err);
+		  		console.log(sessionid + ": findSupportedTab: collectionName ( Tab Name ) = " + collectionName);
+		  		console.log(sessionid + ": findSupportedTab: UniqueId_key  	= " + UniqueId_key);
+		  		console.log(sessionid + ": findSupportedTab: Data       	= " + JSON.stringify(data, null, 4));
+		  		console.log(sessionid + ": findSupportedTab: Jay Todo: Send Email Notification to Webmaster and Owner");
+		
+
+    	}
+    	 console.log(sessionid + ": findSupportedTab: " + collectionName + "count () = " + dataFromDb.count());
+
+		 //console.log(sessionid + ": findSupportedTab: returing result from findSupportedTab = " + JSON.stringify(result, null, 4));
+
+    	return result;
+
+
+
+    }
+
+
+    function processSupportedTab( collectionName, data, UniqueId_key, orgname, sessionid)
+    {
+    	var supportedTabCursor = findSupportedTab(collectionName, data[0] , UniqueId_key, orgname, sessionid);
+    	console.log(sessionid + ": processSupportedTab: " + collectionName + "count () = " + supportedTabCursor.dataFromDb.count());
+
+
+
+    }
+
+
 
 
 
