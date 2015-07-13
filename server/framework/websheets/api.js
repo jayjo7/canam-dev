@@ -152,7 +152,7 @@
 						if(isSupportedTab(key))
 						{
 
-							resultProcessSupportedTab = processSupportedTab (key, data, websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid);
+							var resultProcessSupportedTab = processSupportedTab (key, data, websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid);
 							for (keyResultProcessSupportedTab in resultProcessSupportedTab)
 							{
 								result[keyResultProcessSupportedTab] = resultProcessSupportedTab[keyResultProcessSupportedTab];
@@ -190,7 +190,7 @@
 							  		    	//console.log("sheetSyncFull: _id= " + dataFromDb[keyFromDB]._id);
 					  		
 
-							    			if(data[i].UniqueId === dataFromDb[keyFromDB].UniqueId)
+							    			if(data[i][websheets.private.generic.UNIQUE_ID_NAME] === dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME])
 							    			{
 							    				dataFromDb.splice(keyFromDB, 1);
 							    				break;
@@ -404,22 +404,22 @@
 	    	switch (collectionName.toUpperCase())
 	    	{
 	    		case websheets.private.generic.MENU:
-	    			resultOnDelete = Menu.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
+	    			resultOnDelete = Menu.remove({ _id:data._id, UniqueId : data[UniqueId_key], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.ORDERS:
 
-	    			resultOnDelete =  Orders.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
+	    			resultOnDelete =  Orders.remove({ _id:data._id, UniqueId : data[UniqueId_key], orgname : data[orgname]});
 
 	    			break;
 
 	    		case websheets.private.generic.CONTENT:
-	    			resultOnDelete = Content.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
+	    			resultOnDelete = Content.remove({ _id:data._id, UniqueId : data[UniqueId_key], orgname : data[orgname]});
 	    			break;
 
 	    	    case websheets.private.generic.SETTINGS:
-	    	    	resultOnDelete = Settings.remove({ _id:data._id, UniqueId_key : data[UniqueId_key], orgname : data[orgname]});
+	    	    	resultOnDelete = Settings.remove({ _id:data._id, UniqueId : data[UniqueId_key], orgname : data[orgname]});
 	    			break;	
 
 	    		default:
@@ -430,7 +430,7 @@
 			result.receiveddata 	= 	data;
 			result.tabName 			= 	collectionName;
 			result.UniqueId_key 	= 	UniqueId_key;
-			result.resultOnDelete 	= resultOnDelete;
+			result.resultOnDelete 	=   resultOnDelete;
 
     	}catch (err)
     	{
@@ -496,7 +496,7 @@
 			result.receiveddata = 	data;
 			result.tabName 		= 	collectionName;
 			result.UniqueId_key	= 	UniqueId_key;
-			result.dataFromDb   =   dataFromDb;
+			result.dataFromDb   =   dataFromDb.fetch();
 
     	}catch (err)
     	{
@@ -524,11 +524,67 @@
 
     function processSupportedTab( collectionName, data, UniqueId_key, orgname, sessionid)
     {
+    	result = {};
     	var supportedTabCursor = findSupportedTab(collectionName, data[0] , UniqueId_key, orgname, sessionid);
-    	console.log(sessionid + ": processSupportedTab: " + collectionName + "count () = " + supportedTabCursor.dataFromDb.count());
+    	console.log(sessionid + ": processSupportedTab: " + collectionName + "count () = " + supportedTabCursor.dataFromDb.length);
+    	for(var i=0; i<data.length; i++)
+		{
+			console.log ( sessionid + ': processSupportedTab: data[' + i + '].UniqueId = ' + data[i].UniqueId);
+
+			for(var keyFromDB in supportedTabCursor.dataFromDb)
+			{
+				//console.log("processSupportedTab: Data From DB Key = " + keyFromDB);
+				//console.log("processSupportedTab: UniqueId = " + dataFromDb[keyFromDB].UniqueId);
+				//console.log("processSupportedTab: _id= " + dataFromDb[keyFromDB]._id);
+				  		
+
+				if(data[i][websheets.private.generic.UNIQUE_ID_NAME] === supportedTabCursor.dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME] )
+				{
+					supportedTabCursor.dataFromDb.splice(keyFromDB, 1);
+					break;
+				}
+			}
 
 
+		}
 
+		console.log(sessionid + ': processSupportedTab: Size of array received from db after check : '+ supportedTabCursor.dataFromDb.length);
+		result.recordsToBeDeleted= supportedTabCursor.dataFromDb.length;
+
+		var deletedRecords =[];
+
+		for(var keyFromDB in supportedTabCursor.dataFromDb)
+		{
+			console.log (sessionid + ': processSupportedTab: Deleting _id = ' + 	 supportedTabCursor.dataFromDb[keyFromDB]._id);
+			console.log (sessionid + ': processSupportedTab: uniqueid     = ' + 	 supportedTabCursor.dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
+
+
+			var resultOnRemove = removeSupportedTab(collectionName, supportedTabCursor.dataFromDb[keyFromDB], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
+			deletedRecords.push(resultOnRemove);
+
+
+		}	
+
+		 result.deletedRecords = deletedRecords;
+
+		 //done deleting the records
+
+		 //upsert records from the sheet
+
+		 var upsertedRecords =[];
+
+		for (i=0; i<data.length; i++)
+		{
+
+			var resultOnUpsert = upsertSupportedTab(collectionName, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
+			upsertedRecords.push(resultOnUpsert);
+
+
+		}
+		result.upsertedRecords = upsertedRecords;
+		 console.log(sessionid + ": findSupportedTab: returing result from findSupportedTab = " + JSON.stringify(result, null, 4));
+
+		 return result;
     }
 
 
