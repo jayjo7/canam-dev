@@ -335,23 +335,23 @@
 	    		case websheets.private.generic.MENU:
 	    		
 	    			data.Name = s(data.Name).trim().titleize().value();
-	    			Menu.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
+	    			Menu.update({ UniqueId : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 
 	    			break;
 
 	    		case websheets.private.generic.ORDERS:
 
-	    			Orders.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
+	    			Orders.update({ UniqueId : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 	    			Meteor.call('sendReadyNotification', sessionid, data);
 
 	    			break;
 
 	    		case websheets.private.generic.CONTENT:
-	    			Content.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
+	    			Content.update({ UniqueId : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 	    			break;
 
 	    	    case websheets.private.generic.SETTINGS:
-	    	    	Settings.update({ UniqueId_key : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
+	    	    	Settings.update({ UniqueId : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 	    			break;	
 
 	    		default:
