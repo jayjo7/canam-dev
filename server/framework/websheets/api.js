@@ -206,7 +206,7 @@
 								for(var keyFromDB in dataFromDb)
 							    {
 							    	console.log (sessionid + ': sheetSyncFull: Deleting _id = ' + 	 dataFromDb[keyFromDB]._id);
-							    	console.log (sessionid + ': sheetSyncFull: uniqueid     = ' + 	 dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME]);
+							    	console.log (sessionid + ': sheetSyncFull: uniqueid     = ' + 	 dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
 
 							    	CollectionDriver.prototype.delete(key, dataFromDb[keyFromDB]._id, Meteor.bindEnvironment(function(err, doc)
 							    	{
@@ -214,17 +214,17 @@
 
 							    		if(err)
 							    		{
-							    			console.log (sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME]);
+							    			console.log (sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
 							    			console.log (sessionid + ': error = ' + err);
 											result.status 		= websheets.public.status.FAILED;	
-											result.message      = sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME];
+											result.message      = sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME];
 											result.data         = dataFromDb[keyFromDB];
 											result.error		= err;
 										}
 							    		else
 							    		{
 
-							    			console.log (sessionid + ': sheetSyncFull: Sucessfully deleted the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.public.generic.UNIQUE_ID_NAME]);
+							    			console.log (sessionid + ': sheetSyncFull: Sucessfully deleted the record with UniqueId : ' + dataFromDb[keyFromDB][websheets.private.generic.UNIQUE_ID_NAME]);
 							    			
 							    		}
 							    	}));
@@ -236,16 +236,16 @@
 								for (i=0; i<data.length; i++)
 								{
 
-							   			CollectionDriver.prototype.upsert(key, data[i], websheets.public.generic.UNIQUE_ID_NAME, websheets.public.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err,doc) 
+							   			CollectionDriver.prototype.upsert(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.public.generic.ORG_KEY_NAME , Meteor.bindEnvironment(function(err,doc) 
 							   			{
 							   				console.log (sessionid + ': sheetSyncFull: doc on upsert = ' + JSON.stringify(doc, null, 4))
 
 					          				if (err) 
 					          				{ 
-							    				console.log (sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.public.generic.UNIQUE_ID_NAME]);
+							    				console.log (sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.private.generic.UNIQUE_ID_NAME]);
 												result.status 		= websheets.public.status.FAILED;	
-												result.message      = sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.public.generic.UNIQUE_ID_NAME];
-												result.data         = data[i][websheets.public.generic.UNIQUE_ID_NAME]
+												result.message      = sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][websheets.private.generic.UNIQUE_ID_NAME];
+												result.data         = data[i][websheets.private.generic.UNIQUE_ID_NAME]
 												result.error		= err;				          					
 
 					          				}  
