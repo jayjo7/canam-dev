@@ -858,14 +858,12 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   console.log('Menu.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
 		   console.log('Menu.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
 		   console.log('Menu.after.update:options    = ' + JSON.stringify(options, null, 4));
-		   console.log('fieldNames[0]                = ' + fieldNames[0]);
 		   var categories = Settings.find({'Key':'category_menu'},{fields: {'Value' : 1}}).fetch();
 
 		   for (categoriesKey in categories)
 		   {
-		   			console.log('Menu =  with Value = ' + categories[categoriesKey].Value);
 
-		   		console.log('Menu.after.update : menu Name = ' + categories[categoriesKey].Value);
+		   		console.log('Menu.after.update : Category Name 		= ' + categories[categoriesKey].Value);
 		   		var menuByCategoriesCount = Menu.find({'Category': categories[categoriesKey].Value}).count();
 		   		console.log('Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
@@ -887,7 +885,11 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   console.log('Settings.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
 		   console.log('Settings.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
 		   console.log('Settings.after.update:options    = ' + JSON.stringify(options, null, 4));
-		   console.log('fieldNames[0]                    = ' + fieldNames[0]);
+
+		   		console.log('Settings.after.update : Category Name 		= ' + doc.Value);
+		   		var menuByCategoriesCount = Menu.find({'Category': doc.Value}).count();
+		   		console.log('Settings.after.update : Menu Count by Category ' +  doc.Value +' = ' + menuByCategoriesCount);
+		   		Settings.update({'Key':'category_menu', 'Value': doc.Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
 
 
     }, {fetchPrevious: false});
