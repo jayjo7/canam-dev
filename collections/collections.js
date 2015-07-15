@@ -1,10 +1,6 @@
-SupportedTabs = new Mongo.Collection('supportedtabs');
-
 Menu = new Mongo.Collection('menu');
 
 Orders = new Mongo.Collection('orders');
-
-OrdersMeta = new Mongo.Collection('ordersMeta');
 
 Cart = new Mongo.Collection('cart');
 
@@ -17,10 +13,7 @@ Content = new  Mongo.Collection('Content');
 
 Settings = new  Mongo.Collection('Settings');
 
-AppSettings = new  Mongo.Collection('AppSettings');
 
 OrderedItems = new Mongo.Collection('ordereditems');
 
 PaymentInfo = new Mongo.Collection('paymentInfo');
-
-

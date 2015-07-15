@@ -849,3 +849,46 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 });
 
+
+    Menu.after.update(function (userId, doc, fieldNames, modifier, options) 
+    {
+
+    	   console.log('Menu.after.update:userId     = ' + userId);
+		   console.log('Menu.after.update:doc        = ' + JSON.stringify(doc, null, 4));
+		   console.log('Menu.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
+		   console.log('Menu.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
+		   console.log('Menu.after.update:options    = ' + JSON.stringify(options, null, 4));
+		   console.log('fieldNames[0]                = ' + fieldNames[0]);
+		   var categories = Settings.find({'Key':'category_menu'},{fields: {'Value' : 1}}).fetch();
+
+		   for (categoriesKey in categories)
+		   {
+		   			console.log('Menu =  with Value = ' + categories[categoriesKey].Value);
+
+		   		console.log('Menu.after.update : menu Name = ' + categories[categoriesKey].Value);
+		   		var menuByCategoriesCount = Menu.find({'category_menu': categories[categoriesKey].Value}).count();
+		   		console.log('Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
+		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
+
+		   }
+
+
+
+
+    }, {fetchPrevious: false});
+
+
+
+    Settings.after.update(function (userId, doc, fieldNames, modifier, options) 
+    {
+
+    	   console.log('Settings.after.update:userId     = ' + userId);
+		   console.log('Settings.after.update:doc        = ' + JSON.stringify(doc, null, 4));
+		   console.log('Settings.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
+		   console.log('Settings.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
+		   console.log('Settings.after.update:options    = ' + JSON.stringify(options, null, 4));
+		   console.log('fieldNames[0]                    = ' + fieldNames[0]);
+
+
+    }, {fetchPrevious: false});
+
