@@ -33,7 +33,7 @@
 
     {{#each getSettingsMulti "category_menu"}}
 
-        {{#if isMenuAvailable Value}}
+        {{#if menuItemCount}}
             <h3 align="center">{{ Value }}</h3>
                 <div class="cardd-container">
             {{ #each menu Value}}
