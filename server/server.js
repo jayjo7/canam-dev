@@ -866,7 +866,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   			console.log('Menu =  with Value = ' + categories[categoriesKey].Value);
 
 		   		console.log('Menu.after.update : menu Name = ' + categories[categoriesKey].Value);
-		   		var menuByCategoriesCount = Menu.find({'category_menu': categories[categoriesKey].Value}).count();
+		   		var menuByCategoriesCount = Menu.find({'Category': categories[categoriesKey].Value}).count();
 		   		console.log('Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
 
