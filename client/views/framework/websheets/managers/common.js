@@ -169,9 +169,9 @@ Template.registerHelper('getSettingsMulti', function(key)
 {
 	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
-	//console.log('getSettingsMulti:key = ' + key)
+	console.log('getSettingsMulti:key = ' + key)
 	var result = Settings.find({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
-		//console.log('getSettingsMulti:Value = ' + result.Value)
+	console.log('getSettingsMulti:Value = ' + result.Value)
 
 	return result
 });
