@@ -387,6 +387,42 @@ countryCode =  function(orgname)
 	return  Meteor.settings.public[orgname]. countryCode;
 }
 
+currencyFormat = function(num)
+{
+	return '$' + Number(num).toFixed(2);
+}
+
+
+addToCartToggle=function(orgname)
+{
+	return Meteor.settings.public[orgname]. addToCartToggle;
+}
+
+isSpecial = function(fontWeight)
+{
+	 if('bold' === fontWeight)
+            return true;
+     else
+            return false;
+
+}
+
+isItemAvailable = function(fontLine)
+{
+		if('line-through' === fontLine)
+			return  false;
+		else
+			return true;
+	
+}
+
+prune =  function(string, length, useWordBoundary)
+{
+	string = string.trim();
+	return string.trunc(length, useWordBoundary);
+
+}
+
 String.prototype.trunc = function( n, useWordBoundary)
 {
          var toLong = this.length >n , s_ = toLong ? this.substr(0,n-1) : this;
@@ -394,8 +430,26 @@ String.prototype.trunc = function( n, useWordBoundary)
          return  toLong ? s_ + '&hellip;' : s_;
 };
 
-addToCartToggle=function(orgname)
+
+getDmCountColumn = function()
 {
-	return Meteor.settings.public[orgname]. addToCartToggle;
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
+
+	var key = websheets.public.generic.DM_COUNT_COLUMN;
+	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+	return result.Value
+
+
+}
+
+getDmCountPage = function()
+{
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
+
+	var key = websheets.public.generic.DM_COUNT_PAGE
+	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+	return result.Value
+
+
 }
 

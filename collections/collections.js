@@ -17,3 +17,5 @@ Settings = new  Mongo.Collection('Settings');
 OrderedItems = new Mongo.Collection('ordereditems');
 
 PaymentInfo = new Mongo.Collection('paymentInfo');
+
+DmMetatData = new Mongo.Collection('dmMetatData');

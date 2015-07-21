@@ -870,6 +870,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 		   }
 
+		   preProcessDmMetaData(doc);
 
 
 
@@ -890,7 +891,44 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   		var menuByCategoriesCount = Menu.find({'Category': doc.Value}).count();
 		   		console.log('Settings.after.update : Menu Count by Category ' +  doc.Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': doc.Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
-
+		   		preProcessDmMetaData(doc);
 
     }, {fetchPrevious: false});
+
+
+
+
+    preProcessDmMetaData = function(doc)
+    {
+    	var pageCapacity = 33;
+    	var result = Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {Value : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}}).fetch();
+
+    	var count = 3;
+
+    	var dmMetadata =[];
+    	var dmCategoryArray =[];
+    	var pageCount = 1;
+    	for(var i =0; i < result.length;  i++)
+    	{
+    		count += result[i].menuItemCount;
+
+    		if(count >= pageCapacity)
+    		{
+    			var difference = count - pageCapacity ;
+    			var allowedCount = doc.menuItemCount - difference;
+    			dmCategoryArray.push({'name': result[i].Value , 'partial': true, 'allowedCount': difference});
+    			dmMetadata.push({'number': pageCount, 'category': dmCategoryArray});
+
+    		}
+    		else
+    		{
+    			dmCategoryArray.push({'name': result[i].Value});
+    		}
+
+
+    	}
+
+    	console.log('preProcessDmMetaData : DmMetaDataOject = ' + JSON.stringify(dmMetadata , null, 4))
+
+    }
 
