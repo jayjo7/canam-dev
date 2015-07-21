@@ -1,6 +1,15 @@
 Template.digitalMenu.helpers({
 
-	getFormatedMenu:function(categoryMenu)
+	getDMCategoryToBeDisplayed:function (pageNumber)
+	{
+		pageNumber= Number(pageNumber);
+		var dmMetatData = DmMetatData.findOne({"pageNumber": pageNumber});
+		return dmMetatData.category;
+	},
+
+
+
+	getFormatedMenu:function(categoryMenu, allowedCount)
 	{
 
     	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
@@ -9,20 +18,21 @@ Template.digitalMenu.helpers({
 
         console.log('categoryMenu: ' + categoryMenu);
 		var menus 		= Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}}).fetch();
-		var dmMetaData  = DmMetatData.findOne({sessionId:sessionId});
 		//var menus = Menu.find({});
 		console.log('menus.count: ' + menus.length);
 		var htmlString	= '';
         var isNewLine	= true;
         var count = 0;
-
-        if(dmMetaData.lastDisplayedCount)
-        {
-        	count = dmMetaData.lastDisplayedCount;
-        }
         var countTobeDisplayed = menus.length;
         console.log('menus = ' + menus);
-		for(var i =0; i < menus.length;  i++)
+
+        var menusLenght = menus.length
+        if (allowedCount)
+        {
+        	menusLenght = allowedCount;
+
+        }
+		for(var i =0; i < menusLenght;  i++)
 		{
 				count +=1;
 				console.log('menus['+ i + '] = ' + JSON.stringify(menus[i], null, 4));
@@ -32,7 +42,7 @@ Template.digitalMenu.helpers({
 					htmlString += '<div class="row DMmenuitem">';
 				}
 
-				htmlString += '<div class="col-xs-3 DMitem" align="right">' +  s(menus[i].Name).trim().titleize().value();
+				htmlString += '<div class="col-xs-3 DMitem" align="right">' + menus[i].Name;
 				//if(isSpecial(menus[i].fontWeight))
 				//{
 				//	htmlString += '&nbsp;<span class="label  label-success">Special</span>';

@@ -881,6 +881,8 @@ OrdersMeta.after.insert(function (userId, doc) {
     Settings.after.update(function (userId, doc, fieldNames, modifier, options) 
     {
 
+    	if(fieldNames[0] !== 'menuItemCount')
+    	{
     	   console.log('Settings.after.update:userId     = ' + userId);
 		   console.log('Settings.after.update:doc        = ' + JSON.stringify(doc, null, 4));
 		   console.log('Settings.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
@@ -892,6 +894,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   		console.log('Settings.after.update : Menu Count by Category ' +  doc.Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': doc.Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
 		   		preProcessDmMetaData(doc);
+		  }
 
     }, {fetchPrevious: false});
 
@@ -900,35 +903,101 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     preProcessDmMetaData = function(doc)
     {
-    	var pageCapacity = 33;
-    	var result = Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {Value : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}}).fetch();
+    	var pageCapacity = 36;
+    	var result = Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
 
-    	var count = 3;
+    	var count = 0;
 
-    	var dmMetadata =[];
     	var dmCategoryArray =[];
     	var pageCount = 1;
+    	var insertMmCategoryArrayFlag = false;
     	for(var i =0; i < result.length;  i++)
     	{
+
+    		count += 3;
+    		console.log('preProcessDmMetaData: count (Before adding menuItemCount) = ' + count);
     		count += result[i].menuItemCount;
 
-    		if(count >= pageCapacity)
+    		var perLineCount = result[i].menuItemCount%3;
+
+
+
+
+    		console.log('preProcessDmMetaData: count (After adding menuItemCount)  = ' + count);
+
+    		if(count < pageCapacity)
     		{
-    			var difference = count - pageCapacity ;
-    			var allowedCount = doc.menuItemCount - difference;
-    			dmCategoryArray.push({'name': result[i].Value , 'partial': true, 'allowedCount': difference});
-    			dmMetadata.push({'number': pageCount, 'category': dmCategoryArray});
+    			 dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
+    			 insertMmCategoryArrayFlag = true;
+    		}
+
+    		else 
+    		if(count >pageCapacity)
+    		{
+    			var difference 		= count - pageCapacity ;
+    			console.log('difference = ' + difference);
+    			var allowedCount 	= result[i].menuItemCount - difference;
+    			console.log('allowedCount = ' + allowedCount);
+
+    			if(allowedCount > 0)
+    			{
+    				insertMmCategoryArrayFlag = false;
+	    			dmCategoryArray.push({'name': result[i].Value , 'partialFirst': true, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
+	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
+					console.log('preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
+
+	    			dmCategoryArray 	=[];
+	    			var carryOverCount  = result[i].menuItemCount - allowedCount;
+	    			console.log('carryOverCount = ' + carryOverCount );
+	    			dmCategoryArray.push({'name': result[i].Value, 'partialSecond': true, 'allowedCount': carryOverCount, 'actualCount':result[i].menuItemCount });
+
+	    			pageCount 			+= 1;
+	    			count 				= carryOverCount;
+	    		}
+	    		else
+	    		{
+	    		    //dmCategoryArray.push({'name': result[i].Value , 'partialFirst': true, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
+	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
+					console.log('preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
+
+	    			dmCategoryArray 	=[];
+	    			var carryOverCount  = result[i].menuItemCount;
+	    			console.log('carryOverCount = ' + carryOverCount );
+	    			dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
+
+	    			pageCount 			+= 1;
+	    			count 				= carryOverCount;
+
+
+	    		}
+
 
     		}
     		else
     		{
-    			dmCategoryArray.push({'name': result[i].Value});
+    			insertMmCategoryArrayFlag = false;
+    			dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
+     			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
+				console.log('preProcessDmMetaData : DmMetaDataOject (Greater that pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
+    			dmCategoryArray 	=[];
+    			pageCount 			+= 1;
+    			count 				= 0;
     		}
 
 
     	}
 
-    	console.log('preProcessDmMetaData : DmMetaDataOject = ' + JSON.stringify(dmMetadata , null, 4))
+    	if(insertMmCategoryArrayFlag )
+    	{
+	    	DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
+	    	console.log('preProcessDmMetaData : DmMetaDataOject (Outside for loop) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
+
+
+    	}
+
+    	
+
+
 
     }
 

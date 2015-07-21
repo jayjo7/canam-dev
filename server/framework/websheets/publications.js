@@ -1,7 +1,7 @@
 Meteor.publish ( 'dmMetatData', function (orgname)
 {
 
-	return DmMetatData.find({orgname:orgname});
+	return DmMetatData.find();
 });
 
 Meteor.publish('menu', function(orgname)
