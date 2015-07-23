@@ -859,16 +859,24 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   console.log('Menu.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
 		   console.log('Menu.after.update:options    = ' + JSON.stringify(options, null, 4));
 		   var categories = Settings.find({'Key':'category_menu'},{fields: {'Value' : 1}}).fetch();
-
+		   var totalMenuItemCount=0
 		   for (categoriesKey in categories)
 		   {
 
 		   		console.log('Menu.after.update : Category Name 		= ' + categories[categoriesKey].Value);
 		   		var menuByCategoriesCount = Menu.find({'Category': categories[categoriesKey].Value}).count();
 		   		console.log('Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
-		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
-
+		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value, orgname:doc.orgname}, {$set:{'menuItemCount': menuByCategoriesCount}});
+		   		totalMenuItemCount += menuByCategoriesCount;
 		   }
+
+		   var totalMenuItemCountObject={};
+		   totalMenuItemCountObject.UniqueId 	= Meteor.uuid();
+		   totalMenuItemCountObject.Key 		= 'totalMenuItemCount';
+		   totalMenuItemCountObject.Value 		= totalMenuItemCount;
+		   totalMenuItemCountObject.orgname		= doc.orgname;
+		   console.log('Menu.after.update: totalMenuItemCountObject       = ' + JSON.stringify(totalMenuItemCountObject, null, 4));
+		   Settings.update({'Key':'totalMenuItemCount', orgname:doc.orgname}, totalMenuItemCountObject, {upsert:true});
 
 		   preProcessDmMetaData(doc);
 
@@ -881,7 +889,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     Settings.after.update(function (userId, doc, fieldNames, modifier, options) 
     {
 
-    	if(fieldNames[0] !== 'menuItemCount')
+    	if(fieldNames[0] !== 'menuItemCount' &&  doc.Key !== 'totalMenuItemCount')
     	{
     	   console.log('Settings.after.update:userId     = ' + userId);
 		   console.log('Settings.after.update:doc        = ' + JSON.stringify(doc, null, 4));
@@ -892,7 +900,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   		console.log('Settings.after.update : Category Name 		= ' + doc.Value);
 		   		var menuByCategoriesCount = Menu.find({'Category': doc.Value}).count();
 		   		console.log('Settings.after.update : Menu Count by Category ' +  doc.Value +' = ' + menuByCategoriesCount);
-		   		Settings.update({'Key':'category_menu', 'Value': doc.Value}, {$set:{'menuItemCount': menuByCategoriesCount}});
+		   		Settings.update({'Key':'category_menu', 'Value': doc.Value,  orgname:doc.orgname}, {$set:{'menuItemCount': menuByCategoriesCount}});
 		   		preProcessDmMetaData(doc);
 		  }
 
@@ -903,13 +911,23 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     preProcessDmMetaData = function(doc)
     {
-    	var pageCapacity = 36;
-    	var result = Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
+    	var totalMenuCount 	= Settings.findOne({'Key':'totalMenuItemCount', orgname:doc.orgname});
+    	var dm_count_page 	= Settings.findOne({'Key':'dm_count_page', orgname:doc.orgname});
+    	var dm_count_column = Settings.findOne({'Key':'dm_count_column', orgname:doc.orgname});
+    	var menuCategoryCount = Settings.find()
+    	console.log('preProcessDmMetaData: dm_count_page = ' + dm_count_page.Value);
+    	var result 			= Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
+    	if( ! dm_count_column)
+    	{
+    		dm_count_column = 3; //default three column
+    	}
+    	var totalIncludingSpaceForCatagory = Number(totalMenuCount.Value) + result.length * dm_count_column; 
+    	var pageCapacity 	= Number(totalIncludingSpaceForCatagory)/Number(dm_count_page.Value);
+     	console.log('preProcessDmMetaData: pageCapacity = ' +  pageCapacity);
+    	var count 			= 0;
 
-    	var count = 0;
-
-    	var dmCategoryArray =[];
-    	var pageCount = 1;
+    	var dmCategoryArray = [];
+    	var pageCount 		= 1;
     	var insertMmCategoryArrayFlag = false;
     	for(var i =0; i < result.length;  i++)
     	{
