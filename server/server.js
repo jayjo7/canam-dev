@@ -852,20 +852,20 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     Menu.after.update(function (userId, doc, fieldNames, modifier, options) 
     {
-
-    	   console.log('Menu.after.update:userId     = ' + userId);
-		   console.log('Menu.after.update:doc        = ' + JSON.stringify(doc, null, 4));
-		   console.log('Menu.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
-		   console.log('Menu.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
-		   console.log('Menu.after.update:options    = ' + JSON.stringify(options, null, 4));
+    	   var hookSessionId = Meteor.uuid();
+    	   console.log(hookSessionId + ': Menu.after.update:userId     = ' + userId);
+		   console.log(hookSessionId + ': Menu.after.update:doc        = ' + JSON.stringify(doc, null, 4));
+		   console.log(hookSessionId + ': Menu.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
+		   console.log(hookSessionId + ': Menu.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
+		   console.log(hookSessionId + ': Menu.after.update:options    = ' + JSON.stringify(options, null, 4));
 		   var categories = Settings.find({'Key':'category_menu'},{fields: {'Value' : 1}}).fetch();
 		   var totalMenuItemCount=0
 		   for (categoriesKey in categories)
 		   {
 
-		   		console.log('Menu.after.update : Category Name 		= ' + categories[categoriesKey].Value);
+		   		console.log(hookSessionId + ': Menu.after.update : Category Name 		= ' + categories[categoriesKey].Value);
 		   		var menuByCategoriesCount = Menu.find({'Category': categories[categoriesKey].Value}).count();
-		   		console.log('Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
+		   		console.log(hookSessionId + ': Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value, orgname:doc.orgname}, {$set:{'menuItemCount': menuByCategoriesCount}});
 		   		totalMenuItemCount += menuByCategoriesCount;
 		   }
@@ -875,10 +875,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   totalMenuItemCountObject.Key 		= 'totalMenuItemCount';
 		   totalMenuItemCountObject.Value 		= totalMenuItemCount;
 		   totalMenuItemCountObject.orgname		= doc.orgname;
-		   console.log('Menu.after.update: totalMenuItemCountObject       = ' + JSON.stringify(totalMenuItemCountObject, null, 4));
+		   console.log(hookSessionId + ': Menu.after.update: totalMenuItemCountObject       = ' + JSON.stringify(totalMenuItemCountObject, null, 4));
 		   Settings.update({'Key':'totalMenuItemCount', orgname:doc.orgname}, totalMenuItemCountObject, {upsert:true});
 
-		   preProcessDmMetaData(doc);
+		   preProcessDmMetaData(hookSessionId , doc);
 
 
 
@@ -888,20 +888,26 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     Settings.after.update(function (userId, doc, fieldNames, modifier, options) 
     {
+    	var hookSessionId = Meteor.uuid();
 
     	if(fieldNames[0] !== 'menuItemCount' &&  doc.Key !== 'totalMenuItemCount')
     	{
-    	   console.log('Settings.after.update:userId     = ' + userId);
-		   console.log('Settings.after.update:doc        = ' + JSON.stringify(doc, null, 4));
-		   console.log('Settings.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
-		   console.log('Settings.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
-		   console.log('Settings.after.update:options    = ' + JSON.stringify(options, null, 4));
+
+    	   console.log(hookSessionId + ': Settings.after.update:userId     = ' + userId);
+		   console.log(hookSessionId + ': Settings.after.update:doc        = ' + JSON.stringify(doc, null, 4));
+		   console.log(hookSessionId + ': Settings.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
+		   console.log(hookSessionId + ': Settings.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
+		   console.log(hookSessionId + ': Settings.after.update:options    = ' + JSON.stringify(options, null, 4));
 
 		   		console.log('Settings.after.update : Category Name 		= ' + doc.Value);
 		   		var menuByCategoriesCount = Menu.find({'Category': doc.Value}).count();
 		   		console.log('Settings.after.update : Menu Count by Category ' +  doc.Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': doc.Value,  orgname:doc.orgname}, {$set:{'menuItemCount': menuByCategoriesCount}});
-		   		preProcessDmMetaData(doc);
+		   		preProcessDmMetaData(hookSessionId , doc);
+		  }
+		  else
+		  {
+		  	console.log(hookSessionId + ': Settings.after.update: Not action in the hook');
 		  }
 
     }, {fetchPrevious: false});
@@ -909,21 +915,32 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 
 
-    preProcessDmMetaData = function(doc)
+    preProcessDmMetaData = function(hookSessionId , doc)
     {
     	var totalMenuCount 	= Settings.findOne({'Key':'totalMenuItemCount', orgname:doc.orgname});
-    	var dm_count_page 	= Settings.findOne({'Key':'dm_count_page', orgname:doc.orgname});
-    	var dm_count_column = Settings.findOne({'Key':'dm_count_column', orgname:doc.orgname});
-    	var menuCategoryCount = Settings.find()
-    	console.log('preProcessDmMetaData: dm_count_page = ' + dm_count_page.Value);
+    	var dm_count_page 	= Settings.findOne({'Key':'dm_count_page', 		orgname:doc.orgname});
+    	var dm_count_column = Settings.findOne({'Key':'dm_count_column', 	orgname:doc.orgname});
+    	console.log(hookSessionId + ': preProcessDmMetaData: totalMenuCount 	= ' + totalMenuCount.Value);
+    	console.log(hookSessionId + ': preProcessDmMetaData: dm_count_page 		= ' + dm_count_page.Value);
+		console.log(hookSessionId + ': preProcessDmMetaData: dm_count_column 	= ' + dm_count_column.Value);
+
     	var result 			= Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
+    	console.log(hookSessionId + ': preProcessDmMetaData: Total Valid Categories count (result.length)	= ' + result.length);
+
     	if( ! dm_count_column)
     	{
     		dm_count_column = 3; //default three column
+    		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_column');
+
     	}
-    	var totalIncludingSpaceForCatagory = Number(totalMenuCount.Value) + result.length * dm_count_column; 
-    	var pageCapacity 	= Number(totalIncludingSpaceForCatagory)/Number(dm_count_page.Value);
-     	console.log('preProcessDmMetaData: pageCapacity = ' +  pageCapacity);
+
+    	var totalIncludingSpaceForCatagory 	= Number(totalMenuCount.Value) + result.length * Number (dm_count_column.Value); 
+    	console.log(hookSessionId + ': preProcessDmMetaData: totalIncludingSpaceForCatagory 	= ' + totalIncludingSpaceForCatagory);
+
+    	var pageCapacity 					= Math.round( Number(totalIncludingSpaceForCatagory)/Number(dm_count_page.Value));
+     	console.log(hookSessionId + ': preProcessDmMetaData: pageCapacity = ' +  pageCapacity);
+
+
     	var count 			= 0;
 
     	var dmCategoryArray = [];
@@ -933,7 +950,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     	{
 
     		count += 3;
-    		console.log('preProcessDmMetaData: count (Before adding menuItemCount) = ' + count);
+    		console.log(hookSessionId + ': preProcessDmMetaData: count (Before adding menuItemCount) = ' + count);
     		count += result[i].menuItemCount;
 
     		var perLineCount = result[i].menuItemCount%3;
@@ -941,7 +958,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 
 
-    		console.log('preProcessDmMetaData: count (After adding menuItemCount)  = ' + count);
+    		console.log(hookSessionId + ': preProcessDmMetaData: count (After adding menuItemCount)  = ' + count);
 
     		if(count < pageCapacity)
     		{
@@ -953,20 +970,20 @@ OrdersMeta.after.insert(function (userId, doc) {
     		if(count >pageCapacity)
     		{
     			var difference 		= count - pageCapacity ;
-    			console.log('difference = ' + difference);
+    			console.log(hookSessionId + ': difference = ' + difference);
     			var allowedCount 	= result[i].menuItemCount - difference;
-    			console.log('allowedCount = ' + allowedCount);
+    			console.log(hookSessionId + ': allowedCount = ' + allowedCount);
 
     			if(allowedCount > 0)
     			{
     				insertMmCategoryArrayFlag = false;
 	    			dmCategoryArray.push({'name': result[i].Value , 'partialFirst': true, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
 	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
-					console.log('preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
+					console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
 
 	    			dmCategoryArray 	=[];
 	    			var carryOverCount  = result[i].menuItemCount - allowedCount;
-	    			console.log('carryOverCount = ' + carryOverCount );
+	    			console.log(hookSessionId + ': carryOverCount = ' + carryOverCount );
 	    			dmCategoryArray.push({'name': result[i].Value, 'partialSecond': true, 'allowedCount': carryOverCount, 'actualCount':result[i].menuItemCount });
 
 	    			pageCount 			+= 1;
@@ -976,11 +993,11 @@ OrdersMeta.after.insert(function (userId, doc) {
 	    		{
 	    		    //dmCategoryArray.push({'name': result[i].Value , 'partialFirst': true, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
 	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
-					console.log('preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
+					console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
 
 	    			dmCategoryArray 	=[];
 	    			var carryOverCount  = result[i].menuItemCount;
-	    			console.log('carryOverCount = ' + carryOverCount );
+	    			console.log(hookSessionId + ': carryOverCount = ' + carryOverCount );
 	    			dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
 
 	    			pageCount 			+= 1;
@@ -996,7 +1013,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     			insertMmCategoryArrayFlag = false;
     			dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
      			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
-				console.log('preProcessDmMetaData : DmMetaDataOject (Greater that pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
+				console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Greater that pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
     			dmCategoryArray 	=[];
     			pageCount 			+= 1;
     			count 				= 0;
@@ -1008,7 +1025,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     	if(insertMmCategoryArrayFlag )
     	{
 	    	DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
-	    	console.log('preProcessDmMetaData : DmMetaDataOject (Outside for loop) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
+	    	console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Outside for loop) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
 
 
     	}
