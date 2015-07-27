@@ -927,10 +927,20 @@ OrdersMeta.after.insert(function (userId, doc) {
     	var result 			= Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
     	console.log(hookSessionId + ': preProcessDmMetaData: Total Valid Categories count (result.length)	= ' + result.length);
 
+
+    	var capacityLevel = DM_MAX_COUNT_PAGE_ONE;
+
     	if( ! dm_count_column)
     	{
     		dm_count_column = 3; //default three column
     		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_column');
+
+    	}
+
+    	if( ! dm_count_page)
+    	{
+    		dm_count_page= 3; //default three column
+    		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_page');
 
     	}
 
@@ -941,11 +951,31 @@ OrdersMeta.after.insert(function (userId, doc) {
      	console.log(hookSessionId + ': preProcessDmMetaData: pageCapacity = ' +  pageCapacity);
 
 
+     	if(pageCapacity > DM_MAX_COUNT_PAGE_ONE &&  pageCapacity <= DM_MAX_COUNT_PAGE_TWO)
+     	{
+     		console.log(hookSessionId + ': Working with second level page capacity');
+     		console.log(hookSessionId + ': Jay - Need to have logic to adjust the CSS to accomodate the page capacity');
+     		capacityLevel 	= DM_MAX_COUNT_PAGE_TWO;
+     	}
+     	else 
+     	if(pageCapacity > DM_MAX_COUNT_PAGE_TWO &&  pageCapacity <= DM_MAX_COUNT_PAGE_THREE)
+     	{
+     		console.log(hookSessionId + ': Working with Third level page capacity');
+     		console.log(hookSessionId + ': Jay - Need to have logic to adjust the CSS to accomodate the page capacity');
+     		capacityLevel 	= DM_MAX_COUNT_PAGE_THREE;
+     	}
+     	else
+     	{
+     		console.log(hookSessionId + ': No logic to handle this pageCapacity = ' + pageCapacity);
+
+     	}
+
+
     	var count 			= 0;
 
     	var dmCategoryArray = [];
     	var pageCount 		= 1;
-    	var insertMmCategoryArrayFlag = false;
+    	var insertDmCategoryArrayFlag = false;
     	for(var i =0; i < result.length;  i++)
     	{
 
@@ -963,7 +993,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     		if(count < pageCapacity)
     		{
     			 dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
-    			 insertMmCategoryArrayFlag = true;
+    			 insertDmCategoryArrayFlag = true;
     		}
 
     		else 
@@ -976,7 +1006,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     			if(allowedCount > 0)
     			{
-    				insertMmCategoryArrayFlag = false;
+    				insertDmCategoryArrayFlag = false;
 	    			dmCategoryArray.push({'name': result[i].Value , 'partialFirst': true, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
 	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
 					console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
@@ -1010,7 +1040,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     		}
     		else
     		{
-    			insertMmCategoryArrayFlag = false;
+    			insertDmCategoryArrayFlag = false;
     			dmCategoryArray.push({'name': result[i].Value, 'actualCount':result[i].menuItemCount });
      			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
 				console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Greater that pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
@@ -1022,9 +1052,9 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     	}
 
-    	if(insertMmCategoryArrayFlag )
+    	if(insertDmCategoryArrayFlag )
     	{
-	    	DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
+	    	DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, capacityLevel:capacityLevel, category:dmCategoryArray}, {upsert: true});
 	    	console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Outside for loop) = ' + JSON.stringify(dmCategoryArray , null, 4))   			
 
 
