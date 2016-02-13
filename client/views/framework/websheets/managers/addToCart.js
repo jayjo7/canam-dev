@@ -66,7 +66,7 @@ Template.addToCart.helpers({
    {
    		var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 
-   		return menu.Name + "? Good Choice !"
+   		return menu.Name 
    },
 
 

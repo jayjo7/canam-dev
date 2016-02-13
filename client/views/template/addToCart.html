@@ -3,36 +3,34 @@
 <!--Message2Kitchen-->
 <div class="modal fade" id="popMessage2KitchenModal" tabindex="-1" role="dialog" aria-labelledby="popMessage2KitchenModalLabel" aria-hidden="true" style=" background-color: rgba(0,0,0,0.10);z-index:3000">
   <div class="modal-dialog" >
-    <div class="modal-content" style="background-color:rgba(244,204,0,1.00);">
+    <div class="modal-content" style="background-color:rgba(255,255,255,1.00);">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span class="add-to-cart-product-name" id="popMessage2KitchenModalLabel">{{getModatTitleMessage}}</span>
       </div>
       <div class="modal-body" >
-        <form >
+       
           <div class="form-group">
             <label for="recipient-name" class="control-label">Now pick a size :</label> <br>
-            <div class="btn-group" data-toggle="buttons" >
+            <div>
+              &nbsp;
+            </div>
+            <div class="row">
               {{#if hasValue 'PriceMedium'}}
-                <label class="btn btn-primary">
-                  <input type="radio" name="itemSize"  value="{{getItemSizeMedium}}" id="itemSize{{getItemSizeMedium}}" >
-                  <span style="font-size:1em; font-weight:300">{{getItemSizeMedium}} </span>
-                  <span class="badge"   style="font-size:1em; font-weight:300" >{{ getFormattedPrice 'PriceMedium' }}</span> 
-                </label>
+                <div class="col-sm-4">
+                  <input id="itemSize{{getItemSizeMedium}}" type="radio" name="itemSize" value="{{getItemSizeMedium}}" ><label for="itemSize{{getItemSizeMedium}}"><span><span></span></span>{{getItemSizeMedium}} &nbsp; {{ getFormattedPrice 'PriceMedium' }} </label>
+                 </div> 
                {{/if}}  
               {{#if hasValue 'PriceLarge'}}
-                <label class="btn btn-primary active">
-                  <input type="radio" name="itemSize" value="{{getItemSizeLarge}}" id="itemSize{{getItemSizeLarge}}" checked >
-                  <span style="font-size:1em; font-weight:300">{{getItemSizeLarge}}</span> 
-                  <span class="badge"   style="font-size:1em; font-weight:300" >{{getFormattedPrice 'PriceLarge'  }}</span> 
-                </label>
+              <div class="col-sm-4">
+                  <input id="itemSize{{getItemSizeLarge}}" type="radio" name="itemSize" value="{{getItemSizeLarge}}" checked><label for="itemSize{{getItemSizeLarge}}"><span><span></span></span>{{getItemSizeLarge}} &nbsp; {{ getFormattedPrice 'PriceLarge' }} </label>
+                 </div> 
+
                {{/if}}  
               {{#if hasValue 'PriceXL'}}
-                <label class="btn btn-primary">
-                  <input type="radio" name="itemSize" value="{{getItemSizeExtraLarge}}" id="itemSize{{getItemSizeExtraLarge}}" >
-                  <span style="font-size:1em; font-weight:300"> {{getItemSizeExtraLarge}}</span> 
-                  <span class="badge"   style="font-size:1em; font-weight:300" >{{ getFormattedPrice 'PriceXL'}}</span> 
-                </label>
+              <div class="col-sm-4">
+                  <input id="itemSize{{getItemSizeExtraLarge}}" type="radio" name="itemSize" value="{{getItemSizeExtraLarge}}" ><label for="itemSize{{getItemSizeExtraLarge}}"><span><span></span></span>{{getItemSizeExtraLarge}} &nbsp; {{ getFormattedPrice 'PriceXL' }} </label>
+                 </div> 
                {{/if}}  
             </div>
           </div>
@@ -41,6 +39,7 @@
               <div class="form-group">
                 <label for="recipient-name" class="control-label">How spicy?</label><br>
                 <div class="btn-group" data-toggle="buttons" >
+                  
                   <label class="btn btn-primary">
                     <input type="radio" name="spiceLevel"  value ="{{getSpiceLevelMild}}" id="spiceLevel{{getSpiceLevelMild}}" >
                     <span style="font-size:1em; font-weight:300">{{getSpiceLevelMild}}</span>
@@ -57,8 +56,7 @@
               </div>
 
           {{/if}}
-           <input  type="text" class="form-control" id="inputMessageToKitchenByItem" name="messageToKitchenByItem" maxlength="44"  placeholder="Special Instruction" style="text-align:left" >
-        </form>
+           <input  type="text" class="form-control" id="inputMessageToKitchenByItem" name="messageToKitchenByItem" maxlength="44"  placeholder="Message to Kitchen" style="text-align:left" >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success addcart" data-dismiss="modal">Add to Order</button>
