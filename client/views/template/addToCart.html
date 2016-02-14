@@ -10,12 +10,11 @@
       </div>
       <div class="modal-body" >
        
-          <div class="form-group">
-            <label for="recipient-name" class="control-label">Now pick a size :</label> <br>
+          <div>
             <div>
-              &nbsp;
+              Now pick a size :
             </div>
-            <div class="row">
+            <div class="row padding_10px">
               {{#if hasValue 'PriceMedium'}}
                 <div class="col-sm-4">
                   <input id="itemSize{{getItemSizeMedium}}" type="radio" name="itemSize" value="{{getItemSizeMedium}}" ><label for="itemSize{{getItemSizeMedium}}"><span><span></span></span>{{getItemSizeMedium}} &nbsp; {{ getFormattedPrice 'PriceMedium' }} </label>
@@ -36,23 +35,22 @@
           </div>
           {{#if askSpiceLevel 'SpiceLevel' }}
 
-              <div class="form-group">
-                <label for="recipient-name" class="control-label">How spicy?</label><br>
-                <div class="btn-group" data-toggle="buttons" >
-                  
-                  <label class="btn btn-primary">
-                    <input type="radio" name="spiceLevel"  value ="{{getSpiceLevelMild}}" id="spiceLevel{{getSpiceLevelMild}}" >
-                    <span style="font-size:1em; font-weight:300">{{getSpiceLevelMild}}</span>
-                  </label>
-                  <label class="btn btn-primary active">
-                    <input type="radio" name="spiceLevel" value ="{{getSpiceLevelNormal}}" id="spiceLevel{{getSpiceLevelNormal}}"  checked>
-                    <span style="font-size:1em; font-weight:300">{{getSpiceLevelNormal}}</span> 
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="spiceLevel" value ="{{getSpiceLevelSpicy}}" id="spiceLevel{{getSpiceLevelSpicy}}" >
-                    <span style="font-size:1em; font-weight:300">{{getSpiceLevelSpicy}}</span> 
-                  </label>
-                </div>
+              <div >
+                  <div>
+                      How spicy?
+                  </div>                      
+                    <div class="row padding_10px">
+                      <div class="col-sm-4">
+                        <input id="spiceLevel{{getSpiceLevelMild}}" type="radio" name="spiceLevel" value="{{getSpiceLevelMild}}" ><label for="spiceLevel{{getSpiceLevelMild}}"><span><span></span></span>{{getSpiceLevelMild}} </label>
+                      </div> 
+                    <div class="col-sm-4">
+                        <input id="spiceLevel{{getSpiceLevelNormal}}" type="radio" name="spiceLevel" value="{{getSpiceLevelNormal}}" checked><label for="spiceLevel{{getSpiceLevelNormal}}"><span><span></span></span>{{getSpiceLevelNormal}} </label>
+                       </div> 
+
+                    <div class="col-sm-4">
+                        <input id="spiceLevel{{getSpiceLevelSpicy}}" type="radio" name="spiceLevel" value="{{getSpiceLevelSpicy}}" ><label for="spiceLevel{{getSpiceLevelSpicy}}"><span><span></span></span>{{getSpiceLevelSpicy}} </label>
+                       </div> 
+                  </div>
               </div>
 
           {{/if}}
