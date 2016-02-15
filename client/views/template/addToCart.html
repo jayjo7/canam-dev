@@ -11,23 +11,24 @@
       <div class="modal-body" >
        
           <div>
-            <div>
-              Now pick a size :
-            </div>
+
             <div class="row padding_10px">
+              <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
+              Pick a size :
+              </div>                
               {{#if hasValue 'PriceMedium'}}
-                <div class="col-sm-4">
+                <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
                   <input id="itemSize{{getItemSizeMedium}}" type="radio" name="itemSize" value="{{getItemSizeMedium}}" ><label for="itemSize{{getItemSizeMedium}}"><span><span></span></span>{{getItemSizeMedium}} &nbsp; {{ getFormattedPrice 'PriceMedium' }} </label>
                  </div> 
                {{/if}}  
               {{#if hasValue 'PriceLarge'}}
-              <div class="col-sm-4">
+              <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
                   <input id="itemSize{{getItemSizeLarge}}" type="radio" name="itemSize" value="{{getItemSizeLarge}}" checked><label for="itemSize{{getItemSizeLarge}}"><span><span></span></span>{{getItemSizeLarge}} &nbsp; {{ getFormattedPrice 'PriceLarge' }} </label>
                  </div> 
 
                {{/if}}  
               {{#if hasValue 'PriceXL'}}
-              <div class="col-sm-4">
+              <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
                   <input id="itemSize{{getItemSizeExtraLarge}}" type="radio" name="itemSize" value="{{getItemSizeExtraLarge}}" ><label for="itemSize{{getItemSizeExtraLarge}}"><span><span></span></span>{{getItemSizeExtraLarge}} &nbsp; {{ getFormattedPrice 'PriceXL' }} </label>
                  </div> 
                {{/if}}  
@@ -36,25 +37,28 @@
           {{#if askSpiceLevel 'SpiceLevel' }}
 
               <div >
-                  <div>
-                      How spicy?
-                  </div>                      
+                  
                     <div class="row padding_10px">
-                      <div class="col-sm-4">
+                      <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
+                        How spicy?
+                      </div> 
+                      <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
                         <input id="spiceLevel{{getSpiceLevelMild}}" type="radio" name="spiceLevel" value="{{getSpiceLevelMild}}" ><label for="spiceLevel{{getSpiceLevelMild}}"><span><span></span></span>{{getSpiceLevelMild}} </label>
                       </div> 
-                    <div class="col-sm-4">
+                    <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
                         <input id="spiceLevel{{getSpiceLevelNormal}}" type="radio" name="spiceLevel" value="{{getSpiceLevelNormal}}" checked><label for="spiceLevel{{getSpiceLevelNormal}}"><span><span></span></span>{{getSpiceLevelNormal}} </label>
                        </div> 
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-3" style="padding-left: 5px; padding-right: 5px;">
                         <input id="spiceLevel{{getSpiceLevelSpicy}}" type="radio" name="spiceLevel" value="{{getSpiceLevelSpicy}}" ><label for="spiceLevel{{getSpiceLevelSpicy}}"><span><span></span></span>{{getSpiceLevelSpicy}} </label>
                        </div> 
                   </div>
               </div>
 
           {{/if}}
+          <div class="padding_10px">
            <input  type="text" class="form-control" id="inputMessageToKitchenByItem" name="messageToKitchenByItem" maxlength="44"  placeholder="Message to Kitchen" style="text-align:left" >
+         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success addcart" data-dismiss="modal">Add to Order</button>
