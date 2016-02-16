@@ -42,7 +42,7 @@
 	
 	
 	display: block;
-	background: gold;
+	background-image: url("img/back.jpg");
 	color: white;
 	overflow:auto;	
 	z-index: 20000;
@@ -144,6 +144,24 @@
 	width: 45%;
 }
 
+.message-to-kitchen{
+	margin-top: 8px;
+	padding: 4px 10px;
+	border-radius: 5px;
+	outline: none;
+	color: grey;
+	/*width: 44em;*/
+	font-weight: 300;
+	font-size: 0.9em;
+	/*border: 0.5px solid; */
+	border:solid 1px #e1e1e1;
+	/*box-shadow: -1px -1px 2px 1px rgba(200,0,3,1.00);*/
+	/*text-align: center;*/
+	background-color:lightyellow
+
+}
+
+/*style="font-size:.9em; border:solid 1px #e1e1e1; background-color:lightyellow;color:grey"*/
 
 .qtyy-modal {
 	border-radius: 5px;
@@ -151,9 +169,11 @@
 	color: black;
 	width: 3em;
 	font-weight: 500;
-	border: 0px solid;
-	box-shadow: -1px -1px 2px 1px rgba(200,0,3,1.00);
+	/*border: 0.5px solid; */
+	border:solid 1px #e1e1e1;
+	/*box-shadow: -1px -1px 2px 1px rgba(200,0,3,1.00);*/
 	text-align: center;
+	background-color:lightyellow
 }
 .qtyy-modal:focus, .textfld-modal:focus {
 	background-color: rgba(255,215,0,1.50);

@@ -1,7 +1,7 @@
 Template.registerHelper('getSelectedItemSize', function(cartItem)
     {
         var htmlString ='';
-
+/*
         switch (cartItem.itemSize)
         {
             case websheets.public.size.SMALL:
@@ -24,6 +24,29 @@ Template.registerHelper('getSelectedItemSize', function(cartItem)
 
                 htmlString = '<span class="badge progress-bar-danger">'+ websheets.public.size.EXTRALARGE + '</span>';
         }
+*/
+        switch (cartItem.itemSize)
+        {
+            case websheets.public.size.SMALL:
+
+                htmlString = '<span>Size:&nbsp;' +  websheets.public.size.SMALL + '</span>';
+
+                break;
+
+            case websheets.public.size.MEDIUM:
+
+                  htmlString ='<span>Size:&nbsp;' + websheets.public.size.MEDIUM + '</span>';
+                break;
+
+            case  websheets.public.size.LARGE:
+
+               htmlString = '<span>Size:&nbsp;' + websheets.public.size.LARGE +'</span>';
+               break;
+
+            case websheets.public.size.EXTRALARGE:
+
+                htmlString = '<span>Size:&nbsp;' +  websheets.public.size.EXTRALARGE + '</span>';
+        }        
         return htmlString;
 
     });
@@ -31,7 +54,7 @@ Template.registerHelper('getSelectedItemSize', function(cartItem)
 Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
     {
         var htmlString ='';
-
+/*
         switch (cartItem.spiceLevel)
         {
             case websheets.public.spicy.MILD:
@@ -48,6 +71,25 @@ Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
             case websheets.public.spicy.SPICY:
 
                 htmlString = '<span class="label label-danger">'+ websheets.public.spicy.SPICY+ '</span>';
+        }
+
+*/
+        switch (cartItem.spiceLevel)
+        {
+            case websheets.public.spicy.MILD:
+
+                htmlString = '<span>Spice:&nbsp;'  +  websheets.public.spicy.MILD + '</span>';
+
+                break;
+
+            case websheets.public.spicy.NORMAL:
+
+                  htmlString ='<span>Spice:&nbsp;' + websheets.public.spicy.NORMAL + '</span>';
+                break;
+
+            case websheets.public.spicy.SPICY:
+
+                htmlString = '<span>Spice:&nbsp;'+ websheets.public.spicy.SPICY+ '</span>';
         }
         return htmlString;
 
@@ -228,6 +270,23 @@ Template.registerHelper('showCart', function()
 		    {
 		    	return false;
 		    }
+
+
+});
+
+Template.registerHelper('cartItemCount', function()
+{
+
+	    	var  sessid = Session.get('appUUID');
+            var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
+
+            //console.log("shopCart:sessid =  " +sessid);
+
+			var cartItems = CartItems.find({session: sessid, orgname:orgname});
+		    //cartItems.itemCount = cartItems.count();
+		    //console.log("showCart:cartItems.itemCount =  " +cartItems.itemCount);
+		    return cartItems.count();
+
 
 
 });

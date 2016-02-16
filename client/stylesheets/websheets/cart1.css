@@ -34,8 +34,17 @@ body {
 	font-family: "Roberto", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif
 }
 .product-name {
-	font-family: "Dancing Script", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 1.6em;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	color:black;
+	font-weight: 800;
+}
+
+.size-spice {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: .7em;
+	color:grey;
+	font-weight: 300;
 }
 .pl-ziro {
 	padding-left: 0px;
