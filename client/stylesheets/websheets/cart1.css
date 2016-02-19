@@ -6,7 +6,7 @@
 
 #bodyscrollid{
 	width:100%;
-	min-height:200px;
+	/*min-height:200px;*/
     height:20%;
     max-height: 500px;
     max-width: 100%;
@@ -50,41 +50,42 @@ body {
 	padding-left: 0px;
 }
 @media only screen and (min-width: 0px) and (max-width: 600px) {
-.placeorderid {
+
+	.placeorderid {
   		margin-left: auto;
     	margin-right: auto;
 	}
 
 
 
- .hr { display: none; }
+ 	.hr { display: none; }
 
 
- #paymentboxid {
+ 	#paymentboxid {
  		position: static;
 		padding-top: 1cm;
 		bottom: 1px;
 		width:100%;
 	}
 
- #customerinfoid {
+ 	#customerinfoid {
  		width:100%;
 		bottom: 4px;
 		height:20%;
 		padding-bottom:4px;
 	}	
 
-#footerid {
+	#footerid {
 		height:auto;
 	}	
 
-#totalid{
+	#totalid{
 		position: bottom;
 		bottom: 1px;
    		right: 0px;
 	}
 
-#totalid1{
+	#totalid1{
 		position: bottom;
 		bottom: 0px;
 	}

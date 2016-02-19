@@ -204,23 +204,23 @@
 }
 
 @media(max-width:700px) {
-.checkout-modal-modal {
-	width: 100%;
-	height: auto;
 
+	.checkout-modal-modal {
+		width: 100%;
+		height: auto;
+	}
 
-}
+	.checkout-modal-customerdetails, .checkout-modal-paymentdetails, .creditcarddetails {
+		padding: 2px;
+	}
 
-.checkout-modal-customerdetails, .checkout-modal-paymentdetails, .creditcarddetails {
-	padding: 2px;
-}
-.textfld-modal {
-	border-radius: 2px;
-	padding: 1px;
-}
+	.textfld-modal {
+		border-radius: 2px;
+		padding: 1px;
+	}
 
-.bttn-modal {
-	outline: none;
-	max-width: 150px;
-}
+	.bttn-modal {
+		outline: none;
+		max-width: 150px;
+	}
 }

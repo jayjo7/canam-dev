@@ -18,7 +18,7 @@
         </div>
       </div>
       
-  <div CLASS="BODY" id="bodyscrollid" style="overflow-X:hidden">
+  <div CLASS="BODY" id="bodyscrollid">
 
       <div class="panel-body"  id="panelbodyid">
 
@@ -66,8 +66,24 @@
     </div>
       <!--Customer Details-->
       <div class="panel-footer" id="footerid" >
-        <div class="row " > 
+        <!-- Total -->
+        <div class="row" id="totalid">
+          <div class="col-xs-6"></div>
+          <div class="col-xs-6"  style="color:black" id="totaltaxid" >
+            <details class="pull-right" style="text-align:left">
           
+             <summary>Total: <strong>{{currency shopCart.total}}</strong></summary><br>
+              <ul>
+                <li>Tax: {{currency shopCart.tax}}</li>
+                <li>Delivery: $3.00</li>
+                <li>Discount: ({{currency shopCart.discount}})</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+        <!-- // Total --> 
+
+        <div class="row " > 
           <!--User Details-->
           <div class="col-xs-6" id="customerinfoid"  >
 
@@ -80,9 +96,11 @@
           <!--//User Details--> 
           <!--Payment Box-->
           <div class="col-xs-6" id="paymentboxid" >
-            <input  type="radio" name="paymentOption" value="onPickup"  id="inputRadioPickUp" checked><span style="color:black">&nbsp;Pay on Pickup </span>
+            <input  type="radio" name="paymentOption" value="onPickup"  id="inputRadioPickUp" style="opacity: unset" checked>
+                    <span style="color:black">&nbsp;Pay on Pickup </span>
             {{#if isPaymentEnabled}}
-                  &nbsp;<input type="radio" name="paymentOption"  value="now" id="inputRadioNow" ><span style="color:black">&nbsp;Pay Now </span><br/>
+                  &nbsp;<input type="radio" name="paymentOption"  style="opacity: unset" value="now" id="inputRadioNow" >
+                     <span style="color:black">&nbsp;Pay Now </span><br/>
 
                   <div class="panel panel-default">
                     <div class="panel-body">
@@ -119,33 +137,21 @@
 
           <!-- // Payment Box--> 
 
-
-        <!-- Total -->
-        <div class="row" id="totalid">
-          <div class="col-xs-6"></div>
-          <div class="col-xs-6"  style="color:black" id="totaltaxid" >
-            <details class="pull-right" style="test-align:left">
-          
-             <summary>Total: <strong>{{currency shopCart.total}}</strong></summary><br>
-              <ul>
-                <li>Tax: {{currency shopCart.tax}}</li>
-                <li>Delivery: $3.00</li>
-                <li>Discount: ({{currency shopCart.discount}})</li>
-              </ul>
-            </details>
+        <div class="row " > 
+          <div class="col-xs-12">
+            <hr style="border:solid thin rgba(175,110,0,0.50)">
           </div>
         </div>
-    <hr style="border:solid thin rgba(175,110,0,0.50)">
         <div class="row">
           <div class="col-xs-6">
               <button type="button" class="btn btn-default pull-right"  id="checkout-modal-close-trigger">Close</button>
             </div>
-          <div  class="col-xs-6 pull-left" id="placeorderid" style='padding-right:70px; padding-bottom:15px'>
-            <button type="button" class="btn btn-success" id="placeOrder"> Place Order </button>
+          <div  class="col-xs-6 pull-left" id="placeorderid" style='padding-bottom:15px;'>
+            <button type="button" class="btn btn-success" style='background-color: gold;color:black;border-color:gold' id="placeOrder"> Place Order </button>
           </div>
         </div>
         
-        <!-- // Total --> 
+
       </div>
     </div>
   </div>
