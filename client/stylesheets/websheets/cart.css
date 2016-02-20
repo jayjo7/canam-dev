@@ -161,6 +161,25 @@
 
 }
 
+.customer-info {
+	margin-top: 8px;
+	padding: 4px 10px;
+	border-radius: 5px;
+	outline: none;
+	color: grey;
+	width:100%;
+	font-weight: 300;
+	font-size: 0.9em;
+	/*border: 0.5px solid; */
+	border:solid 1px #e1e1e1;
+	/*box-shadow: -1px -1px 2px 1px rgba(200,0,3,1.00);*/
+	/*text-align: center;*/
+	background-color:lightyellow
+
+}
+
+
+
 /*style="font-size:.9em; border:solid 1px #e1e1e1; background-color:lightyellow;color:grey"*/
 
 .qtyy-modal {
@@ -202,8 +221,11 @@
 	color: lightgrey;
 	font-size: .8em;
 }
+/*
+@media(max-width:780px) {
 
-@media(max-width:700px) {
+ 
+
 
 	.checkout-modal-modal {
 		width: 100%;
@@ -223,4 +245,5 @@
 		outline: none;
 		max-width: 150px;
 	}
+	*/
 }
