@@ -144,7 +144,7 @@
 	width: 45%;
 }
 
-.message-to-kitchen{
+.message-to-kitchen, .customer-info {
 	margin-top: 8px;
 	padding: 4px 10px;
 	border-radius: 5px;
@@ -175,7 +175,7 @@
 	text-align: center;
 	background-color:lightyellow
 }
-.qtyy-modal:focus, .textfld-modal:focus {
+.qtyy-modal:focus, .textfld-modal:focus, .message-to-kitchen:focus, .customer-info:focus {
 	background-color: rgba(255,215,0,1.50);
 }
 .textfld-modal {
