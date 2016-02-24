@@ -28,3 +28,9 @@ Meteor.startup(function() {
 
 
 );
+
+$(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input:not([readonly]):not([type=radio]):not([type=checkbox]), textarea, [contentEditable], [contentEditable=true]")) {
+        e.preventDefault();
+    }
+});
