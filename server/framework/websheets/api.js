@@ -337,7 +337,7 @@
 	    			data.Name = s(data.Name).trim().titleize().value();
 	    			for (key in data)
 	    			{
-	    				data[key]= data[key].trim();
+	    				data[key]= s(data[key]).trim();
 	    			}
 	    			Menu.update({ UniqueId : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 
