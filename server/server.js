@@ -917,7 +917,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   console.log(hookSessionId + ': Menu.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
 		   console.log(hookSessionId + ': Menu.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
 		   console.log(hookSessionId + ': Menu.after.update:options    = ' + JSON.stringify(options, null, 4));
-		   var categories = Settings.find({'Key':'category_menu'},{fields: {'Value' : 1}}).fetch();
+		   var categories = Settings.find({'Key':'category_menu', orgname:doc.orgname },{fields: {'Value' : 1}}).fetch();
 		   var totalMenuItemCount=0
 		   for (categoriesKey in categories)
 		   {
@@ -925,6 +925,8 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   		console.log(hookSessionId + ': Menu.after.update : Category Name 		= ' + categories[categoriesKey].Value);
 		   		var menuByCategoriesCount = Menu.find(	{$and: [
 		   															{'Category':  categories[categoriesKey].Value},
+		   															{orgname:doc.orgname}, 
+							  										{Name : {"$exists" : true, "$ne" : ""}},
 						   											{ $or : [ 	{ $and: [	{ Price: {$exists : true }},
 															  								{ Price: { $ne : ""}},
 															  								{ Price: { $ne : 0}}
