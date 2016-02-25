@@ -923,7 +923,39 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   {
 
 		   		console.log(hookSessionId + ': Menu.after.update : Category Name 		= ' + categories[categoriesKey].Value);
-		   		var menuByCategoriesCount = Menu.find({'Category': categories[categoriesKey].Value}).count();
+		   		var menuByCategoriesCount = Menu.find(	{$and: [
+		   															{'Category':  categories[categoriesKey].Value},
+						   											{ $or : [ 	{ $and: [	{ Price: {$exists : true }},
+															  								{ Price: { $ne : ""}},
+															  								{ Price: { $ne : 0}}
+															  							]
+															  					},
+															  					{ $and: [	{ PriceSmall: {$exists : true }},
+															  								{ PriceSmall: { $ne : ""}},
+															  								{ PriceSmall: { $ne : 0}}
+															  							]
+															  					},
+															  					{ $and: [	{ PriceMedium: {$exists : true }},
+															  								{ PriceMedium: { $ne : ""}},
+															  								{ PriceMedium: { $ne : 0}}
+															  							]
+															  					},
+															  					{ $and: [	{ PriceLarge: {$exists : true }},
+															  								{ PriceLarge: { $ne : ""}},
+															  								{ PriceLarge: { $ne : 0}}
+															  							]
+															  					},
+															  					{ $and: [	{ PriceXL: {$exists : true }},
+															  								{ PriceXL: { $ne : ""}},
+															  								{ PriceXL: { $ne : 0}}
+															  							]
+															  					}
+													  						]
+							  										}
+							  									]	
+
+		   												}).count();
+
 		   		console.log(hookSessionId + ': Menu.after.update : Menu Count by Category ' +  categories[categoriesKey].Value +' = ' + menuByCategoriesCount);
 		   		Settings.update({'Key':'category_menu', 'Value': categories[categoriesKey].Value, orgname:doc.orgname}, {$set:{'menuItemCount': menuByCategoriesCount}});
 		   		totalMenuItemCount += menuByCategoriesCount;
