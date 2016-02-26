@@ -66,10 +66,10 @@
                                   {{else}} 
                                     {{#if isMultiPriceItem this}}
 
-                                      <span class="btn btn btn-sm pull-right" style="font-size: 12px; font-weight: bold" >Not Available</span>
+                                      <span   class="btn btn-default  pull-right" title="Not taking Order" >Not Available</span>
 
                                     {{else}}    
-                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Price}}</button>
+                                      <button class="btn pull-right" title="Not taking Order"> &nbsp; {{currency Price}}</button>
                                     {{/if}}
                                     
                                  {{/if}}        
@@ -82,7 +82,7 @@
                      {{else}}  
                             {{#if isMultiPriceItem this}}
 
-                                <span class="pull-right" style="font-size: 12px; font-weight: bold" >Not Available</span>
+                                <span class="btn btn-default  pull-right" title="Not taking Order"  >Not Available</span>
 
                             {{else}}  
                                 <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{currency Price}} </span>

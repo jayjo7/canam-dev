@@ -301,6 +301,8 @@ Template.homePage.events({
 
                 cartItem.addToCartToggle    =  websheets.public.generic.INCREMENT;
                 cartItem.singlePricedItem   = true;
+                evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
+                evt.currentTarget.title     = 'Remove from Cart'  
                 break;
                 
             default:
