@@ -326,6 +326,8 @@ Template.homePage.events({
         switch (addToCartToggle(orgname))
         {
             case websheets.public.generic.INCREMENT :
+                evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 
+                evt.currentTarget.title='Add to Cart' 
                 break;
             default:
                 evt.currentTarget.className = "btn btn-success btn-sm pull-right addcart"; 

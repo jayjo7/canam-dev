@@ -122,8 +122,8 @@ Template.addToCart.events({
 
         Meteor.call('addToCart', cartItem);
        console.log('addToCart: Done Calling the insert');
-        $('#itemSizeLarge').val("checked","checked");
-        $('#spiceLevelMedium').val("checked","checked");
+        $('#itemSizeLarge').prop('checked', true);
+        $('#spiceLevelNormal').prop('checked', true);
     }
 
 });
