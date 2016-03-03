@@ -89,6 +89,8 @@ var buildContentString =function(doc)
 
   var diffWithFontSevenSize = fontSevenCharCount - orgnameLength;
 
+  console.log( "diffWithFontSevenSize   : " + diffWithFontSevenSize);
+
   if(diffWithFontSevenSize == 0)
   {
       content =  "|7" + doc.orgname.toUpperCase();
@@ -105,12 +107,15 @@ var buildContentString =function(doc)
   }
   else
   {
-      content =  "|6" + doc.orgname.toUpperCase();
+      content =  "|6";
+      var diffWithFontSixCharCount = fontSixCharCount - orgnameLength;
+      var preSpace = diffWithFontSixCharCount/2;
+      for( var i = 0; i<preSpace; i++)
+      {
+        content = content + " ";
+      }
+       content = content+doc.orgname.toUpperCase();
   }
-
-
-
-
 
 
   var content = content + "|5********************************" 
@@ -122,7 +127,27 @@ var buildContentString =function(doc)
 
       var item = doc.itemsObject[key];
       var content = content + "|5" + item.qty  + "  -  " + item.name; 
+        if(item.itemSize)
+        {
+          content = content + "|5" + '      [Size - ' + item.itemSize + ']';
 
+          //itemString += ' [Size - ' + cartitems.itemSize + ']';
+        }
+        if(item.spiceLevel)
+        {
+
+          content = content + "|5" + '      [SpiceLevel - ' + item.spiceLevel + ']';
+
+          //itemString += '[SpiceLevel - ' + cartitems.spiceLevel + ']';
+        }
+        if(item.messageToKitchenByItem)
+        {
+
+          content = content + "|5" + '      [Message - ' + item.messageToKitchenByItem + ']';
+
+          //itemString += '[Message - ' + cartitems.messageToKitchenByItem + ']';
+        }
+        content  = content + "|5  ";
       //console.log( "item.name :  " + item.name);
       //console.log( "item.qty  :  " + item.qty);
       //console.log( "item.itemSize  : " + item.itemSize);
@@ -136,8 +161,19 @@ var buildContentString =function(doc)
   //var content = content + "|"+  doc.Items ;
   //var content = content + "|"; //Adding a empty line
   //var content = content + "|5*********************************" 
+  var content  = content + "|5  ";
+  if(doc.MessageToKitchen)
+  {
+    content  = content + "|5" + 'Message to Kitchen - ' + doc.MessageToKitchen ;
+  }
+  var content  = content + "|5  ";
 
-  var content  = content+ "|5********** Thank you! **********";
+  var content  = content + "|6" + "Total Items: "   + doc.TotalItem;
+  var content  = content + "|5  "; 
+
+  var content  = content + "|4" + "Customer Name: " + "|7"  + doc.CustomerName;
+  var content  = content + "|5  ";
+  var content  = content + "|5********** Thank you! **********";
 
   console.log("buildContentString : content: " + content);
 

@@ -124,6 +124,7 @@ Template.addToCart.events({
        console.log('addToCart: Done Calling the insert');
         $('#itemSizeLarge').prop('checked', true);
         $('#spiceLevelNormal').prop('checked', true);
+        $('#inputMessageToKitchenByItem').val('');
     }
 
 });
