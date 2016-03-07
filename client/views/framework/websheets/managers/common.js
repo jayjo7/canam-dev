@@ -57,39 +57,39 @@ Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
 /*
         switch (cartItem.spiceLevel)
         {
-            case websheets.public.spicy.MILD:
+            case websheets.public.spicy.ONE:
 
-                htmlString = '<span class="label label-success">' +  websheets.public.spicy.MILD + '</span>';
+                htmlString = '<span class="label label-success">' +  websheets.public.spicy.ONE + '</span>';
 
                 break;
 
-            case websheets.public.spicy.NORMAL:
+            case websheets.public.spicy.TWO:
 
-                  htmlString ='<span class="label label-warning">' + websheets.public.spicy.NORMAL + '</span>';
+                  htmlString ='<span class="label label-warning">' + websheets.public.spicy.TWO + '</span>';
                 break;
 
-            case websheets.public.spicy.SPICY:
+            case websheets.public.spicy.THREE:
 
-                htmlString = '<span class="label label-danger">'+ websheets.public.spicy.SPICY+ '</span>';
+                htmlString = '<span class="label label-danger">'+ websheets.public.spicy.THREE+ '</span>';
         }
 
 */
         switch (cartItem.spiceLevel)
         {
-            case websheets.public.spicy.MILD:
+            case websheets.public.spicy.ONE:
 
-                htmlString = '<span>Spice:&nbsp;'  +  websheets.public.spicy.MILD + '</span>';
+                htmlString = '<span>Spice:&nbsp;'  +  websheets.public.spicy.ONE + '</span>';
 
                 break;
 
-            case websheets.public.spicy.NORMAL:
+            case websheets.public.spicy.TWO:
 
-                  htmlString ='<span>Spice:&nbsp;' + websheets.public.spicy.NORMAL + '</span>';
+                  htmlString ='<span>Spice:&nbsp;' + websheets.public.spicy.TWO + '</span>';
                 break;
 
-            case websheets.public.spicy.SPICY:
+            case websheets.public.spicy.THREE:
 
-                htmlString = '<span>Spice:&nbsp;'+ websheets.public.spicy.SPICY+ '</span>';
+                htmlString = '<span>Spice:&nbsp;'+ websheets.public.spicy.THREE+ '</span>';
         }
         return htmlString;
 

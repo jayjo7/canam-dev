@@ -1,18 +1,18 @@
 Template.addToCart.helpers({
 
-  getSpiceLevelMild: function()
+  getSpiceLevelOne: function()
   {
-    return websheets.public.spicy.MILD;
+    return websheets.public.spicy.ONE;
   },
 
-  getSpiceLevelNormal: function()
+  getSpiceLevelTwo: function()
   {
-    return websheets.public.spicy.NORMAL;
+    return websheets.public.spicy.TWO;
   },
 
-  getSpiceLevelSpicy: function()
+  getSpiceLevelThree: function()
   {
-    return websheets.public.spicy.SPICY;
+    return websheets.public.spicy.THREE;
   },
 
   getItemSizeSmall: function()
@@ -88,7 +88,7 @@ Template.addToCart.events({
 
         var spiceLevelElement = tmpl.find('input[name=spiceLevel]:checked');
         cartItem.spiceLevel 	= $(spiceLevelElement).val();
-
+        console.log('addToCart: cartItem.spiceLevel  = ' + cartItem.spiceLevel );
         cartItem.messageToKitchenByItem   = $('#inputMessageToKitchenByItem').val();
 
         var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
@@ -121,9 +121,9 @@ Template.addToCart.events({
         cartItem.isMultiPriceItem   = true;
 
         Meteor.call('addToCart', cartItem);
-       console.log('addToCart: Done Calling the insert');
+        console.log('addToCart: Done Calling the insert');
         $('#itemSizeLarge').prop('checked', true);
-        $('#spiceLevelNormal').prop('checked', true);
+        $('#spiceLevel'+websheets.public.spicy.TWO).prop('checked', true);
         $('#inputMessageToKitchenByItem').val('');
     }
 

@@ -173,6 +173,9 @@ var buildContentString =function(doc)
 
   var content  = content + "|4" + "Customer Name: " + "|7"  + doc.CustomerName;
   var content  = content + "|5  ";
+
+  var content  = content + "|4" + "Total Amount: " + "|7"  + doc.CustomerName;
+  var content  = content + "|5  ";
   var content  = content + "|5********** Thank you! **********";
 
   console.log("buildContentString : content: " + content);
