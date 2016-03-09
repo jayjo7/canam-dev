@@ -142,7 +142,7 @@ var buildContentString =function(doc)
 
         }
 
-        content = content + totalItemPrice;
+        content = content + item.totalItemPrice;
 
         if(item.itemSize)
         {
@@ -192,7 +192,7 @@ var buildContentString =function(doc)
   var content  = content + "|5" + "Sub Total :    "   + doc.SubTotal;
   var content  = content + "|5" + "Tax       :    "   + doc.tax;
 
-  if (order.discount)
+  if (doc.discount)
   {
      content  = content + "|5" + "Doscount  :    "   + doc.discount;
   }

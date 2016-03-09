@@ -127,11 +127,13 @@ Meteor.methods({
 
           default:
             
-              subject             = 'Your Order [' + order.OrderNumber + ']';
-
-              if(getWillbeReadyIn(order.orgname))
+              subject                   = 'Your Order [' + order.OrderNumber + ']';
+              var WILL_BE_READY_IN      = Meteor.call('getSetting','will_be_ready_in' , order.orgname);
+              console.log(order.sessionId +": emailOrderReady : whoReceiving     = " + whoReceiving);
+              console.log(order.sessionId +": emailOrderReady : WILL_BE_READY_IN = " + WILL_BE_READY_IN);
+              if(WILL_BE_READY_IN)
               {
-                  subject + subject + " will be ready in " + getWillbeReadyIn(order.orgname) + "minutes";
+                 subject = subject + " will be ready in " + WILL_BE_READY_IN + " minutes";
               }
               body                = buildOrderReceivedBody(order, 'os');
               toEmailAddress      =  order.CustomerEmail;
@@ -188,6 +190,7 @@ var initializeMailGun = function(orgname)
 
 var buildOrderReceivedBody = function(order, urlPath)
 {
+    console.log('buildOrderReceivedBody: order.orgname = ' + order.orgname);
 
     var CLIENT_PHONE_NUMBER   = Meteor.call('getSetting', 'phone_number'  , order.orgname);
     //console.log('buildOrderReceivedBody: CLIENT_PHONE_NUMBER = ' +CLIENT_PHONE_NUMBER);
@@ -195,9 +198,11 @@ var buildOrderReceivedBody = function(order, urlPath)
     //console.log('buildOrderReceivedBody: CLIENT_ADDRESS = ' +CLIENT_ADDRESS);    
     var CLIENT_NAME           = Meteor.call('getSetting','store_name' , order.orgname);
     //console.log('buildOrderReceivedBody: CLIENT_NAME = ' +CLIENT_NAME);    
-    var EMAIl_CUSTOM_MESSAGE     = Meteor.call('getSetting','email_custom_message' , order.orgname);
-    //console.log('buildOrderReceivedBody: EMAIl_CUSTOM_MESSAGE  = ' +EMAIl_CUSTOM_MESSAGE );    
-  
+    var EMAIl_CUSTOM_MESSAGE  = Meteor.call('getSetting','email_custom_message' , order.orgname);
+    //console.log('buildOrderReceivedBody: EMAIl_CUSTOM_MESSAGE  = ' +EMAIl_CUSTOM_MESSAGE );  
+    var WILL_BE_READY_IN      = Meteor.call('getSetting','will_be_ready_in' , order.orgname);
+      console.log('buildOrderReceivedBody: WILL_BE_READY_IN  = ' +WILL_BE_READY_IN );  
+
 	  var body= order.CustomerName + ', Thank you for your order.' +'\n\n' ;
 
         
@@ -220,13 +225,13 @@ var buildOrderReceivedBody = function(order, urlPath)
       //body = body + CLIENT_ADDRESS_LINE2+ '\n\n';
       body = body + CLIENT_ADDRESS+ '\n\n';
 
-      if(getWillbeReadyIn(order.orgname))
+      if(WILL_BE_READY_IN)
       {
-        body = body + 'We will email you when your order is ready for pickup'+ '\n\n';
+          body = body + "Your order will be ready in "  + WILL_BE_READY_IN + " minutes for pickup" + '\n\n';
       }
       else
       {
-        body = body + "Your order will be ready in "  + getWillbeReadyIn(order.orgname) + "minutes for pickup" + '\n\n';
+          body = body + 'We will email you when your order is ready for pickup'+ '\n\n';
       }
       
       

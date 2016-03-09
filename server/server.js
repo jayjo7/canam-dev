@@ -249,6 +249,8 @@ Meteor.methods({
 
 				itemString += '\n';
 
+				var totalItemPrice = cartitems.qty *  cartitems.Price;
+
    				items.push(
    				{ 
         				"name" 						: cartitems.Name,
@@ -258,7 +260,7 @@ Meteor.methods({
 						"messageToKitchenByItem" 	: cartitems.messageToKitchenByItem,
 						"price"						: cartitems.Price,
 						"itemCode"                  : cartitems.ItemCode,
-						"totalItemPrice"			: cartitems.qty *  cartitems.Price
+						"totalItemPrice"			: totalItemPrice
 
 				});
 

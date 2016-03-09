@@ -446,7 +446,6 @@ statusDescription = function (StatusCode)
 
 Meteor.methods({
 
-
   getSetting:function(key, orgname)
   {
   		//console.log('getSetting: Key = ' + key );
