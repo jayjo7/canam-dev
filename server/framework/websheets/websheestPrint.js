@@ -85,7 +85,7 @@ var buildContentString =function(doc)
 
 
   //Start Org Name Sizing
-  var orgnameLength = doc.orgname.length;
+  var orgnameLength = getStoreName(doc.orgname).length;
 
   var diffWithFontSevenSize = fontSevenCharCount - orgnameLength;
 
@@ -118,32 +118,49 @@ var buildContentString =function(doc)
   }
 
 
-  var content = content + "|5********************************" 
+  var content = content + "|5********************************" ;
   var content = content + "|7" + "   Order# " +  doc.OrderNumber;
-  var content = content + "|5********************************" 
+  var content = content + "|5********************************" ;
+  var content = content + "|5  " ;
   for (key in doc.itemsObject)
   {
       console.log( "Key   : " + key);
 
       var item = doc.itemsObject[key];
-      var content = content + "|5" + item.qty  + "  -  " + item.name; 
+      var content = content + "|5 " ; 
+
+        if(item.itemCode && isPrintItemCode(doc.orgname))
+        {
+
+          content = content + item.qty  + "  -  " + item.name; 
+
+        }
+        else
+        {
+
+          content = content + item.qty  + "  -  " + item.itemCode; 
+
+        }
+
+        content = content + totalItemPrice;
+
         if(item.itemSize)
         {
-          content = content + "|5" + '      [Size - ' + item.itemSize + ']';
+          content = content + "|5 " + '       [Size - ' + item.itemSize + ']';
 
           //itemString += ' [Size - ' + cartitems.itemSize + ']';
         }
         if(item.spiceLevel)
         {
 
-          content = content + "|5" + '      [SpiceLevel - ' + item.spiceLevel + ']';
+          content = content + "|5 " + '       [SpiceLevel - ' + item.spiceLevel + ']';
 
           //itemString += '[SpiceLevel - ' + cartitems.spiceLevel + ']';
         }
         if(item.messageToKitchenByItem)
         {
 
-          content = content + "|5" + '      [Message - ' + item.messageToKitchenByItem + ']';
+          content = content + "|5 " + '       [Message - ' + item.messageToKitchenByItem + ']';
 
           //itemString += '[Message - ' + cartitems.messageToKitchenByItem + ']';
         }
@@ -171,11 +188,24 @@ var buildContentString =function(doc)
   var content  = content + "|6" + "Total Items: "   + doc.TotalItem;
   var content  = content + "|5  "; 
 
+
+  var content  = content + "|5" + "Sub Total :    "   + doc.SubTotal;
+  var content  = content + "|5" + "Tax       :    "   + doc.tax;
+
+  if (order.discount)
+  {
+     content  = content + "|5" + "Doscount  :    "   + doc.discount;
+  }
+
+  var content  = content + "|5" + "Total     :    "   + doc.Total;
+  var content  = content + "|5  ";
+
   var content  = content + "|4" + "Customer Name: " + "|7"  + doc.CustomerName;
   var content  = content + "|5  ";
 
-  var content  = content + "|4" + "Total Amount: " + "|7"  + doc.CustomerName;
+  var content  = content + "|4" + "Customer Phone: " + "|7"  + doc.CustomerPhone;
   var content  = content + "|5  ";
+
   var content  = content + "|5********** Thank you! **********";
 
   console.log("buildContentString : content: " + content);

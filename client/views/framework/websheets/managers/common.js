@@ -120,8 +120,48 @@ Template.registerHelper('menu',function(categoryMenu)
 {
     var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
     console.log('menu: ' + orgname);
+    //console.log('isItemCodeEnabled: ' + isItemCodeEnabled(orgname);
 
-	return Menu.find(	{$and : [
+    if('ENABLED' === Meteor.settings.public[orgname].itemCode.toUpperCase())
+    {
+        	return Menu.find(	{$and : [
+		                      		{Category: categoryMenu}, 
+							  		{orgname:orgname}, 
+							  		{Name     : {"$exists" : true, "$ne" : ""}},
+							  		{ItemCode : {"$exists" : true, "$ne" : ""}},
+							  		{ $or : [ 	{ $and: [	{ Price: {$exists : true }},
+							  								{ Price: { $ne : ""}},
+							  								{ Price: { $ne : 0}}
+							  							]
+							  					},
+							  					{ $and: [	{ PriceSmall: {$exists : true }},
+							  								{ PriceSmall: { $ne : ""}},
+							  								{ PriceSmall: { $ne : 0}}
+							  							]
+							  					},
+							  					{ $and: [	{ PriceMedium: {$exists : true }},
+							  								{ PriceMedium: { $ne : ""}},
+							  								{ PriceMedium: { $ne : 0}}
+							  							]
+							  					},
+							  					{ $and: [	{ PriceLarge: {$exists : true }},
+							  								{ PriceLarge: { $ne : ""}},
+							  								{ PriceLarge: { $ne : 0}}
+							  							]
+							  					},
+							  					{ $and: [	{ PriceXL: {$exists : true }},
+							  								{ PriceXL: { $ne : ""}},
+							  								{ PriceXL: { $ne : 0}}
+							  							]
+							  					}
+							  				]
+							  		}
+							  	]
+						},{sort:{sheetRowId: 1}});
+    }
+    else
+    {
+        	return Menu.find(	{$and : [
 		                      		{Category: categoryMenu}, 
 							  		{orgname:orgname}, 
 							  		{Name : {"$exists" : true, "$ne" : ""}},
@@ -154,6 +194,9 @@ Template.registerHelper('menu',function(categoryMenu)
 							  		}
 							  	]
 						},{sort:{sheetRowId: 1}});
+    }
+
+
 
 });
 
@@ -467,6 +510,7 @@ isPaymentBrainTree	 = function(orgname)
         return false;
     }
 }
+
 
 gmtOffset  	= function(orgname)
 {

@@ -119,6 +119,7 @@ Template.addToCart.events({
         cartItem.Price      = price;
         cartItem.addToCartToggle    = websheets.public.generic.INCREMENT;    
         cartItem.isMultiPriceItem   = true;
+        cartItem.ItemCode   = menu.ItemCode;
 
         Meteor.call('addToCart', cartItem);
         console.log('addToCart: Done Calling the insert');

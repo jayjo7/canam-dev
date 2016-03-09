@@ -1,5 +1,30 @@
 
 // Items that need to be move to config file
+
+isItemCodeEnabled       = function(orgname) 
+                          {
+                              if('ENABLED' === Meteor.settings.public[orgname].itemCode.toUpperCase())
+                              {
+                                  return true;
+                              }
+                              else
+                              {
+                                  return false;
+                              }
+                          }
+
+isPrintItemCode         = function(orgname) 
+                          {
+                              if('ENABLED' === Meteor.settings.public[orgname].printItemCode.toUpperCase())
+                              {
+                                  return true;
+                              }
+                              else
+                              {
+                                  return false;
+                              }
+                          }   
+
 rootUrl                 = function(orgname)
                           {
                             return Meteor.settings.private[orgname].rootUrl;
@@ -403,9 +428,24 @@ statusDescription = function (StatusCode)
       }
   }
 
+  getWillbeReadyIn = function (orgname)
+  {
+
+      return   getSetting('will_be_ready_in', orgname);
+
+  }
+
+  getStoreName = function (orgname)
+  {
+
+      return   getSetting('store_name', orgname);
+
+  }
+
 
 
 Meteor.methods({
+
 
   getSetting:function(key, orgname)
   {

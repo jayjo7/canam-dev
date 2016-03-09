@@ -128,6 +128,11 @@ Meteor.methods({
           default:
             
               subject             = 'Your Order [' + order.OrderNumber + ']';
+
+              if(getWillbeReadyIn(order.orgname))
+              {
+                  subject + subject + " will be ready in " + getWillbeReadyIn(order.orgname) + "minutes";
+              }
               body                = buildOrderReceivedBody(order, 'os');
               toEmailAddress      =  order.CustomerEmail;
 
@@ -214,7 +219,15 @@ var buildOrderReceivedBody = function(order, urlPath)
       //body = body + CLIENT_ADDRESS_LINE1 + '\n';
       //body = body + CLIENT_ADDRESS_LINE2+ '\n\n';
       body = body + CLIENT_ADDRESS+ '\n\n';
-      body = body + 'We will email you when your order is ready for pickup'+ '\n\n';
+
+      if(getWillbeReadyIn(order.orgname))
+      {
+        body = body + 'We will email you when your order is ready for pickup'+ '\n\n';
+      }
+      else
+      {
+        body = body + "Your order will be ready in "  + getWillbeReadyIn(order.orgname) + "minutes for pickup" + '\n\n';
+      }
       
       
       

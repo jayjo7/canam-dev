@@ -256,7 +256,9 @@ Meteor.methods({
 						"itemSize"					: cartitems.itemSize,  			
         				"spiceLevel" 				: cartitems.spiceLevel,
 						"messageToKitchenByItem" 	: cartitems.messageToKitchenByItem,
-						"price"						: cartitems.Price
+						"price"						: cartitems.Price,
+						"itemCode"                  : cartitems.ItemCode,
+						"totalItemPrice"			: cartitems.qty *  cartitems.Price
 
 				});
 
