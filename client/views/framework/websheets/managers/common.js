@@ -131,27 +131,32 @@ Template.registerHelper('menu',function(categoryMenu)
 							  		{ItemCode : {"$exists" : true, "$ne" : ""}},
 							  		{ $or : [ 	{ $and: [	{ Price: {$exists : true }},
 							  								{ Price: { $ne : ""}},
-							  								{ Price: { $ne : 0}}
+							  								{ Price: { $ne : 0}},
+							  								{ Price: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceSmall: {$exists : true }},
 							  								{ PriceSmall: { $ne : ""}},
-							  								{ PriceSmall: { $ne : 0}}
+							  								{ PriceSmall: { $ne : 0}},
+							  								{ PriceSmall: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceMedium: {$exists : true }},
 							  								{ PriceMedium: { $ne : ""}},
-							  								{ PriceMedium: { $ne : 0}}
+							  								{ PriceMedium: { $ne : 0}},
+							  								{ PriceMedium: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceLarge: {$exists : true }},
 							  								{ PriceLarge: { $ne : ""}},
-							  								{ PriceLarge: { $ne : 0}}
+							  								{ PriceLarge: { $ne : 0}},
+							  								{ PriceLarge: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceXL: {$exists : true }},
 							  								{ PriceXL: { $ne : ""}},
-							  								{ PriceXL: { $ne : 0}}
+							  								{ PriceXL: { $ne : 0}},
+							  								{ PriceXL: { $ne : "0"}}
 							  							]
 							  					}
 							  				]
@@ -167,27 +172,32 @@ Template.registerHelper('menu',function(categoryMenu)
 							  		{Name : {"$exists" : true, "$ne" : ""}},
 							  		{ $or : [ 	{ $and: [	{ Price: {$exists : true }},
 							  								{ Price: { $ne : ""}},
-							  								{ Price: { $ne : 0}}
+							  								{ Price: { $ne : 0}},
+							  								{ Price: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceSmall: {$exists : true }},
 							  								{ PriceSmall: { $ne : ""}},
-							  								{ PriceSmall: { $ne : 0}}
+							  								{ PriceSmall: { $ne : 0}},
+							  								{ PriceSmall: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceMedium: {$exists : true }},
 							  								{ PriceMedium: { $ne : ""}},
-							  								{ PriceMedium: { $ne : 0}}
+							  								{ PriceMedium: { $ne : 0}},
+							  								{ PriceMedium: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceLarge: {$exists : true }},
 							  								{ PriceLarge: { $ne : ""}},
-							  								{ PriceLarge: { $ne : 0}}
+							  								{ PriceLarge: { $ne : 0}},
+							  								{ PriceLarge: { $ne : "0"}}
 							  							]
 							  					},
 							  					{ $and: [	{ PriceXL: {$exists : true }},
 							  								{ PriceXL: { $ne : ""}},
-							  								{ PriceXL: { $ne : 0}}
+							  								{ PriceXL: { $ne : 0}},
+							  								{ PriceXL: { $ne : "0"}}
 							  							]
 							  					}
 							  				]
