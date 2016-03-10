@@ -335,11 +335,11 @@
 	    		case websheets.private.generic.MENU:
 	    		
 	    			data.Name 			= s(data.Name).trim().titleize().value();
-	    			data.Price			= s(data.Price).trim()
-	    			data.PriceSmall		= s(data.PriceSmall).trim()
-	    			data.PriceMedium	= s(data.PriceMedium).trim()
-	    			data.PriceLarge		= s(data.PriceLarge).trim()
-	    			data.PriceXL		= s(data.PriceXL).trim()
+	    			data.Price			= s(data.Price).trim().value();
+	    			data.PriceSmall		= s(data.PriceSmall).trim().value();
+	    			data.PriceMedium	= s(data.PriceMedium).trim().value();
+	    			data.PriceLarge		= s(data.PriceLarge).trim().value();
+	    			data.PriceXL		= s(data.PriceXL).trim().value();
 	    			Menu.update({ UniqueId : data[UniqueId_key], orgname : data[orgname]}, data,{upsert:true});
 
 	    			break;
