@@ -95,7 +95,55 @@ Template.confirmation.helpers({
         	return false;
   },
 
+  isOrderStatusOneEnabled:function(orgname)
+  {
+    if('ENABLED' === (Meteor.settings.public[orgname].os.state_one).toUpperCase())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  },
 
+
+  isOrderStatusTwoEnabled:function(orgname)
+  {
+    if('ENABLED' === (Meteor.settings.public[orgname].os.state_two).toUpperCase())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  },
+
+  isOrderStatusThreeEnabled:function(orgname)
+  {
+    if ('ENABLED' === (Meteor.settings.public[orgname].os.state_three).toUpperCase())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+
+  },
+  isOrderStatusFourEnabled:function(orgname)
+  {
+    if('ENABLED' === (Meteor.settings.public[orgname].os.state_four).toUpperCase())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+
+  },
 
 
   message: function(order)

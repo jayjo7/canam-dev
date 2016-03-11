@@ -108,11 +108,11 @@
                         {{#if showSubTotal shopCart.tax shopCart.discount }}
                           <span class="total-space" >Subtotal:</span> <br />
                         {{/if}}
-                        {{#if showTax shopCart.tax }}
-                          <span class="total-space">Tax:</span> <br />
-                        {{/if}}
                         {{#if showDiscount shopCart.discount }}
                           <span class="total-space">Discount:</span> <br />
+                        {{/if}}
+                        {{#if showTax shopCart.tax }}
+                          <span class="total-space">Tax:</span> <br />
                         {{/if}}
                         <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total:</span><br />
                         <span class="total-space" style="font-weight: bold; color: #4d4d4d">Payment:</span>
@@ -122,12 +122,13 @@
                           {{#if showSubTotal shopCart.tax shopCart.discount }}
                             <span class="total-space">{{currency shopCart.subtotal }}</span> <br />
                           {{/if}}
-                          {{#if showTax shopCart.tax }}
-                            <span class="total-space">{{currency shopCart.tax}}</span> <br />
-                          {{/if}}
                           {{#if showDiscount shopCart.discount }}
                             <span class="total-space">({{currency shopCart.discount}})</span> <br /> 
                           {{/if}}
+                          {{#if showTax shopCart.tax }}
+                            <span class="total-space">{{currency shopCart.tax}}</span> <br />
+                          {{/if}}
+
                           <span class="total-space" style="font-weight:bold; color: #4d4d4d">{{currency shopCart.total}}</span><br />
                           <span class="total-space" style="font-weight: bold; color: #4d4d4d">At Pickup</span>
                       </td>

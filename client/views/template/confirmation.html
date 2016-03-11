@@ -75,48 +75,51 @@
                                 <img src="/img/confirmation/1-on.png"  width='100' alt="Order Placed" /><br />
                                 <b>✓</b><br />Order Placed</td>
 
-                                {{#if isInKitchen Order }}
+                                {{#if isOrderStatusTwoEnabled Order.orgname }}
+                                    {{#if isInKitchen Order }}
 
-                                       <!-- STEP TWO -->
-                                      <td class="step active">
-                                        <img src="/img/confirmation/2-on.png" alt="In Kitchen" /><br />
-                                <b>✓</b><br />In Kitchen</td>
-                                {{else}}
+                                           <!-- STEP TWO -->
+                                          <td class="step active">
+                                            <img src="/img/confirmation/2-on.png" alt="In Kitchen" /><br />
+                                    <b>✓</b><br />In Kitchen</td>
+                                    {{else}}
 
-                               <!-- STEP TWO -->
-                                      <td class="step ">
-                                        {{#if omEnabled}}
-                                            <a href="#" id='moveOrderStatus'>
-                                              <img src="/img/confirmation/2-off.png" alt="In Kitchen" />
-                                            </a>
-                                        {{else}}
-                                             <img src="/img/confirmation/2-off.png" alt="In Kitchen" />
-                                        {{/if}}
+                                   <!-- STEP TWO -->
+                                          <td class="step ">
+                                            {{#if omEnabled}}
+                                                <a href="#" id='moveOrderStatus'>
+                                                  <img src="/img/confirmation/2-off.png" alt="In Kitchen" />
+                                                </a>
+                                            {{else}}
+                                                 <img src="/img/confirmation/2-off.png" alt="In Kitchen" />
+                                            {{/if}}
 
-                                        <br />
-                                <b>&nbsp;</b><br />In Kitchen</td>
+                                            <br />
+                                    <b>&nbsp;</b><br />In Kitchen</td>
+                                    {{/if}}
                                 {{/if}}
+                                {{#if isOrderStatusThreeEnabled Order.orgname }}
+       
+                                      {{#if isSaleComplete Order}}
 
+                                            <td class="step active">
+                                            <img src="/img/confirmation/3-on.png" alt="Ready for Pickup" /><br />
+                                      <b>✓</b><br />Ready for Pickup</td>
 
-                                {{#if isSaleComplete Order}}
+                                      {{else}}
+                                           <!-- STEP THREE -->
+                                          <td class="step">
+                                            {{#if enableReadyButton Order omEnabled}}
+                                                <a href="#" id='moveOrderStatus'>
+                                                  <img src="/img/confirmation/3-off.png" alt="Not Ready" /><br />
+                                                </a>  
+                                             {{else}}  
+                                                <img src="/img/confirmation/3-off.png" alt="Not Ready" /><br />
+                                            {{/if}}
+       
+                                      <b>&nbsp;</b><br />Ready for Pickup</td>
 
-                                      <td class="step active">
-                                      <img src="/img/confirmation/3-on.png" alt="Ready for Pickup" /><br />
-                                <b>✓</b><br />Ready for Pickup</td>
-
-                                {{else}}
-                                     <!-- STEP THREE -->
-                                    <td class="step">
-                                      {{#if enableReadyButton Order omEnabled}}
-                                          <a href="#" id='moveOrderStatus'>
-                                            <img src="/img/confirmation/3-off.png" alt="Not Ready" /><br />
-                                          </a>  
-                                       {{else}}  
-                                          <img src="/img/confirmation/3-off.png" alt="Not Ready" /><br />
                                       {{/if}}
- 
-                                <b>&nbsp;</b><br />Ready for Pickup</td>
-
                                 {{/if}}
 
                                 {{#if isDelivered Order}}
@@ -272,12 +275,13 @@
                                   {{#if showSubTotal UniqueId}}
                                     <span class="total-space" >Subtotal</span> <br />
                                   {{/if}}
-                                  {{#if haveTax UniqueId}}
-                                    <span class="total-space">Tax</span> <br />
-                                  {{/if}}
                                   {{#if haveDiscount UniqueId}}
                                       <span class="total-space">Discount</span> <br />
                                   {{/if}}
+                                  {{#if haveTax UniqueId}}
+                                    <span class="total-space">Tax</span> <br />
+                                  {{/if}}
+
                                   <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span>
                               </td>
 
@@ -286,12 +290,13 @@
                                   {{#if showSubTotal UniqueId}}
                                     <span class="total-space">{{getSubTotal UniqueId}}</span> <br />
                                   {{/if}}
-                                  {{#if haveTax UniqueId}}
-                                    <span class="total-space">{{getTax UniqueId }}</span> <br />
-                                  {{/if}}
                                  {{#if haveDiscount UniqueId}}
                                   <span class="total-space">({{getDiscount UniqueId }})</span> <br /> 
                                   {{/if}}
+                                  {{#if haveTax UniqueId}}
+                                    <span class="total-space">{{getTax UniqueId }}</span> <br />
+                                  {{/if}}
+
                                 <span class="total-space" style="font-weight:bold; color: #4d4d4d">{{getTotal UniqueId}}</span>
                             </td>
 
