@@ -21,5 +21,3 @@ PaymentInfo = new Mongo.Collection('paymentInfo');
 DmMetatData = new Mongo.Collection('dmMetatData');
 
 OrdersMeta = new Mongo.Collection('ordersMeta');
-
-GeneralMetaData = new  Mongo.Collection('generalMetaData);
