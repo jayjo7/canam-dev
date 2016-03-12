@@ -973,7 +973,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 		   totalMenuItemCountObject.Value 		= totalMenuItemCount;
 		   totalMenuItemCountObject.orgname		= doc.orgname;
 		   console.log(hookSessionId + ': Menu.after.update: totalMenuItemCountObject       = ' + JSON.stringify(totalMenuItemCountObject, null, 4));
-		   Settings.update({'Key':'totalMenuItemCount', orgname:doc.orgname}, totalMenuItemCountObject, {upsert:true});
+		   GeneralMetaData.update({'Key':'totalMenuItemCount', orgname:doc.orgname}, totalMenuItemCountObject, {upsert:true});
 
 		   preProcessDmMetaData(hookSessionId , doc);
 
@@ -987,7 +987,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     {
     	var hookSessionId = Meteor.uuid();
 
-    	if(fieldNames[0] !== 'menuItemCount' &&  doc.Key !== 'totalMenuItemCount')
+    	if(fieldNames[0] !== 'menuItemCount')
     	{
 
     	   console.log(hookSessionId + ': Settings.after.update:userId     = ' + userId);
@@ -1014,10 +1014,10 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     preProcessDmMetaData = function(hookSessionId , doc)
     {
-    	var totalMenuCount 	= Settings.findOne({'Key':'totalMenuItemCount', orgname:doc.orgname});
+    	console.log(hookSessionId + ': preProcessDmMetaData: totalMenuCount 	= ' + totalMenuCount);
+    	var totalMenuCount 	= GeneralMetaData.findOne({'Key':'totalMenuItemCount', orgname:doc.orgname});
     	var dm_count_page 	= Settings.findOne({'Key':'dm_count_page', 		orgname:doc.orgname});
     	var dm_count_column = Settings.findOne({'Key':'dm_count_column', 	orgname:doc.orgname});
-    	console.log(hookSessionId + ': preProcessDmMetaData: totalMenuCount 	= ' + totalMenuCount.Value);
 
     	var result 			= Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
     	console.log(hookSessionId + ': preProcessDmMetaData: Total Valid Categories count (result.length)	= ' + result.length);

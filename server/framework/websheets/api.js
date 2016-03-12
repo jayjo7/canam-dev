@@ -57,7 +57,7 @@
 
 								if( isSupportedTab(key))
 								{
-
+									console.log( sessionid + ': sheetSync: yes the tab is supported ' + key);
 									result = upsertSupportedTab(key, data[i], websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid)
 
 								}
@@ -137,7 +137,7 @@
 				var dataFromDb 
 
 				var bodyJason = this.bodyParams;
-				console.log(sessionid + ': sheetSyncFull: Number of objects received in boday parms = ' + Object.keys(bodyJason).length);
+				console.log(sessionid + ': sheetSyncFull: Number of objects received in body parms = ' + Object.keys(bodyJason).length);
 				if(Object.keys(bodyJason).length)
 				{
 					for(var key in bodyJason)
@@ -151,7 +151,7 @@
 
 						if(isSupportedTab(key))
 						{
-
+							console.log(sessionid + ': sheetSyncFull: yes the tab is supported ' + key);
 							var resultProcessSupportedTab = processSupportedTab (key, data, websheets.private.generic.UNIQUE_ID_NAME, websheets.private.generic.ORG_KEY_NAME, sessionid);
 							for (keyResultProcessSupportedTab in resultProcessSupportedTab)
 							{
@@ -463,8 +463,8 @@
     {
 
 		console.log(sessionid + ": findSupportedTab: processing supported tab = " + collectionName);
-		console.log(sessionid + ": findSupportedTab: UniqueId_key  = " + UniqueId_key);
-		console.log(sessionid + ": findSupportedTab: Data      = " + JSON.stringify(data, null, 4));
+		console.log(sessionid + ": findSupportedTab: UniqueId_key             = " + UniqueId_key);
+		console.log(sessionid + ": findSupportedTab: Data                     = " + JSON.stringify(data, null, 4));
 
 
     	var result 			={};
@@ -516,7 +516,7 @@
 		
 
     	}
-    	 console.log(sessionid + ": findSupportedTab: " + collectionName + "count () = " + dataFromDb.count());
+    	 console.log(sessionid + ": findSupportedTab: " + collectionName + " - record count from database = " + dataFromDb.count());
 
 		 //console.log(sessionid + ": findSupportedTab: returing result from findSupportedTab = " + JSON.stringify(result, null, 4));
 
@@ -531,7 +531,7 @@
     {
     	result = {};
     	var supportedTabCursor = findSupportedTab(collectionName, data[0] , UniqueId_key, orgname, sessionid);
-    	console.log(sessionid + ": processSupportedTab: " + collectionName + "count () = " + supportedTabCursor.dataFromDb.length);
+    	console.log(sessionid + ": processSupportedTab: " + collectionName + " - record count from database = " + supportedTabCursor.dataFromDb.length);
     	for(var i=0; i<data.length; i++)
 		{
 			console.log ( sessionid + ': processSupportedTab: data[' + i + '].UniqueId = ' + data[i].UniqueId);
@@ -553,8 +553,8 @@
 
 		}
 
-		console.log(sessionid + ': processSupportedTab: Size of array received from db after check : '+ supportedTabCursor.dataFromDb.length);
-		result.recordsToBeDeleted= supportedTabCursor.dataFromDb.length;
+		console.log(sessionid + ': processSupportedTab: Size of array received from db after check (recordsToBeDeleted ): '+ supportedTabCursor.dataFromDb.length);
+		result.recordsToBeDeleted = supportedTabCursor.dataFromDb.length;
 
 		var deletedRecords =[];
 

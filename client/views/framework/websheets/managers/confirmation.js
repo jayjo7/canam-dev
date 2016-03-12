@@ -148,7 +148,7 @@ Template.confirmation.helpers({
 
   message: function(order)
 	{
-		  console.log('message:uniqueId = ' + uniqueId);
+		  console.log('message:uniqueId = ' + order.UniqueId);
 
       var messageKey='message_confirmation';
       if(websheets.public.orderState.THREE === order.Status)
@@ -160,7 +160,7 @@ Template.confirmation.helpers({
         messageKey = 'message_delivered';
 
 
-		  var confirmation = Settings.findOne({$and : [{Key: messageKey}, {UniqueId:uniqueId}, {Value : {"$exists" : true, "$ne" : ""}}]});
+		  var confirmation = Settings.findOne({$and : [{Key: messageKey}, {orgname:order.orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
 		  var value = confirmation['Value'];
 		  console.log(' confirmation value = ' + value);
