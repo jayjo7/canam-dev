@@ -185,7 +185,7 @@ Meteor.methods({
 	},
 
 
-	orderItems: function(sessionId, contactInfo, sequence, orgname, cardToken, callback)
+	orderItems: function(sessionId, contactInfo, sequence, orgname, bagOfGoodies, callback)
 	{
 
 			console.log(sessionId + ' :In OrderItems');
@@ -332,17 +332,32 @@ Meteor.methods({
             }
 
 
-			if(cardToken)
+			if(bagOfGoodies.cardToken)
 			{
 				order.Payment='Online';
 				order.cardToken = cardToken;
             }
-            else
+            else if(bagOfGoodies.Payment)	
+            {
+            	order.Payment = bagOfGoodies.Payment;
+            }
+           	else 	
             {
 
-            	order.Payment='At Pickup';
+            	order.Payment = 'At Pickup';
 
             }	
+
+            if(bagOfGoodies.Delivery)
+            {
+            	order.Delivery = bagOfGoodies.Delivery;
+            }
+            else
+            {
+            	order.Delivery ="Carry Out";
+            }
+
+            
 
             console.log(sessionId + " : Here is the completed Order Object: " + JSON.stringify(order, null, 4));
 
@@ -1014,10 +1029,16 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     preProcessDmMetaData = function(hookSessionId , doc)
     {
-    	console.log(hookSessionId + ': preProcessDmMetaData: totalMenuCount 	= ' + totalMenuCount);
     	var totalMenuCount 	= GeneralMetaData.findOne({'Key':'totalMenuItemCount', orgname:doc.orgname});
+    	console.log(hookSessionId + ': preProcessDmMetaData: totalMenuCount 	= ' + totalMenuCount);
+
     	var dm_count_page 	= Settings.findOne({'Key':'dm_count_page', 		orgname:doc.orgname});
+    	console.log(hookSessionId + ': preProcessDmMetaData: dm_count_page   	= ' + dm_count_page);
+
+
     	var dm_count_column = Settings.findOne({'Key':'dm_count_column', 	orgname:doc.orgname});
+    	 console.log(hookSessionId + ': preProcessDmMetaData: dm_count_column 	= ' + dm_count_column);
+
 
     	var result 			= Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
     	console.log(hookSessionId + ': preProcessDmMetaData: Total Valid Categories count (result.length)	= ' + result.length);

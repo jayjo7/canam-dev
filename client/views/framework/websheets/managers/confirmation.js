@@ -270,6 +270,15 @@ Template.confirmation.helpers({
 
   },
 
+  getDeliveryOption:function(uniqueId)
+  {
+      console.log('getPaymentOption:uniqueId = ' + uniqueId);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
+      var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
+      return orderMeta.Delivery;
+
+  },
+
   isOrderStatusAlert:function(uniqueId)
   {
       var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);  
