@@ -56,16 +56,21 @@
 
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
                                     {{#if isMultiPriceItem this}}
+                                        {{#if isItemInCart UniqueId }}
 
-                                    <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#popMessage2KitchenModal" id='addDatatoModal'>Add to Cart</button>
+                                        <button type="button" class="btn btn-sm pull-right btn-ordered " title="Add/Remove to Cart" data-toggle="modal" data-target="#popAlreadyInCartModal" id='addDatatoModal'>Add to Cart</button>
+
+                                        {{else}}
+                                        <button type="button" class="btn btn-success btn-sm pull-right" title="Add to Cart" data-toggle="modal" data-target="#popMessage2KitchenModal" id='addDatatoModal'>Add to Cart</button>
+                                        {{/if}}
 
                                     {{else}}
 
                                         {{#if isItemInCart UniqueId }}
-                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span  id="removeCartSpan" class="glyphicon glyphicon-ok"></span> &nbsp; {{currency Price}} </button>
+                                       <button type="button" class="btn btn-sm pull-right  btn-ordered" title="Add/Remove from Cart"  data-toggle="modal" data-target="#popAlreadyInCartModal" id='addDatatoModal'><span  id="removeCartSpan" class="glyphicon glyphicon-ok"></span> &nbsp; {{currency Price}} </button>
 
                                         {{else}}
-                                           <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Price}}</button>
+                                           <button class="btn btn-success btn-sm pull-right addcart"  title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Price}}</button>
                                         {{/if}}   
                                      {{/if}}
                                   {{else}} 

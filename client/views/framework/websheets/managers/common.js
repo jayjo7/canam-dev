@@ -1,3 +1,17 @@
+Template.registerHelper('isMultiPriceItemInSession', function()
+{
+		var menu    = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
+        if(menu.Price)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+         }
+
+});    
+
 Template.registerHelper('getSelectedItemSize', function(cartItem)
     {
         var htmlString ='';
@@ -375,6 +389,49 @@ Template.registerHelper('cartItemCount', function()
 
 
 });
+
+Template.registerHelper('getCountByItemInCart', function()
+{
+
+	    	var sessid 	= Session.get('appUUID');
+            var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
+            var menu 	= Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
+
+            //console.log("shopCart:sessid =  " +sessid);
+
+			var cartItems = CartItems.find({session: sessid, orgname:orgname, product:menu.UniqueId});
+		    //cartItems.itemCount = cartItems.count();
+		    //console.log("showCart:cartItems.itemCount =  " +cartItems.itemCount);
+		    if(cartItems)
+		    {
+		    	
+		    	var totalItemCount = 0;
+		    	cartItems.forEach (function (cartitem)
+				{
+					totalItemCount += Number(cartitem.qty);
+				});
+				return totalItemCount;
+		    }
+		    else
+		    {
+		    	return 0;
+		    }
+
+
+
+});
+
+Template.registerHelper('getItemNameInSession', function()
+{
+
+   		var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
+
+   		return menu.Name 
+
+
+
+});
+
 
 Template.registerHelper('isMenuAvailable', function(categoryMenu)
 {

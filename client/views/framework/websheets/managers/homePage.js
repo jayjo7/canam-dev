@@ -256,15 +256,19 @@ Template.homePage.helpers({
     isItemInCart: function(product)
     {
 
-        var sessid = Session.get('appUUID');
+        var sessid  = Session.get('appUUID');
         var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
         var cartItems = CartItems.findOne({session: sessid, product:product, orgname:orgname});
 
             if(cartItems)
-                    return true;
+            {
+                return true;
+            }
             else
-            return false;
+            {
+                return false;
+            }
     },
 
     soldOutCss:function(fontLine, fontStyle)
@@ -295,7 +299,7 @@ Template.homePage.events({
         cartItem.Category   = this.Category;
         cartItem.Price      = this.Price;
 
-        switch (addToCartToggle(orgname))
+/**        switch (addToCartToggle(orgname))
         {
             case  websheets.public.generic.INCREMENT :
 
@@ -309,7 +313,7 @@ Template.homePage.events({
                 evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
                 evt.currentTarget.title     ='Remove from Cart'          
         }
-
+*/
          Meteor.call('addToCart',  cartItem);
 
 

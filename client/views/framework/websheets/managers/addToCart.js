@@ -62,7 +62,7 @@ Template.addToCart.helpers({
 
    },
 
-   getModatTitleMessage:function()
+   getModaltTitleMessage:function()
    {
    		var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
 

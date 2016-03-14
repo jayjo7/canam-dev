@@ -1,0 +1,35 @@
+<template name="alreadyInCart">
+<!--Message2Kitchen-->
+<!--Message2Kitchen-->
+<div class="modal fade" id="popAlreadyInCartModal" tabindex="-1" role="dialog" aria-labelledby="popAlreadyInCartModalLabel" aria-hidden="true" style=" background-color: rgba(0,0,0,0.10);z-index:3000">
+  <div class="modal-dialog" >
+    <div class="modal-content" style="background-color:rgba(255,255,255,1.00);">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span class="add-to-cart-product-name" id="popAlreadyInCartModalLabel">Already in Cart?</span>
+      </div>
+      <div class="modal-body" >
+       
+          <div>
+              <div class="row padding_10px">
+                <div>
+                      There is(are) <strong><em>{{getCountByItemInCart}}</em></strong> count(s) of this item <strong><em>{{getItemNameInSession}}</em></strong> in cart 
+                </div>           
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn removecart"      data-dismiss="modal">Remove all ?</button>
+          {{#if isMultiPriceItemInSession}}
+            <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#popMessage2KitchenModal">Add Another ?</button>
+            {{else}}
+            <button type="button" class="btn btn-success addcart" data-dismiss="modal">Add Another ?</button>
+            {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+<!--//Message2Kitchen--> 
+
+
+</template>
